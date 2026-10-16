@@ -1,0 +1,1632 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Гитарный помощник</title>
+<meta name="description" content="Метроном, тюнер и песни с аккордами, табами, боем и режимом игры">
+<meta name="theme-color" content="#0f1115">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Гитара">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAhEElEQVR4nO2de5BdVZ3vP7+193mf0+l00ukEIQnhIWg0ykPxdSOM6B1q7h0UarzMFOUdr+g4I1pF3XtnCqGEi1DlaDEl6CiE0aHQiygIXAXkcQnhAiIPMSYYICHkRUin8+z3OWfv9bt/7H06nZBH9+nTyT7nrE9VVyrd5+yzz16/71q/9Vu/31rC0UNgqQcrFAjH/d7r6Vl0euizQILwHMS8E9GFWDyEJYB3FO/R0XhClJUYQlQ2oPZV9b1nvYCNvb3r13CALcBSgRUhoEfj5uQofIaJf4LaL7q6Tj7eS1U/gchHgQ8Ap4hIdt/tRN9d9ag8A8c0I1Jr133tq6qjwFrgOVSfCqupx3btWrdl3Nt8wMY/03dv03htE18/BJgz58QeFbkA0QtBzxVjSkJk5LGhK/u+rIy7hqP5qbVrrUczgIgIIoICau0AyHJU7hPVB7dvf6M3fq3H/rbRUKZDAEL0BUOAnp7jFyupz1nRSz1jelRB1RL/XdknlKMxGjmSg7LPsAXwRAwiEFrba1TuEKq39/ZuWR2/3otf21C3oNFG5xO7Oj09ixar2CsU/sYYk7ZWARvGH1kzeoejRiwGBYxnjGCtrQj8VNTc2Nu7viaEMRtrBI0ywjHnrqdn0ZxQ9CpBvyTGpNVaQAMQr4Gf52htFDQE8cUY1NqKIrd4Kt/s7V2/nQMni1OgEQbpEbs7s3sWfF5ErhNjjosNPwRxvb2jXhTUgnixELaq6tU7ejf+KP77mO3Vy1QN0weCWbNOOM5L+T8SYz5l1YJaZ/iORhIJQYxnxKDWPhxWg8/v3Ll5K1N0ieo10Nqk1XbPW/gpVH4sIvNUbUCkSmf4julAgVDE+Kr6FqJ/2/fWhoeJ5pS1SfWkqCfMWOvZ7Zy5C78hyG9EmKdqQyI1OuN3TBcC+Ko2FGGeIL+ZM3fhN9gXSZq0PU/WWE38YXTPXXCrMf5l1oZhvR/ucEwBC6gxnmdtsKxv28Yvxr8fs9GJMBkBGMDOmD9/Zrri/dAY+StrwyqI6/UdxwoFDYzxUtbqzyvp8O/2btq0m0mIYKKGawBmzJ8/I102DxvPO9vaIIiN3+E4xmhgjO/bMHy+krGf2rtp0974D0cUwUTclppIbKZslsXGX3HG70gO4lsbVIznnZ0pm2W8PaXmkExEAAaw3XMX3IoxF1kbBiDpqdyuw9F4JG1tGGDMRd1zF9xKJIIj2vcRXrDUB8LungXXGONfphpWiSI9DkcS8VXDqjH+Zd09C64BwtiGD8nhhggPCLvmnHC+7/mPqKqL8TuagXitQPwgDD65a/vmRznMivGhjNkAds6cE3vU6EqQOaC1zE2HI+lYEAHdLlaWxKnVB40MHcqgBTBq7B0ipifKx3DG72gaDKgVMT1q7B0cJvv4YEbtAWH33IWXGuOdrxrWXB+Ho5nwVMPAGO/87rkLLyVygd5mxweqQgCZMX/+jEzF/Ekj1wdc7+9oTiwIgm4vp+274vWB/XKGDjRsA9hURa7DmLnO73c0OQZUMWZuqiLXcZDQqOz/YnTWcQtP9Syr1ZUqOloDBVTAhobFO7dueI04mRP2V4MA6oV6JWL8uPd3xu9odgRUEeN7oV5JJAgZ90cg7v275i44zUNeAlK43t/ROtT8/mqIvn/Xto2vEI8C8Qiw1ADqqXzBGJOJw57O+B2tgoBaY0zGU/kCoLHNj/XyWpx7cneOYDVIdzxJdgJwtBIam3rfCP7iwW3r+ojqdpd6ADmt/oUxZg5Y1/s7WhEBa40xc3Ja/YvoV0s9E+/VCcjFqjWVOBytiBDb+MXR/1eoAHQvWDBXy7JWkKKL/jhaGAURRQclo6f0bdy4zQDYspzvGa8Y7dzmjL9RiEQ/ntn34x/hZ/xra+93NAwBG3rGK9qynA9xbr+BpfEL3HbMdSICRuJpFtE4Wg2jf0eDfVZcDQ9v0SlvXxNkfUUEUl4shvjaVuNx2lEPtdyepcAdPmeemdItOz5ko8inS3uYIGZc7xxYqFSFcgCBFVKe4huYXbSkfeWUOSFGwDfKkhMCUubtPY0AVQsrN/sEVrAKa7d7VAJhx6AhsJF4fKNkfEj50WdAJAbrBDFBxFi1qOqHOPPMlMw8ftFiPwhfQCTj+v/DY+JePlQYqUQGD0Jn3jJ3Rsipc0LePS9gyfEBs4qWE2eHZHxldtFiah2/f4SHHI8WVmHHoKEcCG/s8Ng5aFi5xeflt3xe2+6xba/HnuFoP6iMD7m04kn0PieGIxDty18OfO8smTNv4V+C3KfqJr8Ho2b0gYWhilANhXxKOW1uwPvnV/ngoipnzK9yQmfIzIKCp2AFFKpB1JNXx9UiHck4zbgWSHnR/1O+1io0IBR2Dwmb93j8flOK361P8dKmFK9s8xmuRqNPIR2NDk4Mh0RFREAv9K2yxIgQr/66vH9iW4vdi+GKMFIVOnOWj55c4c/fXeFDiyq8+7iAYj4qMLKBUAmEwVHBqkS9iOxLtBpv1GYSXUwQC2c0iASlCEYgl4LF8wLee0KV//oRGBw2vLzV57fr0zz0cpqXNqXYMWTIpZR8OlKAtW6CNw4L4lnVJTK7Z8EvjPEujrc2bHsB+CbyxQdHBRF417yAT7+/zIVLRjl1bkAqrRAIIxUhiAvsatGaozV81ibZtYmwbyIXCF+pVoTXtvnctzLLvS9l+NNbPqpQzCopw9g9tzmhiPGsDe+W2T3zXzLGe59qe5c9+rFx7BkxdOUt555W4ZKzR/j4qRU6ihZbjYw+1H1uUZKouTueRGIwKaV/0PDEa2nufD7H8lfS7Bo2dObs2HdtY6yIGGvDP0h3z4IXxZgz2lUAnoHQwt4Rw4yc5aIzRvnyx4d57/HRjtsjZaEaJtPoD0VNDCkPcplomPjjFp8fPJHnnt9nx75r7bu3IVZEjFr7e+meu7Ata35rxrxnROjIamT4S4d57/wqNhCGytELjGneyIASZ3YBhYxifOWPm1L8YEUkhP5RoTMXzxHac4IQSvfchW311YWo1x8sRz78Z88a5YpPDvGe4/cZvjRRbz9RaotnNSGs2pLixkcK3PVCFt9AMaOEbThRbisBeLHv2z9ieP8JVb7xnwb588VlrI0E0UxuTr3U3KNiRjEGHlqd4dpfFXlpc4qOeH7QTm5R2wjAj3v9lKdccf4QV3ximFxaGRhpzR7/SNRGhFJOGakINz6W58ZHC1RDoZjRtpkkt7wAasa9a8jwrnkB3/vrvXzknRWGhwyhjUaFdqb2DPIFy9OvpvnK/57Bn97y6SrYtsg5amkBmDg1oH/U8N8+MswNnx6gIxv1+p7XvJPbRqNAGEajQf+ocOW9Jf7t6TwdWTv2DFuVlhWAZ6AcgFXh2xf1c9nHhxkdMVRD1+sfitBGodNszrLsiTz/454OjES5Rq06L2hJAfge7B0RZhcsd162hw+fUmFgyOyXwek4OLXM0lLB8szaNJcs62THkGFGTsdSM1qJlusLUx7sGhLOml/l/16xiw+fVKV/yIwVmDgOT62Ap3/I8OGTomd41vwqu4aEVAuuFrWUAFIe7BwSzjmxyi//fjcndYf0D8tY3rxj4vgG+oeFk7pDfvn3uznnxCo7W1AELWMa443/ni/vjia7o4LfYg12NPE9GBiNVsrv+XJriqAlBOAb2Dm4v/GPVlzP3wh8A6OVA0Qw2DrPtum/hm+gf1Q4Z9H+xu8iPY3DO1AEi6r0j7aGCJr6K3gmqtKa2xFFezpzzvini5oIOnPKnZftYW6HZagFnnXT3r5IVGqYSyt3fmEPPR2WofL0NUhoozyiwDZmYcjqvus1Isbe6OsdDM/AUFno6bDc+YU95NJKNWzu6FrTCsAIDIwavvXpAc4+pcLgyPQNyQqU8kpH0dJRsuTTOqUUAVXIp5WOkqWjaCnldUpZmI2+3uHwDQyOCGefUuFbnx5gYNQ0dR5VU57563vQN2D40seG+dxHh+kfMNMW7VEg7cEdz+R4Y6dHaGHpqVU+dmqZckUm3fhWIZNWnngtw4rXUngGTpwV8l/OHqUSTj49o9HXmwi+B/0Dhs99dJjnN6S45f/l6S7ZplwoazoBeAYGRoQPLKxyw2cGGBk1eNPYA6lGm1X9+Jkcy9dkIICrPz3IeYtHGSnXJ4BUWnni1TTX3VsEH849vcyl54xQDmTS7kSjrzdRPIGRUcMNnxngpc0p/rjFp5jVpkuZaDoXKLSQScF3P9tPKRstzx8NH7Qzr8wsWgqxCzQ1nyVyWQoly8yipTM/RYel0debACLRrhWlrPLdz/aTSTVnvlBTCSDlwa5hw1fPHeKskyoMDB+9KISbBL8dz8DAsHDWSRW+eu4Qu4ZN0y2SNY0AjMBAWXjPcQGXnzfEyIhp+hBcK+AZGBkxXH7eEO85LmCgDrfwWNI0JiREQ+7XLxhkZqn5w2+tQi0cPbOkfP2CwcglPdY3NQmaQgCegb2jwidPr3DxmaMMugS3ROEbGBwWLj5zlE+eXmHvaPMskDXFbWq8GdXl5w2N7YrmSBYaxwUuP28II83TRokXgBfn+nzitArnnlZhqIl6l3bCMzA0Kpx7WoVPnFahv0naKfG3qPF2f185dwhpop6lHVGN5gRfOXcIr0naKtECMHGy2/tOCPjIyRVGpjHXxzF1PBNtJfmRkyu874SAoYqM7bKdVBJ9ewYYrUaTq1yuffaqaWYCC7mccvGZo4xWJdkGRoIFIALlEN7RGXLhklGq5elNeXA0Bk+gWjZcuGSUd3SGlBMerk6sAIzAcDmq8lowO6QcJPtBOiJEou1oFswOOefEKsMJXxhLrAAg2tPngveUwWhLb87UalgFjHLBe8pYTbD1k1ABiEAlgOM6Q5aeWqFace5PM+EJVCuGpadWOK4zpJLg0TuRAjACI1VhyfEBC7qc+9NsjLlBXSFLjg8YqSbXDUqkAITovN0PLqyC59yfZsQq4CkfXFglsJLY/KBECsAqpIxyxvwKJPjhOQ6NAFjhjPkVUgmewyVOABKfyTszryzqDgmmsarJMX2IQBAIi7pDZuajNZwktmMiBVAJhIWzQ97RaccOqHM0FyZOk35Hp2Xh7JBKQjuy5AmAaASYVbDkM0qY0KHTcWRChXxGmVWw0QhwrG/oICRSAKEVTp8XgJna9iOOY4vG6wGnzwsIEzqXS5wAIOo5OrIK0n6nFrYSCiBRWyZ1JE+cAJRoIaWUneLOC45koFFbegntzJIngHgfnsXHVV0ItMmphUIXH1cl5SXTnU2cAGokdch0TJ4kt2ViBeB6/tYhyW2ZWAE4HEeDxAogwaOmY5IkuS0TKwCX/tw6JLktEyeAaKcxYfXWVLQQdqxvyFE3CmCU1VtTVEOXCjEhhChqMDAqyZ49OSaGRG0ZajKbM3ECgGjI7B+NVk6S+NAcE0MANGrLpLpBiROAAp5R1rzlRwthCX1wjiMjAlhhzVs+XkLd2UQKwDewc8gwXE5uz+E4Ml68s8fOIYNvkhkNSp4AFNK+smGHx5t7ogMXklpN5Dg0VqMDTd7cY9iwwyPtu1SICaEajQC7h4X1fR5+Qh+c4/Cogu8r6/s8dsfb2SexHRMnAIiriazw+01pFwptUmoh0N9vSlO1bleISRHNA5TfbUhBmNyH5zg0RoBQ+N2GFH6CO7FECsAq5FLKyi0+G3d5ZPxkDp+Og6MKGR827vJYucUnl3K7QkyKaCIMW/d4rHgtTSptE51S69ifUCGVtqx4Lc3WPR7pBHdgiRRADSPKg6sykGAf0vF2TBz/f3BVBiMJtfyYxArAxjsKPPtGio07nBvULIy5Pzs8nn0jRT6TXPcHEiwAVch48OYej/tWZkllnBvUDIQKqYzlvpVZ3tzjkfGS3XElVgAAFsimlLtfzDIy4o5GbQZ8AyMjwt0vZsmmlKQf6pNok7IWCmnlD5t9nl6XJpdRwqQ/0TYmtJDLKE+vS/OHzT6FtGIT3l6JFgBECVWhwveWF8ZOIXQkk9opnt9bXojSn5ugrRIvgNBGGys99kqa5a+kKWTdKJBEQguFrLL8lTSPvZKONsNqgnZKvAAg6kmsws2PFxCao2dpNySuX7r58QK2SXp/aBIBhBZmZJVH1qS5+8Usxbw7MjVJBBaK+ShY8ciaNDOapPeHJhEAxPlBHlz/YJHdA0Iq4eG1dkHjtOfdA8L1DxbxvWTm/R+KphGAVShllFVbfW5+vEAuZ5uml2llQgu5nOXmxwus2upTSvjC14E0jQAgOnChK2+5aXmBF15PU8o3z1DbioQWSnnlhdfT3LS8QFc+OtCkmWgqAQB4BspV+NpdHQyMSjTkNlGP0yqoRi7pwKjwtbs6KFejtmk2mu6WQwulnPLchhRX/rJELutSJI4FoUIua7nylyWe25CilGvO0bjpBAAQhDC7aFn2VJ7bn8rTUbIETTb0NjNBCB0ly+1P5Vn2VJ7ZxeZ9/k0pAIgnxVnLP95b4vm1aYo5Fxo9GgQWijnl+bVp/vHeEqWsbapJ74E0rQBq4beRinDJbZ309hsKLldoWgktFDJKb7/hkts6Gak0fzi6aQUAcYOklW39hkuWdbJnRMimnQimg9BCNq3sGREuWdbJtn5DoQWedVMLAKIhuSOrPLs+xUU/mEn/qBNBo6kZf/+ocNEPZvLs+hQd2dZwOZteABCfK1yMqsfGi6AVGuhYExxo/G+kmFVsnWfbEgKAaJFsVmF/EZSy2rTRiSQQhNEJj/sZf0GbbrHrcLSMAGB/EXzmX2fyep9Hh0ucq4vAQkdeeb3P4zP/2prGDy0mAIjTJQrKC5tS/NmNXTzzeoqOQpQ31MzRiqOFalyDUbA883r0DF/YlKKrBY0fWlAAEC/UZJWBsnDBzV0sW5GnVLR4Bjc5PgyhjdIZSkXLshV5Lri5i4GyRBPeFjR+aFEBQNSYaQ/SnnL5z2bwD3fMoBxCMdtc2YpHi1pFVzmEf7hjBpf/bAZpT0l7rd1ptKwAgLHKpJl5y21P5fn4d2bx7Bspsk1QrH00qRn/ixtTLP32LG57Ks/MvB2rxGtlWloAsM+nnVW0rNvu8Zffn8lr23y3w0SMVcikYNtew1/f1slr2z1mF9tnztTyAqgRhNCRi+YFX7+v5HaYqKGQ8pWv31di0y5DV741J7uHom0EAFGEaGZO+fWqDHc+l6NYaN4sxkYQxoltD6/OcNcLWboKSqXNnkdbCQCiPPZS1vLNB4ts2eGRSbe+n3swaifxjFSEb/yqmNgzvKabthOAKmRTsH6Hxw0Plsikmzudt15CjWp5/+WxAn/YnKKYac/AQNsJAKL5wKyC5Se/y7JiTYaOJq1mqpdaWvPLm1Pc+Fiejlz7VtW1pQBg32Zb1/66yHAFTBu5ACbewvCq+0sMV5J7gN3RoG0FENooKvTk2jTfX16gULCEbTABDCwU8pY7n8vx61UZOtts9DuQthUARCLozFtuerzAq1uitYFWng/UDq/Yvsfj+oeKlNyZC+0tANUoXaJvULjy3g5S3rG+o+nFKmQyln9+uMD6HYZsqn1dnxptLQCIXIKZeeWhl9P84oVsyxbX17aTWbEmww+fzNPl0sQBJwCg5hooV91fYvte03LnkSlRludwJZr0g1sFr+EEQO1cYtiw0/DPDxfIZFprbSAMIZ+3fH95gSfXptsu7Hs4nABiaq7QD5/Ms2JNhmKLGInV6NiitVt9vvt4gc6821R4PE4A46i5Bdf+ushoNVobaHY0Tna74aEifQNCusn38Wk0LdDEjaN2HNNT69Lc/kyeQr65k+WCUCgVlLufz3Hn8zm6Cm7ieyBOAAcQKnTkLNc9UGTtVp98pjmT5VQh7St7BoXrHyqS8dX1/AfBCeAAamsDO2LDSfnR4piRfT+NiKCI7H/NRl/PKuRzyjcfKLJ6q0+hxRf56sUJ4CAENtpZ4mfP5/j58zn8QlRIM1gWRspCJZj6Z1QCGImvOVyZugLGX2+wLHhZ5dl1aX70TFTe2Myu3HQi3XMXun7hIBiBkapw4uyQJ/77Tl7f7rNjMOovFs4KWTg7IAhk0qOBKvi+smGHz4adHoYoHeO9xwcENjppcSrXE6AzZzlzUYX/fFMXy19LM6NFIlrTgRPAYfA92DFg+Np5Q3z70r3osEE8CAIoVydv/DVUIZNSfB9QUAvDVZm08R/sehqC5JRbHi7w1Z+XmOUmvofFCWACBFZ48PJdnLGgynBZSJmpzwNU902upQHzANXIdUv70fzlP3xnFntHmn/78unGzQGOgGdgtArXPRCVDfoNMH6IruGZ6KdRk2BPoo1sv/F/Sry115BtsZSO6cAJ4AiEFjpzymNr0tz6ZD6xh3SPL3D/2QtZOls0qa/ROAFMgFCjEsJvPVzgzZ1RGnGSQooHK3Cve0LRZjgBTABVyPrw1l7D1feXSCVsUckVuNePE8AECWJX6GcvZHnk5QylhLhC1kI+o6x2Be514QQwSVIeXHlvid2DCYmwSOT+XPMrV+BeD04Ak8AqFDPKyi0+Nz9eIHeMU4trR5b+4oUsD652C171YAC3SD4JogM4LDctL/BcfD7xsTC6sQL3vYar7i+5ZLf6CA2qKyUKbLu+Y4J4Bobi8sLaFuxHm/EF7ht2GnIJi0wlHCsioLrSKOrcoEkS2miT3UfXZLjzd0d/k91azL9W4D4zIRPyZkNRY0DWxUFj139MglChmB63ye5R6oFrBe6jVVfgPgU0snlZZxBZdazvphlRhWx63Ca72aNTSF8rcL/9mTxPrUvTkXUT37oRWWWMsDLu/J0rNElqm+z+9Lksj67KUJrmCfH4AvfrHii6mH/9GFCMsNJUPfO6qi1TfzZuW1PbZPeq+0uMTnMcfnyB+45BV+BeN4Ko2nLVM6+b3T0zX1Xl9Xge4AbTSRJaKGWUP2xO8S+PFchNU68cWFyBe2OwIKjy+u6ema8aXnyxKiK/NWKISjMck6VWSH/jY3le3pyi0OAD+FSjFejdA67AfeqoNWIQkd/y4otVA2BhRfxX5wbVQS0bc7giXHV/dABfI3L8a4QWcnnLzY8XWLXVj5LdnADqpebqrIB44msy+mhow0EwHi4cWhe1uoHaAXyFvG2IixJaKOSU59amuWl5ga68batTHBuMgvFCGw6ajD4KkQC8vo0bt4nypIgobh5QN6FCKWO5/qEi2/d4DdlkVyTqsq79dZGhSrQG4KgbKyIqypN9GzduI3qcS+PBWu8WQdwAUD/7DuBrzCa7gYViXrn1yTyPrUkz0yW7TREltvG7o/8vFSHqYLQ49+TuHMFqkO5YBG4+UCdGYLAsPPCV3Sx9Z4WBEZl0z20VUj709QsfcwXujSBe/dW+EfzFg9vW9QFR6AeW+oPb1vWh/MQYkWhzDUe9jN9kt94D+GrJbjc8VOLNPZ4rcJ8yGhojgvKTyPiX+jCWCLfCAhKK3matLe8ThqMepnoAX+39j67K8NPnsnQ1aELdxiiIsdaWQ9HbAIltfiz9wQJm17aNa0T1LhFj3JrA1Kj3AL6x01zKUUj1WKVbtxZqRYwR1bt2bdu4hsju9xMARM9eQk9uQG0QP3Y3CtTJfgfw3RcfwDeBpxmGkC9Yvv9Enpc2pyg1eFGtDYm6ELVB6MkNxBOB2h/HC8ACZufWDa9a9BYxZkwljvoYO4BvdZq7X8xSPEL6Qi3Z7dUtPjc9XqAj65LdGoAVY4xFb9m5dcOrjOv94e0ZoBYw1bRejbXb4lHAiWAK1NIYrn+wyJ4JFNJHRfcd9Llkt0ZgQQRrt1XTejUHGD+8XQAKyN5Nm3Yr/JMx4uYCU8TGm2qt3upz/QPFQybLjS9wf+jltKvyaghqjRGj8E97N23azQHuDxw61u8B2j13wW9EvPNVbRj/zjEFAis8/NVdnLmwytDovrUB1Wgn6r0jwse+PYvtA0LGdzW+UyQUMZ5q+Gjfto3/kcjW3xaLO9TyjAJWrLlU1fbGYVHXH00Bz0SHWPzPX5aoBPHaQGzgoUIma/n2IwXecAXujcCCGFXbK9ZcGv3/4CGIQwnAAt727W/0hja8NFo+PvRFHEemdgDf0+vS/Ht8AF9o4wL3rPL8ujT/9nQ+2tTWPeWpEHXegoQ2vHT79jd6ibyXg3bgh1ugD2Gpv2v75kfV2muN8XzQBhwO1L68/QA+RWT/kcFzS5BTRANjPF+tvXbX9s2Pxiu+h1yGPEKGyooA8Pp6N15jbbBMxEsBTgR1cuABfMZEE99/fybP067AvREEIl7K2mBZX+/GawAvtuFDMpE1xlrCnJ3Ts/Bu8byLrA0qIOkG3HBb4hnYOWS450u7OfvEKu/7X7MJbPR7F/asF60Y46c1DO/Z3rvhYqLOXTnCeOpP5MpEAjDljL0sXWa+8fyzrQ0CkIm833EA0UigfOfRAgu6QvaMCDPzrvevHw2M8dM2DJ+vZOxl7PNsjtidTCbLxAB2xvz5M9MV74fGyF9ZG1ZjEbhslUliYt8/sEI+7Uoc60Rjnz9lrf68kg7/Lo73TzhqOVnDHbtw99wFtxrjX2ZtGMbXcbVKk6RW7eWMvy4soMZ4nrXBsr5tG78Y/35SIfvJGq2N32P6tm38otrwGhHxRMTtMl0H40+KdEyKUESMiHhqw2ti4zdM0vihftdlbGLcPW/hp1D5sYjMU7UBUczVuUSO6UCJVnh9VX0L0b/te2vDw0xwwnswpmqoPhDMmnXCcV7K/5EY8ymrFtSG8eqxE4KjEUTHiYvxjBjU2ofDavD5nTs3byW2wXov3AgD9Yjdn9k9Cz4vIteJMceptcTnljshOOolMnzEE2NQa7eq6tU7ejf+KP77mO3VS6MMs3Yd7elZNCcUvUrQL4kx6VgIAYhzjRwTRePO048Nv6LILZ7KN3t7129nnL1N9YMabZBjw1FPz6LFKvYKhb8xxqStVcCG8Ue6UcFxIPGeVAoYzxjBWlsR+KmoubG3d/3q+HVTcnkOZDqMsBYSDQF6eo5frKQ+Z0Uv9YzpUQWNSgxC4m/Lvkm1o32oTVotUdt7IgYRCK3tNSp3CNXbe3u31Ay/ltDW0LjZdBpdzbBDgDlzTuxRkQsQvRD0XDGmJICqotH6//hd6WTcNRzNT61da8ZrABERRCRSgrUDIMtRuU9UH4yzOCGuTWGa0vGPRq9bi8+ODVtdXScf76Wqn0Dko8AHgFNEJHuga6cuMaYlkLFtLfa1r6qOAmuB51B9KqymHtu1a92WcW/ziYx+WhNEjqbbIbDUgxXK/jN3r6dn0emhzwIJwnMQ805EF2LxEJbgKtGanRBlJYYQlQ2ofVV971kvYGNv7/o1HGAL0VadK2ru8bTz/wHZTjnwoJ1nrwAAAABJRU5ErkJggg==">
+<link rel="apple-touch-icon" href="data:image/png;base64,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">
+<style>
+:root{
+  --bg:#0f1115; --surface:#171a21; --surface2:#1f232c; --line:#2c313c;
+  --text:#e9ecf1; --muted:#949db0; --accent:#f59e0b; --accent-ink:#1a1204;
+  --chord:#fbbf24; --ok:#22c55e; --warn:#f97316; --bad:#ef4444; --blue:#60a5fa;
+  --radius:14px; --nav-h:64px;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme: light){
+  :root{
+    --bg:#f5f3ef; --surface:#ffffff; --surface2:#f0ede7; --line:#ddd8cf;
+    --text:#1d1f24; --muted:#6b7180; --accent:#d97706; --accent-ink:#ffffff;
+    --chord:#b45309; --ok:#16a34a; --warn:#ea580c; --bad:#dc2626; --blue:#2563eb;
+    color-scheme:light;
+  }
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0;background:var(--bg);color:var(--text)}
+body{font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-tap-highlight-color:transparent;
+  padding-bottom:calc(var(--nav-h) + env(safe-area-inset-bottom));min-height:100vh}
+button{font:inherit;color:inherit;cursor:pointer}
+input,select,textarea{font:inherit;color:inherit}
+.wrap{max-width:780px;margin:0 auto;padding:0 16px}
+
+/* top bar */
+.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line);
+  padding-top:env(safe-area-inset-top)}
+.top .wrap{display:flex;align-items:center;gap:8px;height:54px}
+.top h1{font-size:18px;margin:0;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.icon-btn{background:none;border:0;width:40px;height:40px;border-radius:10px;display:grid;place-items:center;font-size:20px}
+.icon-btn:active{background:var(--surface2)}
+.pill-btn{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 12px;font-size:14px}
+
+/* bottom nav */
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--surface);border-top:1px solid var(--line);
+  padding-bottom:env(safe-area-inset-bottom)}
+.nav .wrap{display:flex;height:var(--nav-h)}
+.nav button{flex:1;background:none;border:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  color:var(--muted);font-size:12px}
+.nav button svg{width:24px;height:24px}
+.nav button.on{color:var(--accent)}
+
+.view{display:none;padding:16px 0 24px}
+.view.active{display:block}
+h2{margin:0 0 4px;font-size:24px}
+.muted{color:var(--muted)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px}
+.btn{border:0;border-radius:12px;padding:12px 18px;background:var(--surface2);border:1px solid var(--line);font-weight:600}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:transparent}
+.btn:active{transform:scale(.98)}
+.btn.block{width:100%}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.chip{font-size:13px;padding:4px 10px;border-radius:999px;background:var(--surface2);border:1px solid var(--line);white-space:nowrap}
+.chip b{color:var(--accent);font-weight:700}
+
+/* song list */
+.song-list{display:grid;gap:12px;margin-top:14px}
+.song-card{display:flex;align-items:center;gap:14px;text-align:left;width:100%;background:var(--surface);border:1px solid var(--line);
+  border-radius:var(--radius);padding:14px}
+.song-card:active{background:var(--surface2)}
+.song-art{width:54px;height:54px;border-radius:12px;display:grid;place-items:center;font-weight:800;font-size:20px;flex:none;color:#fff}
+.song-card .meta{flex:1;min-width:0}
+.song-card .t{font-weight:700;font-size:17px}
+.song-card .a{color:var(--muted);font-size:14px}
+.song-card .chev{color:var(--muted);font-size:22px}
+
+/* song view */
+.song-head{display:flex;gap:12px;align-items:flex-start;justify-content:space-between}
+.play-cta{margin:16px 0 12px;display:flex;gap:10px}
+.play-cta .btn{flex:1;padding:14px;font-size:17px}
+.seg-tabs{display:flex;background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:3px;gap:2px;margin:6px 0 14px;overflow-x:auto}
+.seg-tabs button{flex:1;border:0;background:none;padding:9px 10px;border-radius:9px;font-size:14px;white-space:nowrap;color:var(--muted)}
+.seg-tabs button.on{background:var(--surface);color:var(--text);font-weight:600;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.pane{display:none}.pane.on{display:block}
+.hint{border:1px dashed var(--line);border-radius:12px;padding:12px 14px;font-size:14px;color:var(--muted);margin-bottom:14px}
+.hint code{font-family:var(--mono);color:var(--chord);font-size:13px}
+.fs-ctl{display:flex;justify-content:flex-end;gap:6px;margin-bottom:6px}
+
+/* chord chart */
+.chart{--fs:17px;font-size:var(--fs)}
+.sec{margin:0 0 18px}
+.sec-name{display:inline-block;font-size:12px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;color:var(--muted);
+  border:1px solid var(--line);border-radius:6px;padding:2px 8px;margin-bottom:8px}
+.ln{display:flex;flex-wrap:wrap;align-items:flex-end;margin:0 0 .5em}
+.note{font-style:italic;color:var(--muted);font-size:.85em;margin:0 0 .5em}
+.seg{display:inline-flex;flex-direction:column;border-radius:6px;position:relative}
+.seg .c{align-self:flex-start;color:var(--chord);font-weight:700;font-size:.9em;line-height:1.35;min-height:1.35em;padding:0 .45em 0 .1em;white-space:nowrap}
+.seg .c sub{font-size:.65em;color:var(--muted);margin-left:1px;font-weight:600}
+.seg .t{white-space:pre-wrap;line-height:1.35}
+.seg.nc .c{visibility:hidden}
+.ln.bars{gap:4px}
+.ln.bars .seg{min-width:4.6em;background:var(--surface);border:1px solid var(--line);padding:.35em .5em}
+.ln.bars .seg .t{display:none}
+.ln.bars .seg .c{padding:0}
+.seg.bar:not(.ln.bars .seg) .c{padding-right:.9em}
+.seg[data-ev]{cursor:pointer}
+.seg.on .c{color:var(--accent-ink);background:var(--accent);border-radius:5px;padding:0 .35em}
+.ln.bars .seg.on{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 18%,var(--surface))}
+.ln.bars .seg.on .c{background:none;color:var(--accent);padding:0}
+.seg.on::after{content:"";position:absolute;left:0;bottom:-3px;height:3px;border-radius:3px;background:var(--accent);width:calc(var(--p,0)*100%)}
+
+pre.tab{font-family:var(--mono);font-size:13.5px;line-height:1.4;background:var(--surface);border:1px solid var(--line);border-radius:12px;
+  padding:14px;overflow-x:auto;margin:0 0 14px;white-space:pre}
+.tab-text{white-space:pre-wrap;font-size:15px;margin:0 0 14px}
+
+/* chord diagrams */
+.diag-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:10px}
+.diag{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:8px 6px 6px;text-align:center}
+.diag .n{font-weight:700;color:var(--chord)}
+.diag svg{display:block;margin:0 auto;color:var(--text)}
+.nodiag{font-size:12px;color:var(--muted);padding:20px 4px}
+
+/* strum */
+.strum-card{margin-bottom:12px}
+.strum-card .head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px}
+.strum{display:grid;gap:3px}
+.strum .s{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 0;border-radius:8px;background:var(--surface2);min-width:0}
+.strum .s .g{font-size:20px;font-weight:800;line-height:1.1;height:24px;display:grid;place-items:center}
+.strum .s .g.d{color:var(--accent)}
+.strum .s .g.u{color:var(--blue)}
+.strum .s .g.r{color:var(--muted)}
+.strum .s .g.p{font-size:13px;width:22px;height:22px;border-radius:50%;border:2px solid var(--ok);color:var(--ok)}
+.strum .s .l{font-size:11px;color:var(--muted)}
+.strum .s.beat .l{color:var(--text);font-weight:700}
+.strum .s.on{background:var(--accent)}
+.strum .s.on .g,.strum .s.on .l{color:var(--accent-ink)!important;border-color:var(--accent-ink)}
+.legend{font-size:13px;color:var(--muted);margin-top:4px}
+
+/* metronome */
+.metro{display:grid;gap:16px}
+.bpm-big{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:6px}
+.bpm-val{font-size:76px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums;min-width:3ch;text-align:center}
+.bpm-val small{display:block;font-size:14px;color:var(--muted);font-weight:500;margin-top:6px}
+.round{width:58px;height:58px;border-radius:50%;border:1px solid var(--line);background:var(--surface2);font-size:26px;font-weight:700}
+.round:active{background:var(--line)}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.beat-dots{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;min-height:34px}
+.beat-dots i{width:26px;height:26px;border-radius:50%;background:var(--surface2);border:2px solid var(--line);transition:transform .06s}
+.beat-dots i.acc{border-color:var(--accent)}
+.beat-dots i.on{background:var(--accent);border-color:var(--accent);transform:scale(1.18)}
+.beat-dots i.on.sec{background:var(--blue);border-color:var(--blue)}
+.field{display:flex;flex-direction:column;gap:6px;font-size:14px;color:var(--muted)}
+.field select,.field input[type=number],.field input[type=text],.field textarea{background:var(--surface2);border:1px solid var(--line);border-radius:10px;padding:10px;color:var(--text)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.toggle{display:flex;align-items:center;gap:10px;font-size:15px}
+.toggle input{width:20px;height:20px;accent-color:var(--accent)}
+.start-btn{font-size:20px;padding:16px}
+
+/* tuner */
+.tuner-display{text-align:center;padding:18px 12px 12px}
+.t-note{font-size:96px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums}
+.t-note sup{font-size:.32em;color:var(--muted);vertical-align:top;margin-left:4px}
+.t-note.ok{color:var(--ok)}
+.t-sub{color:var(--muted);font-size:15px;margin-top:6px;min-height:22px}
+.meter{position:relative;height:120px;margin:12px auto 0;max-width:420px;overflow:hidden}
+.meter svg{width:100%;height:100%}
+.needle{transform-origin:200px 200px;transition:transform .12s linear}
+.t-dir{font-weight:700;min-height:24px;margin-top:4px}
+.strings{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-top:6px}
+.strings button{background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:10px 0;display:flex;flex-direction:column;align-items:center}
+.strings button b{font-size:20px}
+.strings button span{font-size:11px;color:var(--muted)}
+.strings button.near{border-color:var(--accent)}
+.strings button.sel{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.strings button.sel span{color:var(--accent-ink)}
+.strings button.tuned b{color:var(--ok)}
+.strings button.sel.tuned b{color:var(--accent-ink)}
+
+/* play mode */
+.play{position:fixed;inset:0;z-index:50;background:var(--bg);display:flex;flex-direction:column;
+  padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)}
+.play .bar{display:flex;align-items:center;gap:8px;padding:6px 10px;border-bottom:1px solid var(--line)}
+.play .bar .tt{flex:1;min-width:0;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.play .bar .tt span{font-weight:400;color:var(--muted)}
+.stage{padding:12px 16px 8px;max-width:780px;width:100%;margin:0 auto}
+.stage-top{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--muted);gap:8px}
+.stage-sec{font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.chord-now{display:flex;align-items:center;gap:16px;margin:10px 0}
+.chord-now .diagbox{flex:none;width:92px}
+.chord-now .names{flex:1;min-width:0}
+.chord-now .cur{font-size:64px;font-weight:800;line-height:1;color:var(--chord);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chord-now .cur.pulse{animation:pulse .25s ease-out}
+@keyframes pulse{from{transform:scale(1.12)}to{transform:scale(1)}}
+.chord-now .nx{margin-top:8px;font-size:15px;color:var(--muted)}
+.chord-now .nx b{color:var(--text);font-size:20px;margin:0 4px}
+.chord-now .nx .soon{color:var(--accent);font-weight:700}
+.countin{font-size:64px;font-weight:800;color:var(--accent)}
+.play .beat-dots{justify-content:flex-start;gap:8px;min-height:20px}
+.play .beat-dots i{width:18px;height:18px}
+.play .strum{margin-top:10px}
+.play .strum .s{padding:3px 0}
+.play .strum .s .g{font-size:16px;height:20px}
+.karaoke{margin-top:12px;min-height:90px}
+.karaoke .ln{font-size:22px;margin:0}
+.karaoke .ln.next{font-size:16px;opacity:.5;margin-top:8px}
+.karaoke .ln.bars .seg{min-width:3.6em}
+.pchart{flex:1;overflow-y:auto;border-top:1px solid var(--line);padding:14px 16px 30px;max-width:780px;width:100%;margin:0 auto;
+  -webkit-mask-image:linear-gradient(transparent 0,#000 20px)}
+.pchart .chart{--fs:15px}
+.transport{border-top:1px solid var(--line);background:var(--surface);padding:8px 14px 10px}
+.transport .inner{max-width:780px;margin:0 auto}
+.tline{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.tbtns{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:6px}
+.tbtns .main{width:62px;height:62px;border-radius:50%;background:var(--accent);color:var(--accent-ink);border:0;font-size:26px;display:grid;place-items:center}
+.tbtns .tog{min-width:48px;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--surface2);font-size:14px;padding:0 10px}
+.tbtns .tog.on{border-color:var(--accent);color:var(--accent)}
+.sheet{position:absolute;left:0;right:0;bottom:0;z-index:5;background:var(--surface);border-top:1px solid var(--line);
+  border-radius:18px 18px 0 0;padding:16px 16px calc(18px + env(safe-area-inset-bottom));max-height:80vh;overflow-y:auto;box-shadow:0 -10px 40px rgba(0,0,0,.4)}
+.sheet .inner{max-width:780px;margin:0 auto;display:grid;gap:14px}
+.sheet h3{margin:0;font-size:17px}
+.sync-box{display:grid;gap:10px;border:1px solid var(--line);border-radius:12px;padding:12px}
+.offset-row{display:flex;align-items:center;gap:8px}
+.offset-row input{width:90px;text-align:center;background:var(--surface2);border:1px solid var(--line);border-radius:10px;padding:8px;color:var(--text)}
+.offset-row .btn{padding:8px 12px}
+.rate-row{display:flex;gap:6px;flex-wrap:wrap}
+.rate-row button{border:1px solid var(--line);background:var(--surface2);border-radius:10px;padding:7px 11px;font-size:14px}
+.rate-row button.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+
+/* editor */
+dialog{border:1px solid var(--line);border-radius:16px;background:var(--surface);color:var(--text);padding:0;width:min(760px,calc(100vw - 20px));max-height:calc(100vh - 20px)}
+dialog::backdrop{background:rgba(0,0,0,.6)}
+.ed{display:flex;flex-direction:column;max-height:calc(100vh - 22px)}
+.ed .eh{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--line)}
+.ed .eb{padding:14px 16px;overflow-y:auto;display:grid;gap:12px}
+.ed .ef{display:flex;gap:8px;justify-content:space-between;padding:12px 16px;border-top:1px solid var(--line);flex-wrap:wrap}
+.ed textarea{font-family:var(--mono);font-size:13.5px;min-height:120px;resize:vertical;white-space:pre;overflow-x:auto}
+.ed textarea.big{min-height:280px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.toast{position:fixed;left:50%;bottom:calc(var(--nav-h) + 16px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:90;
+  background:var(--text);color:var(--bg);padding:10px 16px;border-radius:10px;font-size:14px;max-width:calc(100vw - 32px);box-shadow:0 6px 20px rgba(0,0,0,.3)}
+@media (max-width:520px){
+  .grid4{grid-template-columns:1fr 1fr}
+  .bpm-val{font-size:64px}
+  .t-note{font-size:80px}
+  .chord-now .cur{font-size:52px}
+  .chord-now .diagbox{width:78px}
+  .karaoke .ln{font-size:19px}
+}
+@media (max-height:640px){
+  .pchart{display:none}
+  .stage{flex:1;overflow-y:auto}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <button class="icon-btn" id="backBtn" hidden aria-label="Назад">‹</button>
+    <h1 id="title">Гитарный помощник</h1>
+    <button class="pill-btn" id="installBtn" hidden>Установить</button>
+    <button class="icon-btn" id="editBtn" hidden aria-label="Редактировать">✎</button>
+  </div>
+</header>
+
+<main class="wrap">
+  <!-- ===== Песни ===== -->
+  <section class="view active" id="view-songs">
+    <div class="row" style="justify-content:space-between">
+      <div><h2>Песни</h2><div class="muted" id="songCount"></div></div>
+      <button class="btn" id="addSongBtn">+ Песня</button>
+    </div>
+    <div class="song-list" id="songList"></div>
+  </section>
+
+  <!-- ===== Песня ===== -->
+  <section class="view" id="view-song">
+    <div id="songHead"></div>
+    <div class="play-cta">
+      <button class="btn primary" id="playBtn">▶ Режим игры</button>
+    </div>
+    <div class="seg-tabs" id="songTabs">
+      <button data-pane="chart" class="on">Аккорды и текст</button>
+      <button data-pane="tabs">Табы</button>
+      <button data-pane="strum">Бой</button>
+      <button data-pane="chords">Аппликатуры</button>
+    </div>
+    <div class="pane on" id="pane-chart"></div>
+    <div class="pane" id="pane-tabs"></div>
+    <div class="pane" id="pane-strum"></div>
+    <div class="pane" id="pane-chords"></div>
+  </section>
+
+  <!-- ===== Метроном ===== -->
+  <section class="view" id="view-metro">
+    <div class="metro">
+      <div class="card">
+        <div class="bpm-big">
+          <button class="round" id="mMinus" aria-label="Медленнее">−</button>
+          <div class="bpm-val"><span id="mBpm">90</span><small id="mName">Andante · BPM</small></div>
+          <button class="round" id="mPlus" aria-label="Быстрее">+</button>
+        </div>
+        <input type="range" id="mSlider" min="30" max="250" value="90" style="margin-top:16px">
+        <div class="beat-dots" id="mDots" style="margin-top:14px"></div>
+      </div>
+      <button class="btn primary block start-btn" id="mStart">▶ Старт</button>
+      <div class="card grid2">
+        <label class="field">Размер
+          <select id="mBpb">
+            <option value="2">2/4</option><option value="3">3/4</option><option value="4" selected>4/4</option>
+            <option value="5">5/4</option><option value="6">6/8</option><option value="7">7/8</option>
+          </select>
+        </label>
+        <label class="field">Деление доли
+          <select id="mSub">
+            <option value="1">Четверти ♩</option><option value="2">Восьмые ♫</option>
+            <option value="3">Триоли</option><option value="4">Шестнадцатые</option>
+          </select>
+        </label>
+        <label class="field">Громкость
+          <input type="range" id="mVol" min="0" max="100" value="80">
+        </label>
+        <div class="field">Темп по нажатию
+          <button class="btn" id="mTap">Тап</button>
+        </div>
+        <label class="toggle"><input type="checkbox" id="mAccent" checked> Акцент на первую долю</label>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Тюнер ===== -->
+  <section class="view" id="view-tuner">
+    <div class="card tuner-display">
+      <div class="t-note" id="tNote">—</div>
+      <div class="t-sub" id="tSub">Нажмите «Включить микрофон» и дёрните струну</div>
+      <div class="meter">
+        <svg viewBox="0 0 400 120" aria-hidden="true">
+          <g id="tTicks"></g>
+          <path d="M200 200 m-150 -60 a160 160 0 0 1 300 0" fill="none" stroke="var(--line)" stroke-width="0"/>
+          <rect x="184" y="8" width="32" height="10" rx="5" fill="var(--ok)" opacity=".35"/>
+          <g class="needle" id="tNeedle"><line x1="200" y1="200" x2="200" y2="22" stroke="var(--accent)" stroke-width="4" stroke-linecap="round"/></g>
+        </svg>
+      </div>
+      <div class="t-dir" id="tDir"></div>
+    </div>
+    <div style="height:12px"></div>
+    <button class="btn primary block start-btn" id="tStart">🎤 Включить микрофон</button>
+    <div style="height:14px"></div>
+    <div class="card">
+      <div class="row" style="justify-content:space-between">
+        <b>Стандартный строй</b>
+        <label class="toggle" style="font-size:14px"><input type="checkbox" id="tAuto" checked> Авто-определение струны</label>
+      </div>
+      <div class="strings" id="tStrings"></div>
+      <div class="legend">Нажмите на струну, чтобы услышать эталонный звук и выбрать её вручную.</div>
+      <div class="grid2" style="margin-top:14px">
+        <label class="field">Камертон A4 (Гц)
+          <input type="number" id="tA4" min="415" max="466" step="1" value="440">
+        </label>
+        <label class="field">Чувствительность
+          <input type="range" id="tSens" min="1" max="10" value="6">
+        </label>
+      </div>
+    </div>
+  </section>
+</main>
+
+<nav class="nav">
+  <div class="wrap">
+    <button data-nav="songs" class="on">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+      Песни</button>
+    <button data-nav="metro">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6l4 18H5L9 3z"/><path d="M12 15l5-9"/><path d="M7 15h10"/></svg>
+      Метроном</button>
+    <button data-nav="tuner">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18a8 8 0 1 1 16 0"/><path d="M12 18l4-6"/><path d="M12 6v1M6.3 8.3l.7.7M17.7 8.3l-.7.7"/></svg>
+      Тюнер</button>
+  </div>
+</nav>
+
+<!-- ===== Режим игры ===== -->
+<div class="play" id="play" hidden>
+  <div class="bar">
+    <button class="icon-btn" id="pClose" aria-label="Закрыть">✕</button>
+    <div class="tt" id="pTitle"></div>
+    <button class="icon-btn" id="pSetBtn" aria-label="Настройки">⚙</button>
+  </div>
+  <div class="stage">
+    <div class="stage-top"><span class="stage-sec" id="pSec">—</span><span id="pBar"></span></div>
+    <div class="chord-now">
+      <div class="diagbox" id="pDiag"></div>
+      <div class="names">
+        <div class="cur" id="pChord">—</div>
+        <div class="nx" id="pNext"></div>
+      </div>
+    </div>
+    <div class="beat-dots" id="pDots"></div>
+    <div class="strum" id="pStrum"></div>
+    <div class="karaoke"><div id="pLine"></div><div id="pLine2"></div></div>
+  </div>
+  <div class="pchart" id="pChartWrap"><div class="chart" id="pChart"></div></div>
+  <div class="transport">
+    <div class="inner">
+      <div class="tline"><span id="pTime">0:00</span><input type="range" id="pSeek" min="0" max="100" step="0.25" value="0"><span id="pTotal">0:00</span></div>
+      <div class="tbtns">
+        <button class="tog" id="pRestart" aria-label="В начало">⏮</button>
+        <button class="tog" id="pRate">100%</button>
+        <button class="main" id="pPlay" aria-label="Играть">▶</button>
+        <button class="tog on" id="pClick" title="Метроном">🥁</button>
+        <button class="tog on" id="pGuitar" title="Гитара">🎸</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="sheet" id="pSheet" hidden>
+    <div class="inner">
+      <div class="row" style="justify-content:space-between"><h3>Настройки игры</h3><button class="icon-btn" id="pSheetClose">✕</button></div>
+
+      <div class="field">Темп
+        <div class="rate-row" id="pRates"></div>
+      </div>
+
+      <label class="field">Бой / перебор для озвучки
+        <select id="pStrumSel"></select>
+      </label>
+
+      <div class="sync-box">
+        <b>Играть под запись песни</b>
+        <div class="muted" style="font-size:14px">Выберите аудиофайл песни со своего устройства — аккорды будут идти по времени записи.
+          Нажмите «Начало здесь» в момент, когда звучит первый аккорд, затем при необходимости подровняйте смещение.</div>
+        <input type="file" id="pFile" accept="audio/*">
+        <div id="pSyncCtl" hidden>
+          <div class="offset-row">
+            <span class="muted">Смещение, с</span>
+            <button class="btn" id="pOffMinus">−</button>
+            <input type="number" id="pOffset" step="0.05" value="0">
+            <button class="btn" id="pOffPlus">+</button>
+          </div>
+          <div class="row" style="margin-top:10px">
+            <button class="btn primary" id="pTapStart">Начало здесь</button>
+            <button class="btn" id="pTapBar">Сейчас 1-я доля такта</button>
+            <button class="btn" id="pUnload">Убрать запись</button>
+          </div>
+        </div>
+      </div>
+
+      <label class="toggle"><input type="checkbox" id="pCountIn" checked> Отсчёт одного такта перед стартом</label>
+      <label class="toggle"><input type="checkbox" id="pAutoScroll" checked> Автопрокрутка текста</label>
+      <div class="legend">Пробел — играть/пауза. Нажмите на любой аккорд в тексте, чтобы перейти к нему.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Редактор ===== -->
+<dialog id="editor">
+  <form class="ed" method="dialog" id="edForm">
+    <div class="eh"><b id="edTitle">Редактирование</b><button class="icon-btn" value="cancel" aria-label="Закрыть">✕</button></div>
+    <div class="eb">
+      <div class="grid2">
+        <label class="field">Название<input type="text" id="edName" required></label>
+        <label class="field">Исполнитель<input type="text" id="edArtist"></label>
+      </div>
+      <div class="grid4">
+        <label class="field">BPM<input type="number" id="edBpm" min="30" max="260" step="0.5"></label>
+        <label class="field">Долей в такте<input type="number" id="edBpb" min="1" max="12"></label>
+        <label class="field">Каподастр<input type="number" id="edCapo" min="0" max="12"></label>
+        <label class="field">Тональность<input type="text" id="edKey"></label>
+      </div>
+      <label class="field">Аккорды и текст
+        <textarea id="edChart" class="big" spellcheck="false"></textarea>
+      </label>
+      <div class="hint" style="margin:0">
+        <code>{section: Куплет}</code> — новая часть. <code>[Am]</code> — аккорд на весь такт, <code>[G:2]</code> — на 2 доли.
+        Слова пишите сразу после аккорда: <code>[Am]слова строки [G]продолжение</code>.
+        <code>{strum: 2}</code> — дальше играть 2-м боем. <code>{comment: текст}</code> — заметка.
+      </div>
+      <label class="field">Бой (по строке: «Название: узор»; D — вниз, U — вверх, - — пауза, x — глушение, 1–6 — щипок струны)
+        <textarea id="edStrums" spellcheck="false" style="min-height:80px"></textarea>
+      </label>
+      <label class="field">Табы и заметки (моноширинный текст)
+        <textarea id="edTabs" spellcheck="false"></textarea>
+      </label>
+    </div>
+    <div class="ef">
+      <div class="row">
+        <button type="button" class="btn" id="edDelete" style="color:var(--bad)">Удалить</button>
+        <button type="button" class="btn" id="edReset">Сбросить к исходной</button>
+      </div>
+      <button type="button" class="btn primary" id="edSave">Сохранить</button>
+    </div>
+  </form>
+</dialog>
+
+<div class="toast" id="toast" hidden></div>
+
+<script>
+'use strict';
+/* ================= Утилиты ================= */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const mod = (a, n) => ((a % n) + n) % n;
+const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+const fmtTime = s => { s = Math.max(0, Math.floor(s)); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
+const store = {
+  get(k, d) { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+};
+let toastTimer;
+function toast(msg) {
+  const t = $('#toast'); t.textContent = msg; t.hidden = false;
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => t.hidden = true, 2600);
+}
+
+/* ================= Аудио ================= */
+let actx = null, master = null, guitarBus = null;
+function ctx() {
+  if (!actx) {
+    actx = new (window.AudioContext || window.webkitAudioContext)();
+    const comp = actx.createDynamicsCompressor();
+    comp.threshold.value = -14; comp.ratio.value = 4;
+    master = actx.createGain(); master.gain.value = 0.9;
+    master.connect(comp); comp.connect(actx.destination);
+    const lp = actx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 4200;
+    guitarBus = actx.createGain(); guitarBus.gain.value = 0.55;
+    guitarBus.connect(lp); lp.connect(master);
+  }
+  if (actx.state === 'suspended') actx.resume();
+  return actx;
+}
+function click(time, accent, vol = 0.8, sub = false) {
+  const c = ctx(), o = c.createOscillator(), g = c.createGain();
+  o.type = 'sine';
+  o.frequency.value = sub ? 760 : accent ? 1680 : 1080;
+  const peak = Math.max(0.0002, (sub ? 0.35 : accent ? 1 : 0.7) * vol);
+  g.gain.setValueAtTime(0.0001, time);
+  g.gain.exponentialRampToValueAtTime(peak, time + 0.002);
+  g.gain.exponentialRampToValueAtTime(0.0001, time + (sub ? 0.035 : 0.06));
+  o.connect(g); g.connect(master);
+  o.start(time); o.stop(time + 0.08);
+}
+
+/* --- синтез гитары (Карплус — Стронг) --- */
+const OPEN = [40, 45, 50, 55, 59, 64]; // E2 A2 D3 G3 B3 E4
+const midiFreq = (m, a4 = 440) => a4 * Math.pow(2, (m - 69) / 12);
+const ksCache = new Map();
+function ksBuffer(midi) {
+  if (ksCache.has(midi)) return ksCache.get(midi);
+  const c = ctx(), sr = c.sampleRate, f = midiFreq(midi);
+  const N = Math.max(2, Math.round(sr / f - 0.5));
+  const len = Math.floor(sr * 2.4);
+  const buf = c.createBuffer(1, len, sr), d = buf.getChannelData(0);
+  const ring = new Float32Array(N);
+  let p = 0;
+  for (let i = 0; i < N; i++) { p = p * 0.45 + (Math.random() * 2 - 1) * 0.55; ring[i] = p; }
+  const damp = 0.9965 - Math.max(0, midi - 50) * 0.00006;
+  let k = 0, dc = 0;
+  for (let i = 0; i < len; i++) {
+    const a = ring[k], nk = k + 1 === N ? 0 : k + 1;
+    ring[k] = (a + ring[nk]) * 0.5 * damp;
+    dc = dc * 0.995 + a * 0.005;
+    d[i] = a - dc;
+    k = nk;
+  }
+  ksCache.set(midi, buf);
+  return buf;
+}
+const voices = new Array(6).fill(null);
+function pluck(str, midi, time, vol, short = false) {
+  const c = ctx(), src = c.createBufferSource(), g = c.createGain();
+  src.buffer = ksBuffer(midi);
+  g.gain.setValueAtTime(vol, time);
+  if (short) g.gain.setTargetAtTime(0, time + 0.02, 0.02);
+  const prev = voices[str];
+  if (prev && prev.end > time) { try { prev.g.gain.setTargetAtTime(0, time, 0.012); } catch (e) {} }
+  src.connect(g); g.connect(guitarBus);
+  src.start(time); src.stop(time + 2.4);
+  voices[str] = { g, end: time + 2.4 };
+}
+function muteGuitar() {
+  if (!actx) return;
+  const t = actx.currentTime;
+  voices.forEach((v, i) => { if (v) { try { v.g.gain.cancelScheduledValues(t); v.g.gain.setTargetAtTime(0, t, 0.03); } catch (e) {} voices[i] = null; } });
+}
+function playSlot(ch, frets, time, capo) {
+  if (!frets) return;
+  const used = [0, 1, 2, 3, 4, 5].filter(i => frets[i] >= 0);
+  if (!used.length) return;
+  if (ch === 'D' || ch === 'U' || ch === 'x') {
+    let order = used;
+    if (ch === 'U') order = used.filter(i => i >= 2).reverse();
+    const gap = ch === 'U' ? 0.008 : 0.011;
+    order.forEach((s, j) => pluck(s, OPEN[s] + capo + frets[s], time + j * gap,
+      ch === 'U' ? 0.42 : ch === 'x' ? 0.35 : 0.62, ch === 'x'));
+  } else if (/[1-6]/.test(ch)) {
+    const s = 6 - Number(ch);
+    if (frets[s] >= 0) pluck(s, OPEN[s] + capo + frets[s], time, 0.75);
+  }
+}
+function prewarm(song) {
+  const notes = new Set();
+  parseChart(song.chart, song.bpb).events.forEach(e => {
+    if (e.shape) e.shape.f.forEach((f, s) => { if (f >= 0) notes.add(OPEN[s] + (song.capo || 0) + f); });
+  });
+  notes.forEach(n => ksBuffer(n));
+}
+
+/* ================= Аккорды ================= */
+// аппликатуры: лады от 6-й (низкой E) к 1-й (высокой e); -1 — не играть; b — баррэ
+const CHORDS = {
+  'C':[[-1,3,2,0,1,0]], 'Cadd9':[[-1,3,2,0,3,3]], 'Cmaj7':[[-1,3,2,0,0,0]], 'C7':[[-1,3,2,3,1,0]], 'Cm':[[-1,3,5,5,4,3],3],
+  'D':[[-1,-1,0,2,3,2]], 'Dm':[[-1,-1,0,2,3,1]], 'D7':[[-1,-1,0,2,1,2]], 'Dm7':[[-1,-1,0,2,1,1]],
+  'Dsus2':[[-1,-1,0,2,3,0]], 'Dsus4':[[-1,-1,0,2,3,3]], 'D/F#':[[2,0,0,2,3,2]],
+  'E':[[0,2,2,1,0,0]], 'Em':[[0,2,2,0,0,0]], 'Em7':[[0,2,2,0,3,3]], 'E7':[[0,2,0,1,0,0]], 'Esus4':[[0,2,2,2,0,0]],
+  'F':[[1,3,3,2,1,1],1], 'Fmaj7':[[-1,-1,3,2,1,0]], 'Fm':[[1,3,3,1,1,1],1], 'F#m':[[2,4,4,2,2,2],2], 'F#':[[2,4,4,3,2,2],2],
+  'G':[[3,2,0,0,3,3]], 'G7':[[3,2,0,0,0,1]], 'Gm':[[3,5,5,3,3,3],3], 'G/B':[[-1,2,0,0,3,3]], 'Gsus4':[[3,3,0,0,1,3]],
+  'A':[[-1,0,2,2,2,0]], 'Am':[[-1,0,2,2,1,0]], 'A7':[[-1,0,2,0,2,0]], 'Am7':[[-1,0,2,0,1,0]],
+  'Asus2':[[-1,0,2,2,0,0]], 'Asus4':[[-1,0,2,2,3,0]], 'A7sus4':[[-1,0,2,0,3,3]],
+  'B':[[-1,2,4,4,4,2],2], 'B7':[[-1,2,1,2,0,2]], 'Bm':[[-1,2,4,4,3,2],2],
+  'Bb':[[-1,1,3,3,3,1],1], 'Bb/D':[[-1,-1,0,3,3,1]], 'Eb':[[-1,6,5,3,4,3],3], 'Ab':[[4,6,6,5,4,4],4], 'C#m':[[-1,4,6,6,5,4],4]
+};
+function shapeOf(name) {
+  if (!name) return null;
+  const n = name.trim();
+  const hit = CHORDS[n] || CHORDS[n.replace(/\s+/g, '')] || CHORDS[n.replace(/[*'’]+$/, '')];
+  return hit ? { f: hit[0], b: hit[1] || 0 } : null;
+}
+function chordSVG(name, w = 80) {
+  const sh = shapeOf(name);
+  if (!sh) return `<div class="nodiag">нет схемы</div>`;
+  const f = sh.f, pos = f.filter(x => x > 0), max = pos.length ? Math.max(...pos) : 0;
+  const base = max > 5 ? Math.min(...pos) : 1;
+  const L = 12, T = 16, SX = 10, FY = 12, frets = 5, W = L + SX * 5 + 10, H = T + FY * frets + 6;
+  let s = `<svg viewBox="0 0 ${W} ${H}" width="${w}" height="${w * H / W}" aria-label="${esc(name)}">`;
+  for (let i = 0; i <= frets; i++) {
+    const y = T + i * FY;
+    s += `<line x1="${L}" y1="${y}" x2="${L + SX * 5}" y2="${y}" stroke="currentColor" stroke-opacity=".45" stroke-width="${i === 0 && base === 1 ? 3 : 1}"/>`;
+  }
+  for (let i = 0; i < 6; i++) {
+    const x = L + i * SX;
+    s += `<line x1="${x}" y1="${T}" x2="${x}" y2="${T + FY * frets}" stroke="currentColor" stroke-opacity=".45" stroke-width="1"/>`;
+  }
+  if (base > 1) s += `<text x="${L - 4}" y="${T + FY * 0.75}" font-size="8" text-anchor="end" fill="currentColor" opacity=".7">${base}</text>`;
+  if (sh.b) {
+    const idx = f.map((x, i) => x === sh.b ? i : -1).filter(i => i >= 0);
+    const a = idx[0], z = 5, y = T + (sh.b - base + 0.5) * FY;
+    s += `<rect x="${L + a * SX - 4}" y="${y - 4}" width="${(z - a) * SX + 8}" height="8" rx="4" fill="var(--accent)"/>`;
+  }
+  f.forEach((x, i) => {
+    const cx = L + i * SX;
+    if (x < 0) s += `<text x="${cx}" y="${T - 5}" font-size="8" text-anchor="middle" fill="currentColor" opacity=".7">×</text>`;
+    else if (x === 0) s += `<circle cx="${cx}" cy="${T - 7}" r="2.6" fill="none" stroke="currentColor" stroke-opacity=".8"/>`;
+    else if (!(sh.b && x === sh.b)) s += `<circle cx="${cx}" cy="${T + (x - base + 0.5) * FY}" r="4" fill="var(--accent)"/>`;
+  });
+  return s + '</svg>';
+}
+
+/* ================= Разбор разметки песни ================= */
+function parseChart(text, bpb) {
+  bpb = Number(bpb) || 4;
+  const out = { sections: [], events: [], lines: [], total: 0 };
+  let sec = null, beat = 0, strum = null;
+  const newSec = name => { sec = { name, lines: [] }; out.sections.push(sec); };
+  String(text || '').split(/\r?\n/).forEach(raw => {
+    const line = raw.replace(/\s+$/, '');
+    if (!line.trim()) return;
+    const m = line.match(/^\s*\{\s*([a-z_]+)\s*(?::\s*(.*?))?\s*\}\s*$/i);
+    if (m) {
+      const k = m[1].toLowerCase(), v = (m[2] || '').trim();
+      if (k === 'strum') strum = Math.max(0, (parseInt(v, 10) || 1) - 1);
+      else if (k === 'comment' || k === 'c') { if (!sec) newSec(''); sec.lines.push({ note: v }); }
+      else newSec(v || 'Часть');
+      return;
+    }
+    if (/^\s*#/.test(line)) { newSec(line.replace(/^\s*#+\s*/, '')); return; }
+    if (!sec) newSec('');
+    const ln = { segs: [], li: out.lines.length, si: out.sections.length - 1 };
+    const re = /\[([^\]]+)\]/g;
+    let last = 0, mm, cur = null;
+    while ((mm = re.exec(line))) {
+      const pre = line.slice(last, mm.index);
+      if (cur) cur.text += pre; else if (pre.trim()) ln.segs.push({ chord: null, text: pre });
+      const parts = mm[1].split(':');
+      const name = parts[0].trim();
+      let beats = parts[1] ? parseFloat(parts[1].replace(',', '.')) : bpb;
+      if (!(beats > 0)) beats = bpb;
+      cur = { chord: name, beats, text: '' };
+      ln.segs.push(cur);
+      last = re.lastIndex;
+    }
+    const tail = line.slice(last);
+    if (cur) cur.text += tail; else ln.segs.push({ chord: null, text: tail });
+    ln.lyric = ln.segs.some(s => s.text.trim());
+    ln.start = beat;
+    ln.segs.forEach(s => {
+      if (s.chord == null) return;
+      const rest = /^(-|N\.?C\.?|—)$/i.test(s.chord);
+      const ev = { start: beat, len: s.beats, chord: rest ? '—' : s.chord, shape: rest ? null : shapeOf(s.chord), strum, li: ln.li, i: out.events.length };
+      s.ev = ev.i; out.events.push(ev); beat += s.beats;
+    });
+    ln.end = beat;
+    out.lines.push(ln); sec.lines.push(ln);
+  });
+  out.total = beat;
+  return out;
+}
+function segHTML(s, bpb) {
+  const t = s.text.trim() ? s.text : '';
+  if (s.chord == null) return `<span class="seg nc"><span class="c">·</span><span class="t">${esc(t)}</span></span>`;
+  const dur = s.beats !== bpb ? `<sub>${+s.beats.toFixed(2)}</sub>` : '';
+  return `<span class="seg${t ? '' : ' bar'}" data-ev="${s.ev}"><span class="c">${esc(s.chord)}${dur}</span><span class="t">${esc(t)}</span></span>`;
+}
+function lineHTML(ln, bpb, cls = '') {
+  return `<div class="ln${ln.lyric ? '' : ' bars'} ${cls}" data-li="${ln.li}">${ln.segs.map(s => segHTML(s, bpb)).join('')}</div>`;
+}
+function chartHTML(p, bpb) {
+  return p.sections.map(sec =>
+    `<div class="sec">${sec.name ? `<div class="sec-name">${esc(sec.name)}</div>` : ''}${
+      sec.lines.map(ln => ln.note != null ? `<div class="note">${esc(ln.note)}</div>` : lineHTML(ln, bpb)).join('')}</div>`
+  ).join('');
+}
+
+/* ================= Бой ================= */
+function slotLabels(n, bpb) {
+  const per = n / bpb;
+  const sub = { 1: [''], 2: ['', '&'], 3: ['', 'и', 'а'], 4: ['', 'e', '&', 'a'] }[per];
+  return Array.from({ length: n }, (_, i) => {
+    const b = Math.floor(i / per), r = i % per;
+    if (Number.isInteger(per) && sub) return r === 0 ? String(b + 1) : sub[r];
+    return String(i + 1);
+  });
+}
+function strumHTML(pattern, bpb) {
+  const n = pattern.length, labels = slotLabels(n, bpb), per = n / bpb;
+  return `<div class="strum" style="grid-template-columns:repeat(${n},1fr)">${[...pattern].map((ch, i) => {
+    let g = '·', cls = 'r';
+    if (ch === 'D') { g = '↓'; cls = 'd'; } else if (ch === 'U') { g = '↑'; cls = 'u'; }
+    else if (ch === 'x' || ch === 'X') { g = '×'; cls = 'r'; } else if (/[1-6]/.test(ch)) { g = ch; cls = 'p'; }
+    const beat = Number.isInteger(per) ? i % per === 0 : true;
+    return `<div class="s${beat ? ' beat' : ''}" data-i="${i}"><span class="g ${cls}">${g}</span><span class="l">${labels[i]}</span></div>`;
+  }).join('')}</div>`;
+}
+function parseStrums(text) {
+  return String(text || '').split(/\r?\n/).map(l => l.trim()).filter(Boolean).map(l => {
+    const i = l.lastIndexOf(':');
+    const name = i > 0 ? l.slice(0, i).trim() : 'Бой';
+    const pattern = (i > 0 ? l.slice(i + 1) : l).replace(/\s+/g, '').replace(/[^DUx1-6\-]/gi, c => '').replace(/d/g, 'D').replace(/u/g, 'U');
+    return { name, pattern };
+  }).filter(s => s.pattern.length);
+}
+const strumsToText = arr => arr.map(s => `${s.name}: ${s.pattern}`).join('\n');
+
+/* ================= Песни по умолчанию ================= */
+const rep = (line, n) => Array(n).fill(line).join('\n');
+const WW = '[Em7] [G] [Dsus4] [A7sus4]';
+const WW_PRE = '[Cadd9:2] [Dsus4:2] [Em7]';
+const WW_CH = '[Cadd9:2] [Em7:2] [G:2] [Em7:2]';
+const AM_V = '[Dm] [Dm] [Bb/D] [Bb/D]';
+
+const DEFAULT_SONGS = [
+  {
+    id: 'wonderwall', title: 'Wonderwall', artist: 'Oasis', color: '#2563eb',
+    bpm: 87, bpb: 4, capo: 2, key: 'F#m (формы Em)',
+    strums: [
+      { name: 'Основной бой (шестнадцатые)', pattern: 'D-D-D-DU-UDUD-DU' },
+      { name: 'Упрощённый (восьмые)', pattern: 'D-DU-UDU' },
+      { name: 'Для новичков (четверти)', pattern: 'DDDD' }
+    ],
+    chart: [
+      '{section: Вступление}', WW,
+      '{section: Куплет 1}', rep(WW, 3),
+      '{section: Куплет 2}', rep(WW, 3),
+      '{section: Предприпев}', rep(WW_PRE, 3), '[Cadd9:2] [Dsus4:2] [A7sus4] [A7sus4]',
+      '{section: Припев}', rep(WW_CH, 4),
+      '{section: Куплет 3}', rep(WW, 3),
+      '{section: Предприпев}', rep(WW_PRE, 3), '[Cadd9:2] [Dsus4:2] [A7sus4] [A7sus4]',
+      '{section: Припев}', rep(WW_CH, 4),
+      '{section: Припев}', rep(WW_CH, 4),
+      '{section: Кода}', rep(WW_CH, 6), '[Em7]'
+    ].join('\n'),
+    tabs:
+`Каподастр на 2-м ладу. Все лады в табах — от каподастра.
+Главный секрет звучания: безымянный и мизинец всё время стоят на 3-м ладу
+2-й и 1-й струн (B и e). Это «якорь» — он не снимается при смене аккордов.
+
+Аппликатуры:
+      Em7   G    Dsus4  A7sus4  Cadd9
+e |---3-----3-----3------3-------3---|
+B |---3-----3-----3------3-------3---|
+G |---0-----0-----2------0-------0---|
+D |---2-----0-----0------2-------2---|
+A |---2-----2-----x------0-------3---|
+E |---0-----3-----x------x-------x---|
+
+Упражнение: перебор для смены аккордов (по такту на аккорд)
+     Em7               G
+e |---------3-------3-|---------3-------3-|
+B |-------3---3---3---|-------3---3---3---|
+G |-----0-------0-----|-----0-------0-----|
+D |---2---------------|-------------------|
+A |-------------------|---2---------------|
+E |-0-----------------|-3-----------------|
+
+     Dsus4             A7sus4
+e |---------3-------3-|---------3-------3-|
+B |-------3---3---3---|-------3---3---3---|
+G |-----2-------2-----|-----0-------0-----|
+D |-0-----------------|---2---------------|
+A |-------------------|-0-----------------|
+E |-------------------|-------------------|
+
+Советы:
+• Бой играется от кисти, рука двигается вверх-вниз непрерывно
+  (шестнадцатыми), а струны задеваются только на отмеченных долях.
+• Дальше от каподастра звук тусклее — бейте ближе к розетке.
+• Переходы Em7 → G → Dsus4 → A7sus4 меняют только пальцы на 5-6 и 4-3 струнах.`
+  },
+  {
+    id: '505', title: '505', artist: 'Arctic Monkeys', color: '#be123c',
+    bpm: 140, bpb: 4, capo: 0, key: 'Dm',
+    strums: [
+      { name: 'Перебор (вступление и куплеты)', pattern: '43212321' },
+      { name: 'Нарастание — восьмые вниз', pattern: 'DDDDDDDD' },
+      { name: 'Кульминация — полный бой', pattern: 'D-DU-UDU' }
+    ],
+    chart: [
+      '{section: Вступление}', '{strum: 1}', rep(AM_V, 4),
+      '{section: Куплет 1}', rep(AM_V, 8),
+      '{section: Куплет 2}', rep(AM_V, 8),
+      '{section: Нарастание}', '{strum: 2}', rep('[Gm] [Gm] [Dm] [Dm]\n[Gm] [Gm] [A] [A]', 2),
+      '{section: Кульминация}', '{strum: 3}', rep(AM_V, 8),
+      '{section: Кода}', '{strum: 1}', rep(AM_V, 4), '[Dm]'
+    ].join('\n'),
+    tabs:
+`Строй стандартный, без каподастра. Тональность — ре минор.
+Узнаваемый рисунок песни — качание между Dm и Bb/D: бас (открытая 4-я струна D)
+остаётся, меняется только нота на 3-й струне (2-й лад → 3-й лад).
+Это упрощённая гитарная аранжировка — сверьте длину частей с записью.
+
+Аппликатуры:
+      Dm    Bb/D   Gm     A
+e |---1-----1------3------0---|
+B |---3-----3------3------2---|
+G |---2-----3------3------2---|
+D |---0-----0------5------2---|
+A |---x-----x------5------0---|
+E |---x-----x------3------x---|
+
+Вступление / куплет — перебор восьмыми (D G B e B G B e):
+     Dm                Bb/D
+e |-------1-------1-|-------1-------1-|
+B |-----3---3---3---|-----3---3---3---|
+G |---2-------2-----|---3-------3-----|
+D |-0---------------|-0---------------|
+A |-----------------|-----------------|
+E |-----------------|-----------------|
+
+Нарастание — восьмые вниз, слегка глуша струны ребром ладони:
+     Gm                Dm
+e |-----------------|-----------------|
+B |-----------------|-----------------|
+G |-3-3-3-3-3-3-3-3-|-2-2-2-2-2-2-2-2-|
+D |-5-5-5-5-5-5-5-5-|-0-0-0-0-0-0-0-0-|
+A |-5-5-5-5-5-5-5-5-|-----------------|
+E |-3-3-3-3-3-3-3-3-|-----------------|
+
+Советы:
+• В переборе держите аккорд целиком, а не ставьте пальцы по одному.
+• В кульминации играйте громче и открытее — это пик песни.`
+  }
+];
+
+/* ================= Состояние песен ================= */
+const clone = o => JSON.parse(JSON.stringify(o));
+let songs = store.get('ga.songs.v1', null);
+if (!Array.isArray(songs) || !songs.length) songs = clone(DEFAULT_SONGS);
+const saveSongs = () => store.set('ga.songs.v1', songs);
+let curSong = null;
+const songLen = s => parseChart(s.chart, s.bpb).total * 60 / s.bpm;
+
+function renderSongList() {
+  $('#songCount').textContent = songs.length + ' ' + (songs.length === 1 ? 'песня' : songs.length < 5 ? 'песни' : 'песен');
+  $('#songList').innerHTML = songs.map(s => `
+    <button class="song-card" data-id="${esc(s.id)}">
+      <div class="song-art" style="background:${esc(s.color || '#475569')}">${esc((s.title || '?').slice(0, 2))}</div>
+      <div class="meta">
+        <div class="t">${esc(s.title)}</div>
+        <div class="a">${esc(s.artist || '')}</div>
+        <div class="chips" style="margin-top:6px">
+          <span class="chip"><b>${s.bpm}</b> BPM</span>
+          ${s.capo ? `<span class="chip">Капо ${s.capo}</span>` : ''}
+          <span class="chip">${fmtTime(songLen(s))}</span>
+        </div>
+      </div>
+      <div class="chev">›</div>
+    </button>`).join('');
+}
+$('#songList').addEventListener('click', e => {
+  const b = e.target.closest('.song-card'); if (b) openSong(b.dataset.id);
+});
+
+function openSong(id, push = true) {
+  curSong = songs.find(s => s.id === id);
+  if (!curSong) return;
+  renderSong();
+  show('song');
+  if (push) history.pushState({ v: 'song', id }, '');
+}
+let chartFs = store.get('ga.fs', 17);
+function renderSong() {
+  const s = curSong, p = parseChart(s.chart, s.bpb);
+  $('#songHead').innerHTML = `
+    <div class="song-head"><div><h2>${esc(s.title)}</h2><div class="muted">${esc(s.artist || '')}</div></div></div>
+    <div class="chips">
+      <span class="chip">Темп <b>${s.bpm}</b> BPM</span>
+      <span class="chip">Размер ${s.bpb}/4</span>
+      <span class="chip">${s.capo ? `Каподастр <b>${s.capo}</b> лад` : 'Без каподастра'}</span>
+      ${s.key ? `<span class="chip">Тональность ${esc(s.key)}</span>` : ''}
+      <span class="chip">${fmtTime(p.total * 60 / s.bpm)}</span>
+    </div>`;
+  const hasLyrics = p.lines.some(l => l.lyric);
+  $('#pane-chart').innerHTML = `
+    ${hasLyrics ? '' : `<div class="hint"><b>Текст песни.</b> Слова защищены авторским правом, поэтому в приложение не встроены.
+      Нажмите <b>✎</b> вверху и впишите их сразу после аккордов, например <code>[Em7]слова строки [G]продолжение</code> —
+      аккорды встанут над нужными слогами, а в режиме игры строки будут подсвечиваться синхронно. Сохраняется на этом устройстве.</div>`}
+    <div class="fs-ctl"><button class="pill-btn" data-fs="-1">A−</button><button class="pill-btn" data-fs="1">A+</button></div>
+    <div class="chart" id="songChart" style="--fs:${chartFs}px">${chartHTML(p, s.bpb)}</div>`;
+  $('#pane-tabs').innerHTML = renderTabs(s.tabs || '');
+  $('#pane-strum').innerHTML = (s.strums || []).map((st, i) => `
+    <div class="card strum-card">
+      <div class="head"><b>${i + 1}. ${esc(st.name)}</b><button class="pill-btn" data-listen="${i}">▶ Послушать</button></div>
+      ${strumHTML(st.pattern, s.bpb)}
+    </div>`).join('') + `<div class="legend">↓ — удар вниз, ↑ — вверх, · — рука проходит мимо струн, × — глушение, цифра — щипок струны (1 — тонкая).
+      В разметке песни бой меняется командой {strum: N}.</div>`;
+  const uniq = [...new Set(p.events.map(e => e.chord).filter(c => c !== '—'))];
+  $('#pane-chords').innerHTML = `${s.capo ? `<div class="hint">Формы аккордов указаны относительно каподастра на ${s.capo}-м ладу.</div>` : ''}
+    <div class="diag-grid">${uniq.map(c => `<div class="diag"><div class="n">${esc(c)}</div>${chordSVG(c, 84)}</div>`).join('')}</div>`;
+}
+function renderTabs(text) {
+  // блоки с табулатурой (строки с |---) — моноширинным, остальное — обычным текстом
+  const lines = text.split('\n'), out = [];
+  let buf = [], mono = null;
+  const isTab = l => /\|[-0-9xhpb\/\\~|]+/.test(l) || /^\s*[A-Ga-g]?\s*\|/.test(l);
+  const flush = () => {
+    if (!buf.length) return;
+    while (buf.length && !buf[buf.length - 1].trim()) buf.pop();
+    if (buf.length) out.push(mono ? `<pre class="tab">${esc(buf.join('\n'))}</pre>` : `<p class="tab-text">${esc(buf.join('\n'))}</p>`);
+    buf = [];
+  };
+  lines.forEach((l, i) => {
+    const next = lines[i + 1] || '';
+    const m = isTab(l) || (!!l.trim() && isTab(next) && !/[.:!?]$/.test(l.trim()) && l.length < 60 && /\s{2,}/.test(l));
+    if (!l.trim()) { flush(); mono = null; return; }
+    if (mono !== null && m !== mono) flush();
+    mono = m; buf.push(l);
+  });
+  flush();
+  return out.join('') || '<p class="muted">Табов пока нет — добавьте их в редакторе (✎).</p>';
+}
+$('#pane-chart').addEventListener('click', e => {
+  const b = e.target.closest('[data-fs]');
+  if (!b) return;
+  chartFs = clamp(chartFs + Number(b.dataset.fs) * 1.5, 12, 30);
+  store.set('ga.fs', chartFs);
+  $('#songChart').style.setProperty('--fs', chartFs + 'px');
+});
+$('#songTabs').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  $$('#songTabs button').forEach(x => x.classList.toggle('on', x === b));
+  $$('#view-song .pane').forEach(p => p.classList.toggle('on', p.id === 'pane-' + b.dataset.pane));
+});
+
+/* прослушивание боя (2 такта на первом аккорде песни) */
+let listenRaf = 0;
+$('#pane-strum').addEventListener('click', e => {
+  const b = e.target.closest('[data-listen]'); if (!b) return;
+  const s = curSong, st = s.strums[Number(b.dataset.listen)], p = parseChart(s.chart, s.bpb);
+  const ev = p.events.find(x => x.shape);
+  const frets = ev ? ev.shape.f : CHORDS.Em[0];
+  const c = ctx(), n = st.pattern.length, slot = 60 / s.bpm * s.bpb / n, t0 = c.currentTime + 0.1, bars = 2;
+  for (let i = 0; i < n * bars; i++) {
+    playSlot(st.pattern[i % n], frets, t0 + i * slot, s.capo || 0);
+    if (i % (n / s.bpb) === 0) click(t0 + i * slot, i % n === 0, 0.35);
+  }
+  const cells = $$('.s', b.closest('.strum-card'));
+  cancelAnimationFrame(listenRaf);
+  const step = () => {
+    const k = Math.floor((c.currentTime - t0) / slot);
+    cells.forEach((el, i) => el.classList.toggle('on', k >= 0 && k < n * bars && i === k % n));
+    if (k < n * bars) listenRaf = requestAnimationFrame(step);
+  };
+  step();
+});
+
+/* ================= Редактор ================= */
+const editor = $('#editor');
+let editing = null;
+function openEditor(song) {
+  editing = song;
+  const isNew = !songs.includes(song);
+  $('#edTitle').textContent = isNew ? 'Новая песня' : 'Редактирование';
+  $('#edName').value = song.title || '';
+  $('#edArtist').value = song.artist || '';
+  $('#edBpm').value = song.bpm || 100;
+  $('#edBpb').value = song.bpb || 4;
+  $('#edCapo').value = song.capo || 0;
+  $('#edKey').value = song.key || '';
+  $('#edChart').value = song.chart || '';
+  $('#edStrums').value = strumsToText(song.strums || []);
+  $('#edTabs').value = song.tabs || '';
+  $('#edDelete').hidden = isNew;
+  $('#edReset').hidden = isNew || !DEFAULT_SONGS.some(d => d.id === song.id);
+  editor.showModal();
+}
+$('#editBtn').onclick = () => curSong && openEditor(curSong);
+$('#addSongBtn').onclick = () => openEditor({
+  id: 's' + Date.now().toString(36), color: ['#7c3aed', '#0d9488', '#ca8a04', '#db2777'][songs.length % 4],
+  title: '', artist: '', bpm: 100, bpb: 4, capo: 0, key: '',
+  strums: [{ name: 'Бой', pattern: 'D-DU-UDU' }],
+  chart: '{section: Куплет}\n[Am]слова первой строки [G]продолжение\n[F] [E]\n\n{section: Припев}\n[C] [G] [Am] [F]', tabs: ''
+});
+$('#edSave').onclick = () => {
+  const s = editing; if (!s) return;
+  const name = $('#edName').value.trim();
+  if (!name) { $('#edName').focus(); toast('Введите название'); return; }
+  s.title = name;
+  s.artist = $('#edArtist').value.trim();
+  s.bpm = clamp(parseFloat($('#edBpm').value) || 100, 30, 260);
+  s.bpb = clamp(parseInt($('#edBpb').value, 10) || 4, 1, 12);
+  s.capo = clamp(parseInt($('#edCapo').value, 10) || 0, 0, 12);
+  s.key = $('#edKey').value.trim();
+  s.chart = $('#edChart').value;
+  const st = parseStrums($('#edStrums').value);
+  s.strums = st.length ? st : [{ name: 'Бой', pattern: 'D-DU-UDU' }];
+  s.tabs = $('#edTabs').value;
+  if (!songs.includes(s)) songs.push(s);
+  saveSongs(); editor.close(); renderSongList();
+  if (curSong === s) renderSong(); else openSong(s.id);
+  toast('Сохранено');
+};
+$('#edDelete').onclick = () => {
+  if (!editing || !confirm(`Удалить «${editing.title}»?`)) return;
+  songs = songs.filter(x => x !== editing); saveSongs(); editor.close(); renderSongList(); curSong = null; show('songs');
+};
+$('#edReset').onclick = () => {
+  const d = DEFAULT_SONGS.find(x => x.id === editing.id);
+  if (!d || !confirm('Вернуть исходную версию песни? Ваши правки (в том числе текст) будут потеряны.')) return;
+  const i = songs.indexOf(editing); songs[i] = clone(d); saveSongs(); editor.close();
+  curSong = songs[i]; renderSong(); renderSongList(); toast('Восстановлено');
+};
+
+/* ================= Навигация ================= */
+let view = 'songs';
+function show(v) {
+  view = v;
+  $$('.view').forEach(e => e.classList.toggle('active', e.id === 'view-' + v));
+  $$('.nav button').forEach(b => b.classList.toggle('on', b.dataset.nav === (v === 'song' ? 'songs' : v)));
+  $('#backBtn').hidden = v !== 'song';
+  $('#editBtn').hidden = v !== 'song';
+  $('#title').textContent = v === 'song' && curSong ? curSong.title : { songs: 'Гитарный помощник', metro: 'Метроном', tuner: 'Тюнер' }[v] || '';
+  if (v !== 'tuner') tunerStop();
+  window.scrollTo(0, 0);
+}
+$$('.nav button').forEach(b => b.onclick = () => {
+  const v = b.dataset.nav;
+  if (v === 'songs' && view === 'song') { history.back(); return; }
+  show(v);
+});
+$('#backBtn').onclick = () => history.back();
+window.addEventListener('popstate', e => {
+  if (!$('#play').hidden) { closePlay(false); return; }
+  if (editor.open) editor.close();
+  const st = e.state || {};
+  if (st.v === 'song' && st.id) openSong(st.id, false); else show('songs');
+});
+
+/* ================= Метроном ================= */
+const M = { bpm: store.get('ga.m.bpm', 90), bpb: 4, sub: 1, accent: true, vol: 0.8, on: false, next: 0, i: 0, timer: 0, q: [], raf: 0, taps: [] };
+const tempoName = b => b < 60 ? 'Largo' : b < 76 ? 'Adagio' : b < 108 ? 'Andante' : b < 120 ? 'Moderato' : b < 168 ? 'Allegro' : 'Presto';
+function mSetBpm(v) {
+  M.bpm = clamp(Math.round(v), 30, 250);
+  $('#mBpm').textContent = M.bpm; $('#mSlider').value = M.bpm;
+  $('#mName').textContent = tempoName(M.bpm) + ' · BPM';
+  store.set('ga.m.bpm', M.bpm);
+}
+function mDots() {
+  $('#mDots').innerHTML = Array.from({ length: M.bpb }, (_, i) => `<i class="${i === 0 && M.accent ? 'acc' : ''}"></i>`).join('');
+}
+function mSchedule() {
+  const c = ctx();
+  while (M.next < c.currentTime + 0.12) {
+    const step = 60 / M.bpm / M.sub, isBeat = M.i % M.sub === 0, b = Math.floor(M.i / M.sub) % M.bpb;
+    if (isBeat) { click(M.next, M.accent && b === 0, M.vol); M.q.push({ t: M.next, b }); }
+    else click(M.next, false, M.vol, true);
+    M.next += step; M.i++;
+  }
+}
+function mFrame() {
+  const t = ctx().currentTime;
+  let hit = null;
+  while (M.q.length && M.q[0].t <= t) hit = M.q.shift();
+  if (hit) $$('#mDots i').forEach((d, i) => { d.classList.toggle('on', i === hit.b); d.classList.toggle('sec', i === hit.b && hit.b !== 0); });
+  if (M.on) M.raf = requestAnimationFrame(mFrame);
+}
+function mStart() {
+  stopPlayIfRunning();
+  const c = ctx(); M.on = true; M.i = 0; M.q = []; M.next = c.currentTime + 0.06;
+  mSchedule(); M.timer = setInterval(mSchedule, 25); mFrame();
+  $('#mStart').textContent = '■ Стоп';
+}
+function mStop() {
+  M.on = false; clearInterval(M.timer); cancelAnimationFrame(M.raf);
+  $$('#mDots i').forEach(d => d.classList.remove('on', 'sec'));
+  $('#mStart').textContent = '▶ Старт';
+}
+$('#mStart').onclick = () => M.on ? mStop() : mStart();
+$('#mSlider').oninput = e => mSetBpm(+e.target.value);
+let holdT;
+[['#mMinus', -1], ['#mPlus', 1]].forEach(([sel, d]) => {
+  const el = $(sel);
+  const stopHold = () => { clearTimeout(holdT); clearInterval(holdT); };
+  el.addEventListener('pointerdown', e => {
+    e.preventDefault(); mSetBpm(M.bpm + d);
+    holdT = setTimeout(() => { holdT = setInterval(() => mSetBpm(M.bpm + d), 70); }, 400);
+  });
+  ['pointerup', 'pointerleave', 'pointercancel'].forEach(ev => el.addEventListener(ev, stopHold));
+});
+$('#mBpb').onchange = e => { M.bpb = +e.target.value; M.i = 0; mDots(); };
+$('#mSub').onchange = e => { M.sub = +e.target.value; M.i = 0; };
+$('#mVol').oninput = e => M.vol = e.target.value / 100;
+$('#mAccent').onchange = e => { M.accent = e.target.checked; mDots(); };
+$('#mTap').onclick = () => {
+  const now = performance.now();
+  if (M.taps.length && now - M.taps[M.taps.length - 1] > 2000) M.taps = [];
+  M.taps.push(now); if (M.taps.length > 6) M.taps.shift();
+  click(ctx().currentTime + 0.005, false, M.vol * 0.6);
+  if (M.taps.length >= 2) {
+    const iv = (M.taps[M.taps.length - 1] - M.taps[0]) / (M.taps.length - 1);
+    mSetBpm(60000 / iv);
+  }
+};
+document.addEventListener('keydown', e => {
+  if (e.code !== 'Space' || /INPUT|TEXTAREA|SELECT|BUTTON/.test(document.activeElement.tagName) && document.activeElement.type !== 'range') return;
+  if (!$('#play').hidden) { e.preventDefault(); pToggle(); }
+  else if (view === 'metro') { e.preventDefault(); M.on ? mStop() : mStart(); }
+});
+
+/* ================= Тюнер ================= */
+const NOTE_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+const RU_NAMES = ['До', 'До♯', 'Ре', 'Ре♯', 'Ми', 'Фа', 'Фа♯', 'Соль', 'Соль♯', 'Ля', 'Ля♯', 'Си'];
+const STRINGS = [{ n: 6, m: 40 }, { n: 5, m: 45 }, { n: 4, m: 50 }, { n: 3, m: 55 }, { n: 2, m: 59 }, { n: 1, m: 64 }];
+const T = { on: false, stream: null, an: null, buf: null, raf: 0, hist: [], sel: null, a4: 440, lastHeard: 0, tuned: new Set() };
+$('#tStrings').innerHTML = STRINGS.map((s, i) =>
+  `<button data-i="${i}"><b>${NOTE_NAMES[s.m % 12]}</b><span>${s.n} стр. · ${NOTE_NAMES[s.m % 12]}${Math.floor(s.m / 12) - 1}</span></button>`).join('');
+(function ticks() {
+  let h = '';
+  for (let c = -50; c <= 50; c += 5) {
+    const a = c / 50 * 45 * Math.PI / 180, big = c % 25 === 0;
+    const r1 = 178, r2 = big ? 160 : 168;
+    const x1 = 200 + Math.sin(a) * r1, y1 = 200 - Math.cos(a) * r1, x2 = 200 + Math.sin(a) * r2, y2 = 200 - Math.cos(a) * r2;
+    h += `<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="${c === 0 ? 'var(--ok)' : 'currentColor'}" stroke-opacity="${c === 0 ? 1 : .5}" stroke-width="${big ? 2.5 : 1.5}"/>`;
+    if (big) h += `<text x="${(200 + Math.sin(a) * 146).toFixed(1)}" y="${(200 - Math.cos(a) * 146 + 4).toFixed(1)}" font-size="11" text-anchor="middle" fill="currentColor" opacity=".6">${c > 0 ? '+' + c : c}</text>`;
+  }
+  $('#tTicks').innerHTML = h;
+})();
+function refTone(midi) {
+  const c = ctx(), t = c.currentTime + 0.01, f = midiFreq(midi, T.a4);
+  const g = c.createGain();
+  g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.5, t + 0.015);
+  g.gain.exponentialRampToValueAtTime(0.0001, t + 2.6);
+  g.connect(master);
+  [[1, 'triangle', 1], [2, 'sine', 0.35], [3, 'sine', 0.15]].forEach(([h, type, v]) => {
+    const o = c.createOscillator(), og = c.createGain(); o.type = type; o.frequency.value = f * h; og.gain.value = v;
+    o.connect(og); og.connect(g); o.start(t); o.stop(t + 2.7);
+  });
+}
+$('#tStrings').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  const i = +b.dataset.i;
+  T.sel = i; $('#tAuto').checked = false;
+  refTone(STRINGS[i].m); tunerMarks(null);
+});
+$('#tAuto').onchange = e => { if (e.target.checked) T.sel = null; tunerMarks(null); };
+$('#tA4').onchange = e => { T.a4 = clamp(+e.target.value || 440, 415, 466); e.target.value = T.a4; store.set('ga.a4', T.a4); };
+T.a4 = store.get('ga.a4', 440); $('#tA4').value = T.a4;
+
+function detectPitch(buf, sr, minRms) {
+  let rms = 0;
+  for (let i = 0; i < buf.length; i++) rms += buf[i] * buf[i];
+  rms = Math.sqrt(rms / buf.length);
+  if (rms < minRms) return -1;
+  // упрощённый YIN
+  const W = Math.floor(buf.length / 2), maxLag = Math.min(Math.floor(sr / 65), buf.length - W), minLag = Math.floor(sr / 1100);
+  const d = new Float32Array(maxLag + 1);
+  for (let tau = 1; tau <= maxLag; tau++) {
+    let s = 0;
+    for (let j = 0; j < W; j++) { const x = buf[j] - buf[j + tau]; s += x * x; }
+    d[tau] = s;
+  }
+  let run = 0, tau = -1;
+  const cm = new Float32Array(maxLag + 1); cm[0] = 1;
+  for (let t = 1; t <= maxLag; t++) { run += d[t]; cm[t] = run ? d[t] * t / run : 1; }
+  for (let t = minLag; t <= maxLag; t++) {
+    if (cm[t] < 0.12) { while (t + 1 <= maxLag && cm[t + 1] < cm[t]) t++; tau = t; break; }
+  }
+  if (tau < 0) {
+    let best = 1, bt = -1;
+    for (let t = minLag; t <= maxLag; t++) if (cm[t] < best) { best = cm[t]; bt = t; }
+    if (best > 0.3) return -1;
+    tau = bt;
+  }
+  if (tau > 1 && tau < maxLag) {
+    const a = cm[tau - 1], b = cm[tau], c = cm[tau + 1], den = a + c - 2 * b;
+    if (den) tau = tau + (a - c) / (2 * den);
+  }
+  return sr / tau;
+}
+function tunerMarks(nearIdx, tunedNow) {
+  $$('#tStrings button').forEach((b, i) => {
+    b.classList.toggle('sel', T.sel === i);
+    b.classList.toggle('near', T.sel == null && nearIdx === i);
+    b.classList.toggle('tuned', T.tuned.has(i));
+  });
+}
+async function tunerStart() {
+  if (T.on) return;
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    $('#tSub').textContent = 'Браузер не даёт доступ к микрофону. Откройте приложение по https:// или установите его.'; return;
+  }
+  try {
+    const c = ctx();
+    T.stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false } });
+    const src = c.createMediaStreamSource(T.stream);
+    T.an = c.createAnalyser(); T.an.fftSize = 4096;
+    const hp = c.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 60;
+    src.connect(hp); hp.connect(T.an);
+    T.buf = new Float32Array(T.an.fftSize);
+    T.on = true; T.hist = [];
+    $('#tStart').textContent = '■ Выключить микрофон';
+    $('#tSub').textContent = 'Слушаю… дёрните струну';
+    tunerLoop();
+  } catch (err) {
+    $('#tSub').textContent = 'Нет доступа к микрофону: разрешите его в настройках браузера.';
+  }
+}
+function tunerStop() {
+  if (!T.on) return;
+  T.on = false; cancelAnimationFrame(T.raf);
+  if (T.stream) T.stream.getTracks().forEach(t => t.stop());
+  T.stream = null;
+  $('#tStart').textContent = '🎤 Включить микрофон';
+  $('#tSub').textContent = 'Микрофон выключен';
+}
+$('#tStart').onclick = () => T.on ? tunerStop() : tunerStart();
+let tFrame = 0;
+function tunerLoop() {
+  if (!T.on) return;
+  T.raf = requestAnimationFrame(tunerLoop);
+  if (tFrame++ % 2) return; // ~30 раз в секунду достаточно
+  T.an.getFloatTimeDomainData(T.buf);
+  const sens = +$('#tSens').value;
+  const minRms = 0.002 + (10 - sens) * 0.0035;
+  const f = detectPitch(T.buf.subarray(T.buf.length - 2048), actx.sampleRate, minRms);
+  const now = performance.now();
+  if (f > 60 && f < 1100) {
+    T.hist.push(f); if (T.hist.length > 5) T.hist.shift();
+    T.lastHeard = now;
+  } else if (now - T.lastHeard > 900) {
+    T.hist = [];
+    $('#tNote').innerHTML = '—'; $('#tNote').classList.remove('ok');
+    $('#tDir').textContent = ''; $('#tNeedle').style.transform = 'rotate(0deg)';
+    $('#tSub').textContent = 'Слушаю… дёрните струну';
+    return;
+  }
+  if (!T.hist.length) return;
+  const sorted = [...T.hist].sort((a, b) => a - b), freq = sorted[Math.floor(sorted.length / 2)];
+  const n = 12 * Math.log2(freq / T.a4) + 69;
+  let target, nearIdx = null;
+  if (T.sel != null) target = STRINGS[T.sel].m;
+  else {
+    target = Math.round(n);
+    let best = 99;
+    STRINGS.forEach((s, i) => { const dd = Math.abs(n - s.m); if (dd < best) { best = dd; nearIdx = i; } });
+    if (best > 2.5) nearIdx = null;
+  }
+  const cents = (n - target) * 100;
+  const ok = Math.abs(cents) < 5;
+  const name = NOTE_NAMES[mod(target, 12)], oct = Math.floor(target / 12) - 1;
+  $('#tNote').innerHTML = `${name}<sup>${oct}</sup>`;
+  $('#tNote').classList.toggle('ok', ok);
+  $('#tSub').textContent = `${RU_NAMES[mod(target, 12)]} · ${freq.toFixed(1)} Гц · цель ${midiFreq(target, T.a4).toFixed(1)} Гц`;
+  const ang = clamp(cents, -50, 50) / 50 * 45;
+  $('#tNeedle').style.transform = `rotate(${ang}deg)`;
+  const dir = $('#tDir');
+  if (ok) { dir.textContent = '✓ Настроено'; dir.style.color = 'var(--ok)'; }
+  else {
+    const c = Math.round(cents);
+    dir.textContent = cents < 0 ? `Ниже на ${-c} ¢ — подтяните ↑` : `Выше на ${c} ¢ — ослабьте ↓`;
+    dir.style.color = Math.abs(cents) < 15 ? 'var(--warn)' : 'var(--bad)';
+  }
+  const idx = T.sel != null ? T.sel : nearIdx;
+  if (ok && idx != null && STRINGS[idx].m === target) T.tuned.add(idx);
+  tunerMarks(nearIdx);
+}
+
+/* ================= Режим игры ================= */
+const RATES = [0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.25];
+const P = {
+  song: null, parsed: null, playing: false, t0: 0, pausedPos: 0, rate: 1, audio: null, audioUrl: null,
+  lastTick: -1e9, click: true, guitar: true, strumSel: -1, timer: 0, raf: 0, curEv: -2, curLine: -2,
+  segEls: [], lineEls: [], wake: null, seeking: false
+};
+const bpmEff = () => P.song.bpm * (P.audio ? 1 : P.rate);
+const offset = () => Number(P.song.offset) || 0;
+
+function openPlay() {
+  const s = curSong; if (!s) return;
+  mStop();
+  P.song = s; P.parsed = parseChart(s.chart, s.bpb);
+  P.pausedPos = 0; P.curEv = -2; P.curLine = -2; P.playing = false; P.strumSel = -1;
+  $('#pTitle').innerHTML = `${esc(s.title)} <span>· ${esc(s.artist || '')}${s.capo ? ` · капо ${s.capo}` : ''}</span>`;
+  $('#pChart').innerHTML = chartHTML(P.parsed, s.bpb);
+  P.segEls = []; $$('#pChart [data-ev]').forEach(el => P.segEls[+el.dataset.ev] = el);
+  P.lineEls = []; $$('#pChart [data-li]').forEach(el => P.lineEls[+el.dataset.li] = el);
+  $('#pSeek').max = P.parsed.total;
+  $('#pTotal').textContent = fmtTime(P.parsed.total * 60 / s.bpm);
+  $('#pStrumSel').innerHTML = `<option value="-1">По разметке песни</option>` +
+    (s.strums || []).map((st, i) => `<option value="${i}">${i + 1}. ${esc(st.name)}</option>`).join('');
+  $('#pRates').innerHTML = RATES.map(r => `<button data-r="${r}">${Math.round(r * 100)}%</button>`).join('');
+  setRate(1);
+  $('#pDots').innerHTML = Array.from({ length: s.bpb }, (_, i) => `<i class="${i === 0 ? 'acc' : ''}"></i>`).join('');
+  $('#pOffset').value = offset().toFixed(2);
+  unloadAudio();
+  $('#play').hidden = false; $('#pSheet').hidden = true;
+  document.body.style.overflow = 'hidden';
+  history.pushState({ v: 'play' }, '');
+  ctx(); setTimeout(() => prewarm(s), 30);
+  updateUI(0, true);
+  cancelAnimationFrame(P.raf); pFrame();
+}
+function closePlay(goBack = true) {
+  pPause(); unloadAudio();
+  cancelAnimationFrame(P.raf);
+  $('#play').hidden = true; document.body.style.overflow = '';
+  if (goBack && history.state && history.state.v === 'play') history.back();
+}
+function stopPlayIfRunning() { if (P.playing) pPause(); }
+$('#playBtn').onclick = openPlay;
+$('#pClose').onclick = () => closePlay(true);
+
+function pPos() {
+  if (P.audio) return (P.audio.currentTime - offset()) * P.song.bpm / 60;
+  if (!P.playing) return P.pausedPos;
+  return (actx.currentTime - P.t0) * bpmEff() / 60;
+}
+function evIndexAt(beat) {
+  const ev = P.parsed.events;
+  if (beat < 0 || !ev.length) return -1;
+  let lo = 0, hi = ev.length - 1;
+  if (beat >= ev[hi].start + ev[hi].len) return ev.length;
+  while (lo < hi) { const m = (lo + hi + 1) >> 1; if (ev[m].start <= beat) lo = m; else hi = m - 1; }
+  return lo;
+}
+function patternFor(ev) {
+  const st = P.song.strums || [];
+  if (!st.length) return 'D-DU-UDU';
+  const i = P.strumSel >= 0 ? P.strumSel : (ev && ev.strum != null ? ev.strum : 0);
+  return (st[i] || st[0]).pattern;
+}
+async function lockWake(on) {
+  try {
+    if (on && 'wakeLock' in navigator && !P.wake) P.wake = await navigator.wakeLock.request('screen');
+    if (!on && P.wake) { P.wake.release(); P.wake = null; }
+  } catch (e) {}
+}
+function pPlay() {
+  const c = ctx();
+  if (P.audio) {
+    P.audio.playbackRate = P.rate;
+    P.audio.play().catch(() => toast('Не удалось воспроизвести файл'));
+    P.lastTick = Math.floor(pPos() * 4);
+  } else {
+    let start = P.pausedPos;
+    if (start >= P.parsed.total) start = 0;
+    const ci = $('#pCountIn').checked && start <= 0.001 ? P.song.bpb : 0;
+    const from = start - ci;
+    P.t0 = c.currentTime + 0.12 - from * 60 / bpmEff();
+    P.lastTick = Math.ceil(from * 4) - 1;
+  }
+  P.playing = true;
+  clearInterval(P.timer); P.timer = setInterval(pSchedule, 25); pSchedule();
+  $('#pPlay').textContent = '❚❚';
+  lockWake(true);
+}
+function pPause() {
+  if (!P.playing) return;
+  P.pausedPos = Math.max(0, pPos());
+  P.playing = false;
+  clearInterval(P.timer);
+  if (P.audio) P.audio.pause();
+  muteGuitar();
+  $('#pPlay').textContent = '▶';
+  lockWake(false);
+}
+function pToggle() { P.playing ? pPause() : pPlay(); }
+function pSeek(beat) {
+  beat = clamp(beat, 0, P.parsed.total);
+  muteGuitar();
+  if (P.audio) {
+    P.audio.currentTime = Math.max(0, offset() + beat * 60 / P.song.bpm);
+    P.lastTick = Math.floor(beat * 4) - 1;
+  } else if (P.playing) {
+    P.t0 = actx.currentTime + 0.05 - beat * 60 / bpmEff();
+    P.lastTick = Math.ceil(beat * 4) - 1;
+  } else P.pausedPos = beat;
+  updateUI(pPos(), true);
+}
+function setRate(r) {
+  const pos = P.playing && !P.audio ? pPos() : null;
+  P.rate = r;
+  if (P.audio) P.audio.playbackRate = r;
+  if (pos != null) { P.t0 = actx.currentTime - pos * 60 / bpmEff(); P.lastTick = Math.floor(pos * 4); }
+  $('#pRate').textContent = Math.round(r * 100) + '%';
+  $$('#pRates button').forEach(b => b.classList.toggle('on', +b.dataset.r === r));
+}
+function tickTime(k) {
+  const beat = k / 4;
+  if (P.audio) {
+    const audioSec = offset() + beat * 60 / P.song.bpm;
+    return actx.currentTime + (audioSec - P.audio.currentTime) / (P.audio.playbackRate || 1);
+  }
+  return P.t0 + beat * 60 / bpmEff();
+}
+function pSchedule() {
+  if (!P.playing) return;
+  if (P.audio && P.audio.paused) return;
+  const now = actx.currentTime, bpb = P.song.bpb;
+  for (let guard = 0; guard < 64; guard++) {
+    const k = P.lastTick + 1, t = tickTime(k);
+    if (t > now + 0.12) break;
+    P.lastTick = k;
+    if (t < now - 0.03) continue;
+    const beat = k / 4, isBeat = k % 4 === 0;
+    if (beat < 0) { if (isBeat && !P.audio) click(t, mod(beat, bpb) === 0, 0.9); continue; }
+    if (beat >= P.parsed.total) continue;
+    if (P.click && isBeat) click(t, mod(beat, bpb) === 0, 0.6);
+    if (P.guitar) {
+      const ev = P.parsed.events[evIndexAt(beat)];
+      if (!ev || !ev.shape) continue;
+      const pat = patternFor(ev), n = pat.length, slotLen = bpb / n, si = mod(beat, bpb) / slotLen;
+      if (Math.abs(si - Math.round(si)) > 1e-6) continue;
+      playSlot(pat[Math.round(si) % n], ev.shape.f, t, P.song.capo || 0);
+    }
+  }
+}
+function pFrame() {
+  const pos = pPos();
+  updateUI(pos, false);
+  if (P.playing && !P.audio && pos >= P.parsed.total + 0.25) { pPause(); P.pausedPos = 0; toast('Песня закончилась 🎉'); }
+  P.raf = requestAnimationFrame(pFrame);
+}
+let lastStrumKey = '';
+function updateUI(pos, force) {
+  const s = P.song, bpb = s.bpb, ev = P.parsed.events, total = P.parsed.total;
+  if (!P.seeking) $('#pSeek').value = clamp(pos, 0, total);
+  $('#pTime').textContent = fmtTime(Math.max(0, pos) * 60 / s.bpm);
+  const idx = evIndexAt(pos);
+  const e = ev[idx];
+  // счёт долей
+  const inBar = mod(pos, bpb), beatNo = Math.floor(inBar);
+  $$('#pDots i').forEach((d, i) => d.classList.toggle('on', (P.playing || pos > 0) && i === beatNo));
+  $('#pBar').textContent = pos >= 0 && pos < total ? `такт ${Math.floor(pos / bpb) + 1} из ${Math.ceil(total / bpb)}` : '';
+  if (pos < 0) {
+    $('#pChord').innerHTML = `<span class="countin">${Math.ceil(-pos)}</span>`;
+    $('#pNext').innerHTML = 'Отсчёт… первый аккорд: <b>' + esc(ev[0] ? ev[0].chord : '—') + '</b>';
+    if (P.curEv !== -1) { P.curEv = -1; $('#pDiag').innerHTML = ev[0] ? chordSVG(ev[0].chord, 92) : ''; setActiveSeg(-1); renderKaraoke(0, true); }
+    renderStrumBar(ev[0], -1);
+    return;
+  }
+  if (idx !== P.curEv || force) {
+    P.curEv = idx;
+    if (e) {
+      const cur = $('#pChord');
+      cur.textContent = e.chord; cur.classList.remove('pulse'); void cur.offsetWidth; cur.classList.add('pulse');
+      $('#pDiag').innerHTML = e.shape ? chordSVG(e.chord, 92) : '';
+      $('#pSec').textContent = P.parsed.sections[P.parsed.lines[e.li].si].name || '';
+    } else {
+      $('#pChord').textContent = idx >= ev.length ? 'Конец' : '—';
+      $('#pDiag').innerHTML = '';
+    }
+    setActiveSeg(idx);
+    if (e) renderKaraoke(e.li, force);
+  }
+  // следующий аккорд
+  if (e) {
+    let j = idx + 1; while (j < ev.length && ev[j].chord === e.chord) j++;
+    const nx = ev[j];
+    if (nx) {
+      const left = nx.start - pos, soon = left <= bpb;
+      $('#pNext').innerHTML = `далее <b>${esc(nx.chord)}</b> <span class="${soon ? 'soon' : ''}">через ${Math.ceil(left)} ${plural(Math.ceil(left), 'долю', 'доли', 'долей')}</span>`;
+    } else $('#pNext').innerHTML = 'последний аккорд';
+    const el = P.segEls[idx];
+    if (el) el.style.setProperty('--p', clamp((pos - e.start) / e.len, 0, 1).toFixed(3));
+    const kel = $('#pLine [data-ev="' + idx + '"]');
+    if (kel) kel.style.setProperty('--p', clamp((pos - e.start) / e.len, 0, 1).toFixed(3));
+  } else $('#pNext').innerHTML = '';
+  renderStrumBar(e, pos);
+}
+function plural(n, a, b, c) { const m10 = n % 10, m100 = n % 100; return m10 === 1 && m100 !== 11 ? a : m10 >= 2 && m10 <= 4 && (m100 < 10 || m100 >= 20) ? b : c; }
+function renderStrumBar(e, pos) {
+  const pat = patternFor(e), key = pat + '|' + P.song.bpb;
+  if (key !== lastStrumKey) { $('#pStrum').innerHTML = strumHTML(pat, P.song.bpb); lastStrumKey = key; }
+  const n = pat.length, si = pos < 0 ? -1 : Math.floor(mod(pos, P.song.bpb) / (P.song.bpb / n));
+  $$('#pStrum .s').forEach((el, i) => el.classList.toggle('on', P.guitar !== null && i === si && (P.playing || pos > 0)));
+}
+function setActiveSeg(idx) {
+  $$('#pChart .seg.on').forEach(x => x.classList.remove('on'));
+  const el = P.segEls[idx];
+  if (el) {
+    el.classList.add('on');
+    if ($('#pAutoScroll').checked) {
+      const wrap = $('#pChartWrap'), r = el.getBoundingClientRect(), wr = wrap.getBoundingClientRect();
+      if (r.top < wr.top + 30 || r.bottom > wr.bottom - wr.height * 0.45)
+        wrap.scrollTo({ top: wrap.scrollTop + (r.top - wr.top) - wr.height * 0.3, behavior: 'smooth' });
+    }
+  }
+}
+function renderKaraoke(li, force) {
+  if (li === P.curLine && !force) {
+    $$('#pLine .seg.on').forEach(x => x.classList.remove('on'));
+    const k = $('#pLine [data-ev="' + P.curEv + '"]'); if (k) k.classList.add('on');
+    return;
+  }
+  P.curLine = li;
+  const lines = P.parsed.lines, bpb = P.song.bpb;
+  const cur = lines[li], nxt = lines[li + 1];
+  $('#pLine').innerHTML = cur ? lineHTML(cur, bpb) : '';
+  $('#pLine2').innerHTML = nxt ? lineHTML(nxt, bpb, 'next') : '';
+  const k = $('#pLine [data-ev="' + P.curEv + '"]'); if (k) k.classList.add('on');
+}
+$('#pPlay').onclick = pToggle;
+$('#pRestart').onclick = () => { const was = P.playing; pPause(); P.pausedPos = 0; if (P.audio) P.audio.currentTime = 0; updateUI(pPos(), true); if (was) pPlay(); };
+$('#pClick').onclick = e => { P.click = !P.click; e.currentTarget.classList.toggle('on', P.click); };
+$('#pGuitar').onclick = e => { P.guitar = !P.guitar; e.currentTarget.classList.toggle('on', P.guitar); if (!P.guitar) muteGuitar(); };
+$('#pRate').onclick = () => { const i = RATES.indexOf(P.rate); setRate(RATES[(i + 1) % RATES.length]); };
+$('#pRates').addEventListener('click', e => { const b = e.target.closest('[data-r]'); if (b) setRate(+b.dataset.r); });
+$('#pStrumSel').onchange = e => { P.strumSel = +e.target.value; };
+$('#pSetBtn').onclick = () => $('#pSheet').hidden = !$('#pSheet').hidden;
+$('#pSheetClose').onclick = () => $('#pSheet').hidden = true;
+const seekEl = $('#pSeek');
+seekEl.addEventListener('pointerdown', () => P.seeking = true);
+seekEl.addEventListener('input', () => { if (!P.playing || P.audio) pSeek(+seekEl.value); });
+seekEl.addEventListener('change', () => { P.seeking = false; pSeek(+seekEl.value); });
+$('#pChart').addEventListener('click', e => {
+  const el = e.target.closest('[data-ev]'); if (!el) return;
+  pSeek(P.parsed.events[+el.dataset.ev].start);
+});
+
+/* --- синхронизация с записью --- */
+function unloadAudio() {
+  if (P.audio) { P.audio.pause(); P.audio.src = ''; }
+  if (P.audioUrl) URL.revokeObjectURL(P.audioUrl);
+  P.audio = null; P.audioUrl = null;
+  $('#pSyncCtl').hidden = true; $('#pFile').value = '';
+  $('#pCountIn').disabled = false;
+}
+$('#pFile').onchange = e => {
+  const f = e.target.files[0]; if (!f) return;
+  pPause(); unloadAudio();
+  P.audioUrl = URL.createObjectURL(f);
+  const a = new Audio(P.audioUrl);
+  a.preservesPitch = true; a.mozPreservesPitch = true; a.webkitPreservesPitch = true;
+  a.playbackRate = P.rate;
+  a.addEventListener('ended', () => { pPause(); });
+  a.addEventListener('pause', () => { if (P.playing) pPause(); });
+  P.audio = a;
+  $('#pSyncCtl').hidden = false; $('#pCountIn').disabled = true;
+  if (P.guitar) $('#pGuitar').click();
+  if (P.click) $('#pClick').click();
+  $('#pOffset').value = offset().toFixed(2);
+  toast('Запись загружена. Нажмите ▶, а затем «Начало здесь» на первом аккорде');
+};
+function setOffset(v) {
+  P.song.offset = Math.round(v * 100) / 100;
+  $('#pOffset').value = P.song.offset.toFixed(2);
+  saveSongs();
+  P.lastTick = Math.floor(pPos() * 4);
+  muteGuitar();
+}
+$('#pOffset').onchange = e => setOffset(parseFloat(e.target.value) || 0);
+$('#pOffMinus').onclick = () => setOffset(offset() - 0.05);
+$('#pOffPlus').onclick = () => setOffset(offset() + 0.05);
+$('#pTapStart').onclick = () => { if (P.audio) { setOffset(P.audio.currentTime); toast('Начало песни отмечено'); } };
+$('#pTapBar').onclick = () => {
+  if (!P.audio) return;
+  const at = P.audio.currentTime, pos = (at - offset()) * P.song.bpm / 60;
+  const bar = Math.max(0, Math.round(pos / P.song.bpb) * P.song.bpb);
+  setOffset(at - bar * 60 / P.song.bpm);
+  toast('Такт подровнен');
+};
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && P.playing) lockWake(true); });
+
+/* ================= Установка (PWA) ================= */
+let installEvt = null;
+window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); installEvt = e; $('#installBtn').hidden = false; });
+$('#installBtn').onclick = async () => {
+  if (!installEvt) return;
+  installEvt.prompt();
+  try { await installEvt.userChoice; } catch (e) {}
+  installEvt = null; $('#installBtn').hidden = true;
+};
+window.addEventListener('appinstalled', () => { $('#installBtn').hidden = true; toast('Приложение установлено'); });
+if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').then(r => r).catch(() => {}));
+}
+
+/* ================= Старт ================= */
+mSetBpm(M.bpm); mDots();
+renderSongList();
+history.replaceState({ v: 'songs' }, '');
+</script>
+</body>
+</html>
