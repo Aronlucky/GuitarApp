@@ -486,7 +486,7 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
         Слова пишите сразу после аккорда: <code>[Am]слова строки [G]продолжение</code>.
         <code>{strum: 2}</code> — дальше играть 2-м боем. <code>{comment: текст}</code> — заметка.
       </div>
-      <label class="field">Бой (по строке: «Название: узор»; D — вниз, U — вверх, - — пауза, x — глушение, 1–6 — щипок струны)
+      <label class="field">Бой (по строке: «Название: узор»; D — вниз, U — вверх, - — пауза, x — глушение, 1–6 — щипок струны, | — граница такта для боя на несколько тактов)
         <textarea id="edStrums" spellcheck="false" style="min-height:80px"></textarea>
       </label>
       <label class="field">Табы и заметки (моноширинный текст)
@@ -671,8 +671,8 @@ function chordSVG(name, w = 80) {
 function parseChart(text, bpb) {
   bpb = Number(bpb) || 4;
   const out = { sections: [], events: [], lines: [], total: 0 };
-  let sec = null, beat = 0, strum = null;
-  const newSec = name => { sec = { name, lines: [], strum }; out.sections.push(sec); };
+  let sec = null, beat = 0, strum = null, strumStart = 0;
+  const newSec = name => { sec = { name, lines: [], strum }; out.sections.push(sec); strumStart = beat; };
   String(text || '').split(/\r?\n/).forEach(raw => {
     const line = raw.replace(/\s+$/, '');
     if (!line.trim()) return;
@@ -681,6 +681,7 @@ function parseChart(text, bpb) {
       const k = m[1].toLowerCase(), v = (m[2] || '').trim();
       if (k === 'strum') {
         strum = Math.max(0, (parseInt(v, 10) || 1) - 1);
+        strumStart = beat;
         if (sec && !sec.lines.some(l => l.segs)) sec.strum = strum;
         else if (sec) sec.lines.push({ strumMark: strum });
       }
@@ -711,7 +712,7 @@ function parseChart(text, bpb) {
     ln.segs.forEach(s => {
       if (s.chord == null) return;
       const rest = /^(-|N\.?C\.?|—)$/i.test(s.chord);
-      const ev = { start: beat, len: s.beats, chord: rest ? '—' : s.chord, shape: rest ? null : shapeOf(s.chord), strum, li: ln.li, i: out.events.length };
+      const ev = { start: beat, len: s.beats, chord: rest ? '—' : s.chord, shape: rest ? null : shapeOf(s.chord), strum, strumStart, li: ln.li, i: out.events.length };
       s.ev = ev.i; out.events.push(ev); beat += s.beats;
     });
     ln.end = beat;
@@ -758,9 +759,24 @@ function slotLabels(n, bpb) {
     return String(i + 1);
   });
 }
+// узор боя может занимать несколько тактов: такты разделяются «|»
+const patBars = pat => String(pat || '').split('|').filter(Boolean);
+// какая ячейка узора звучит на доле beat (отсчёт тактов — от начала части/команды {strum})
+function strumSlot(pat, beat, origin, bpb) {
+  const bars = patBars(pat);
+  if (!bars.length) return null;
+  const rel = beat - (origin || 0);
+  const bar = mod(Math.floor(rel / bpb + 1e-9), bars.length), n = bars[bar].length;
+  const x = mod(rel, bpb) / (bpb / n), i = Math.round(x);
+  return { bar, i: Math.floor(x + 1e-9) % n, n, exact: Math.abs(x - i) < 1e-6, ch: bars[bar][i % n] };
+}
 function strumHTML(pattern, bpb) {
+  const bars = patBars(pattern);
+  return bars.map((b, k) => strumBarHTML(b, bpb, k, bars.length)).join('');
+}
+function strumBarHTML(pattern, bpb, bar, nBars) {
   const n = pattern.length, labels = slotLabels(n, bpb), per = n / bpb;
-  return `<div class="strum" style="grid-template-columns:repeat(${n},1fr)">${[...pattern].map((ch, i) => {
+  return `${nBars > 1 ? `<div class="legend" style="margin:${bar ? 8 : 0}px 0 3px">такт ${bar + 1}</div>` : ''}<div class="strum" data-bar="${bar}" style="grid-template-columns:repeat(${n},1fr)">${[...pattern].map((ch, i) => {
     let g = '·', cls = 'r';
     if (ch === 'D') { g = '↓'; cls = 'd'; } else if (ch === 'U') { g = '↑'; cls = 'u'; }
     else if (ch === 'x' || ch === 'X') { g = '×'; cls = 'r'; } else if (/[1-6]/.test(ch)) { g = ch; cls = 'p'; }
@@ -772,7 +788,7 @@ function parseStrums(text) {
   return String(text || '').split(/\r?\n/).map(l => l.trim()).filter(Boolean).map(l => {
     const i = l.lastIndexOf(':');
     const name = i > 0 ? l.slice(0, i).trim() : 'Бой';
-    const pattern = (i > 0 ? l.slice(i + 1) : l).replace(/\s+/g, '').replace(/[^DUx1-6\-]/gi, c => '').replace(/d/g, 'D').replace(/u/g, 'U');
+    const pattern = (i > 0 ? l.slice(i + 1) : l).replace(/\s+/g, '').replace(/[^DUx1-6\-|]/gi, '').replace(/\|+/g, '|').replace(/^\||\|$/g, '').replace(/d/g, 'D').replace(/u/g, 'U');
     return { name, pattern };
   }).filter(s => s.pattern.length);
 }
@@ -780,33 +796,33 @@ const strumsToText = arr => arr.map(s => `${s.name}: ${s.pattern}`).join('\n');
 
 /* ================= Песни по умолчанию ================= */
 const rep = (line, n) => Array(n).fill(line).join('\n');
-const WW = '[Em7] [G] [Dsus4] [A7sus4]';
+const WW = '[Em7:2] [G:2] [Dsus4:2] [A7sus4:2]';
 const WW_PRE = '[Cadd9:2] [Dsus4:2] [Em7]';
 const WW_CH = '[Cadd9:2] [Em7:2] [G:2] [Em7:2]';
 const AM_V = '[Dm] [Dm] [Bb/D] [Bb/D]';
 
 const DEFAULT_SONGS = [
   {
-    id: 'wonderwall', ver: 2, title: 'Wonderwall', artist: 'Oasis', color: '#2563eb',
+    id: 'wonderwall', ver: 3, title: 'Wonderwall', artist: 'Oasis', color: '#2563eb',
     bpm: 87, bpb: 4, capo: 2, key: 'F#m (формы Em)',
     strums: [
-      { name: 'Куплет и вступление (шестнадцатые)', pattern: 'D-D-D-DU-UDUD-DU' },
+      { name: 'Вступление и куплеты (2 такта, шестнадцатые)', pattern: 'D-D-D-DUDUD-D-DU|DUD-D-DU-U-UDUDU' },
       { name: 'Предприпев', pattern: 'D-DU-UDU' },
       { name: 'Припев (смена аккорда каждые 2 доли)', pattern: 'D-DUD-DU' },
       { name: 'Удары перед припевом', pattern: 'D---D---' },
       { name: 'Для новичков (четверти)', pattern: 'DDDD' }
     ],
     chart: [
-      '{section: Вступление}', '{strum: 1}', WW,
-      '{section: Куплет 1}', rep(WW, 3),
-      '{section: Куплет 2}', rep(WW, 3),
+      '{section: Вступление}', '{strum: 1}', rep(WW, 4),
+      '{section: Куплет 1}', rep(WW, 4),
+      '{section: Куплет 2}', rep(WW, 4),
       '{section: Предприпев}', '{strum: 2}', rep(WW_PRE, 3), '{strum: 4}', '[Cadd9:2] [Dsus4:2] [A7sus4] [A7sus4]',
       '{section: Припев}', '{strum: 3}', rep(WW_CH, 4),
-      '{section: Куплет 3}', '{strum: 1}', rep(WW, 3),
+      '{section: Куплет 3}', '{strum: 1}', rep(WW, 4),
       '{section: Предприпев}', '{strum: 2}', rep(WW_PRE, 3), '{strum: 4}', '[Cadd9:2] [Dsus4:2] [A7sus4] [A7sus4]',
       '{section: Припев}', '{strum: 3}', rep(WW_CH, 4),
       '{section: Припев}', rep(WW_CH, 4),
-      '{section: Кода}', rep(WW_CH, 6), '{strum: 4}', '[Em7]'
+      '{section: Кода}', rep(WW_CH, 8), '{strum: 4}', '[Em7]'
     ].join('\n'),
     tabs:
 `Каподастр на 2-м ладу. Все лады в табах — от каподастра.
@@ -822,7 +838,8 @@ D |---2-----0-----0------2-------2---|
 A |---2-----2-----x------0-------3---|
 E |---0-----3-----x------x-------x---|
 
-Упражнение: перебор для смены аккордов (по такту на аккорд)
+Упражнение: перебор для смены аккордов (медленно, по такту на аккорд;
+в песне каждый аккорд звучит 2 доли)
      Em7               G
 e |---------3-------3-|---------3-------3-|
 B |-------3---3---3---|-------3---3---3---|
@@ -840,8 +857,11 @@ A |-------------------|-0-----------------|
 E |-------------------|-------------------|
 
 Советы:
-• Бой играется от кисти, рука двигается вверх-вниз непрерывно
-  (шестнадцатыми), а струны задеваются только на отмеченных долях.
+• Бой куплета — двухтактный, шестнадцатыми (1 e + a), по 2 доли на аккорд:
+  такт 1: ↓ · ↓ · | ↓ · ↓ ↑ | ↓ ↑ ↓ · | ↓ · ↓ ↑   (Em7 → G)
+  такт 2: ↓ ↑ ↓ · | ↓ · ↓ ↑ | · ↑ · ↑ | ↓ ↑ ↓ ↑   (Dsus4 → A7sus4)
+• Рука двигается вверх-вниз непрерывно, а струны задеваются только
+  на отмеченных долях (· — рука проходит мимо).
 • Дальше от каподастра звук тусклее — бейте ближе к розетке.
 • Переходы Em7 → G → Dsus4 → A7sus4 меняют только пальцы на 5-6 и 4-3 струнах.`
   },
@@ -1014,20 +1034,26 @@ $('#songTabs').addEventListener('click', e => {
 let listenRaf = 0;
 $('#pane-strum').addEventListener('click', e => {
   const b = e.target.closest('[data-listen]'); if (!b) return;
-  const s = curSong, st = s.strums[Number(b.dataset.listen)], p = parseChart(s.chart, s.bpb);
-  const ev = p.events.find(x => x.shape);
-  const frets = ev ? ev.shape.f : CHORDS.Em[0];
-  const c = ctx(), n = st.pattern.length, slot = 60 / s.bpm * s.bpb / n, t0 = c.currentTime + 0.1, bars = 2;
-  for (let i = 0; i < n * bars; i++) {
-    playSlot(st.pattern[i % n], frets, t0 + i * slot, s.capo || 0);
-    if (i % (n / s.bpb) === 0) click(t0 + i * slot, i % n === 0, 0.35);
+  const idx = Number(b.dataset.listen), s = curSong, st = s.strums[idx], p = parseChart(s.chart, s.bpb);
+  const bpb = s.bpb, nb = patBars(st.pattern).length;
+  // берём аккорды той части песни, где играется этот бой (или начало песни)
+  const first = p.events.find(x => x.shape && x.strum === idx) || p.events.find(x => x.shape);
+  const origin = first ? first.strumStart : 0, beats = bpb * Math.max(2, nb * (nb > 1 ? 1 : 2));
+  const c = ctx(), spb = 60 / s.bpm, t0 = c.currentTime + 0.1;
+  const chordAt = beat => { let e = null; for (const x of p.events) { if (x.start <= beat) e = x; else break; } return e && e.shape ? e.shape.f : CHORDS.Em[0]; };
+  for (let q = 0; q < beats * 4; q++) {
+    const rel = q / 4, sl = strumSlot(st.pattern, origin + rel, origin, bpb), t = t0 + rel * spb;
+    if (q % 4 === 0) click(t, rel % bpb === 0, 0.35);
+    if (sl && sl.exact) playSlot(sl.ch, chordAt(origin + rel), t, s.capo || 0);
   }
-  const cells = $$('.s', b.closest('.strum-card'));
+  const card = b.closest('.strum-card');
   cancelAnimationFrame(listenRaf);
   const step = () => {
-    const k = Math.floor((c.currentTime - t0) / slot);
-    cells.forEach((el, i) => el.classList.toggle('on', k >= 0 && k < n * bars && i === k % n));
-    if (k < n * bars) listenRaf = requestAnimationFrame(step);
+    const rel = (c.currentTime - t0) / spb, live = rel >= 0 && rel < beats;
+    const sl = strumSlot(st.pattern, origin + rel, origin, bpb);
+    $$('.strum', card).forEach(row => $$('.s', row).forEach((el, i) =>
+      el.classList.toggle('on', live && sl && +row.dataset.bar === sl.bar && i === sl.i)));
+    if (rel < beats) listenRaf = requestAnimationFrame(step);
   };
   step();
 });
@@ -1488,9 +1514,8 @@ function pSchedule() {
     if (P.guitar) {
       const ev = P.parsed.events[evIndexAt(beat)];
       if (!ev || !ev.shape) continue;
-      const pat = patternFor(ev), n = pat.length, slotLen = bpb / n, si = mod(beat, bpb) / slotLen;
-      if (Math.abs(si - Math.round(si)) > 1e-6) continue;
-      playSlot(pat[Math.round(si) % n], ev.shape.f, t, P.song.capo || 0);
+      const sl = strumSlot(patternFor(ev), beat, ev.strumStart, bpb);
+      if (sl && sl.exact) playSlot(sl.ch, ev.shape.f, t, P.song.capo || 0);
     }
   }
 }
@@ -1551,8 +1576,9 @@ function plural(n, a, b, c) { const m10 = n % 10, m100 = n % 100; return m10 ===
 function renderStrumBar(e, pos) {
   const pat = patternFor(e), key = pat + '|' + P.song.bpb;
   if (key !== lastStrumKey) { $('#pStrum').innerHTML = strumHTML(pat, P.song.bpb); lastStrumKey = key; }
-  const n = pat.length, si = pos < 0 ? -1 : Math.floor(mod(pos, P.song.bpb) / (P.song.bpb / n));
-  $$('#pStrum .s').forEach((el, i) => el.classList.toggle('on', P.guitar !== null && i === si && (P.playing || pos > 0)));
+  const sl = pos < 0 ? null : strumSlot(pat, pos, e ? e.strumStart : 0, P.song.bpb);
+  $$('#pStrum .strum').forEach(row => $$('.s', row).forEach((el, i) =>
+    el.classList.toggle('on', !!sl && +row.dataset.bar === sl.bar && i === sl.i && (P.playing || pos > 0))));
 }
 function setActiveSeg(idx) {
   $$('#pChart .seg.on').forEach(x => x.classList.remove('on'));
