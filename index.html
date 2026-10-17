@@ -98,8 +98,11 @@ h2{margin:0 0 4px;font-size:24px}
 /* chord chart */
 .chart{--fs:17px;font-size:var(--fs)}
 .sec{margin:0 0 18px}
+.sec-head{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-bottom:8px}
+.strum-badge{font-size:12px;color:var(--muted);background:var(--surface2);border:1px solid var(--line);border-radius:6px;padding:2px 8px}
+.strum-badge code{font-family:var(--mono);color:var(--accent);margin-left:4px}
 .sec-name{display:inline-block;font-size:12px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;color:var(--muted);
-  border:1px solid var(--line);border-radius:6px;padding:2px 8px;margin-bottom:8px}
+  border:1px solid var(--line);border-radius:6px;padding:2px 8px}
 .ln{display:flex;flex-wrap:wrap;align-items:flex-end;margin:0 0 .5em}
 .note{font-style:italic;color:var(--muted);font-size:.85em;margin:0 0 .5em}
 .seg{display:inline-flex;flex-direction:column;border-radius:6px;position:relative}
@@ -670,14 +673,18 @@ function parseChart(text, bpb) {
   bpb = Number(bpb) || 4;
   const out = { sections: [], events: [], lines: [], total: 0 };
   let sec = null, beat = 0, strum = null;
-  const newSec = name => { sec = { name, lines: [] }; out.sections.push(sec); };
+  const newSec = name => { sec = { name, lines: [], strum }; out.sections.push(sec); };
   String(text || '').split(/\r?\n/).forEach(raw => {
     const line = raw.replace(/\s+$/, '');
     if (!line.trim()) return;
     const m = line.match(/^\s*\{\s*([a-z_]+)\s*(?::\s*(.*?))?\s*\}\s*$/i);
     if (m) {
       const k = m[1].toLowerCase(), v = (m[2] || '').trim();
-      if (k === 'strum') strum = Math.max(0, (parseInt(v, 10) || 1) - 1);
+      if (k === 'strum') {
+        strum = Math.max(0, (parseInt(v, 10) || 1) - 1);
+        if (sec && !sec.lines.some(l => l.segs)) sec.strum = strum;
+        else if (sec) sec.lines.push({ strumMark: strum });
+      }
       else if (k === 'comment' || k === 'c') { if (!sec) newSec(''); sec.lines.push({ note: v }); }
       else newSec(v || 'Часть');
       return;
@@ -723,11 +730,23 @@ function segHTML(s, bpb) {
 function lineHTML(ln, bpb, cls = '') {
   return `<div class="ln${ln.lyric ? '' : ' bars'} ${cls}" data-li="${ln.li}">${ln.segs.map(s => segHTML(s, bpb)).join('')}</div>`;
 }
-function chartHTML(p, bpb) {
-  return p.sections.map(sec =>
-    `<div class="sec">${sec.name ? `<div class="sec-name">${esc(sec.name)}</div>` : ''}${
-      sec.lines.map(ln => ln.note != null ? `<div class="note">${esc(ln.note)}</div>` : lineHTML(ln, bpb)).join('')}</div>`
-  ).join('');
+function strumBadge(i, strums) {
+  if (i == null || !strums || !strums[i]) return '';
+  const st = strums[i];
+  return `<span class="strum-badge" title="${esc(st.name)}">бой ${i + 1}: ${esc(st.name)} <code>${esc(st.pattern)}</code></span>`;
+}
+function chartHTML(p, bpb, strums) {
+  let prev = null;
+  return p.sections.map(sec => {
+    const badge = sec.strum != null && sec.strum !== prev ? strumBadge(sec.strum, strums) : '';
+    if (sec.strum != null) prev = sec.strum;
+    return `<div class="sec"><div class="sec-head">${sec.name ? `<span class="sec-name">${esc(sec.name)}</span>` : ''}${badge}</div>${
+      sec.lines.map(ln => {
+        if (ln.note != null) return `<div class="note">${esc(ln.note)}</div>`;
+        if (ln.strumMark != null) { const b = ln.strumMark !== prev ? strumBadge(ln.strumMark, strums) : ''; prev = ln.strumMark; return b ? `<div class="sec-head">${b}</div>` : ''; }
+        return lineHTML(ln, bpb);
+      }).join('')}</div>`;
+  }).join('');
 }
 
 /* ================= Бой ================= */
@@ -769,24 +788,26 @@ const AM_V = '[Dm] [Dm] [Bb/D] [Bb/D]';
 
 const DEFAULT_SONGS = [
   {
-    id: 'wonderwall', title: 'Wonderwall', artist: 'Oasis', color: '#2563eb',
+    id: 'wonderwall', ver: 2, title: 'Wonderwall', artist: 'Oasis', color: '#2563eb',
     bpm: 87, bpb: 4, capo: 2, key: 'F#m (формы Em)',
     strums: [
-      { name: 'Основной бой (шестнадцатые)', pattern: 'D-D-D-DU-UDUD-DU' },
-      { name: 'Упрощённый (восьмые)', pattern: 'D-DU-UDU' },
+      { name: 'Куплет и вступление (шестнадцатые)', pattern: 'D-D-D-DU-UDUD-DU' },
+      { name: 'Предприпев', pattern: 'D-DU-UDU' },
+      { name: 'Припев (смена аккорда каждые 2 доли)', pattern: 'D-DUD-DU' },
+      { name: 'Удары перед припевом', pattern: 'D---D---' },
       { name: 'Для новичков (четверти)', pattern: 'DDDD' }
     ],
     chart: [
-      '{section: Вступление}', WW,
+      '{section: Вступление}', '{strum: 1}', WW,
       '{section: Куплет 1}', rep(WW, 3),
       '{section: Куплет 2}', rep(WW, 3),
-      '{section: Предприпев}', rep(WW_PRE, 3), '[Cadd9:2] [Dsus4:2] [A7sus4] [A7sus4]',
+      '{section: Предприпев}', '{strum: 2}', rep(WW_PRE, 3), '{strum: 4}', '[Cadd9:2] [Dsus4:2] [A7sus4] [A7sus4]',
+      '{section: Припев}', '{strum: 3}', rep(WW_CH, 4),
+      '{section: Куплет 3}', '{strum: 1}', rep(WW, 3),
+      '{section: Предприпев}', '{strum: 2}', rep(WW_PRE, 3), '{strum: 4}', '[Cadd9:2] [Dsus4:2] [A7sus4] [A7sus4]',
+      '{section: Припев}', '{strum: 3}', rep(WW_CH, 4),
       '{section: Припев}', rep(WW_CH, 4),
-      '{section: Куплет 3}', rep(WW, 3),
-      '{section: Предприпев}', rep(WW_PRE, 3), '[Cadd9:2] [Dsus4:2] [A7sus4] [A7sus4]',
-      '{section: Припев}', rep(WW_CH, 4),
-      '{section: Припев}', rep(WW_CH, 4),
-      '{section: Кода}', rep(WW_CH, 6), '[Em7]'
+      '{section: Кода}', rep(WW_CH, 6), '{strum: 4}', '[Em7]'
     ].join('\n'),
     tabs:
 `Каподастр на 2-м ладу. Все лады в табах — от каподастра.
@@ -826,7 +847,7 @@ E |-------------------|-------------------|
 • Переходы Em7 → G → Dsus4 → A7sus4 меняют только пальцы на 5-6 и 4-3 струнах.`
   },
   {
-    id: '505', title: '505', artist: 'Arctic Monkeys', color: '#be123c',
+    id: '505', ver: 1, title: '505', artist: 'Arctic Monkeys', color: '#be123c',
     bpm: 140, bpb: 4, capo: 0, key: 'Dm',
     strums: [
       { name: 'Перебор (вступление и куплеты)', pattern: '43212321' },
@@ -885,6 +906,16 @@ const clone = o => JSON.parse(JSON.stringify(o));
 let songs = store.get('ga.songs.v1', null);
 if (!Array.isArray(songs) || !songs.length) songs = clone(DEFAULT_SONGS);
 const saveSongs = () => store.set('ga.songs.v1', songs);
+// обновляем встроенные песни до новой версии, если пользователь их не редактировал
+DEFAULT_SONGS.forEach(d => {
+  const i = songs.findIndex(s => s.id === d.id);
+  if (i >= 0 && (songs[i].ver || 1) < d.ver) {
+    const touched = songs[i].edited || parseChart(songs[i].chart, songs[i].bpb).lines.some(l => l.lyric);
+    if (!touched) songs[i] = Object.assign(clone(d), { offset: songs[i].offset });
+    else { songs[i].ver = d.ver; setTimeout(() => toast(`Для «${d.title}» есть обновлённая версия: ✎ → «Сбросить к исходной»`), 800); }
+  }
+});
+saveSongs();
 let curSong = null;
 const songLen = s => parseChart(s.chart, s.bpb).total * 60 / s.bpm;
 
@@ -934,7 +965,7 @@ function renderSong() {
       Нажмите <b>✎</b> вверху и впишите их сразу после аккордов, например <code>[Em7]слова строки [G]продолжение</code> —
       аккорды встанут над нужными слогами, а в режиме игры строки будут подсвечиваться синхронно. Сохраняется на этом устройстве.</div>`}
     <div class="fs-ctl"><button class="pill-btn" data-fs="-1">A−</button><button class="pill-btn" data-fs="1">A+</button></div>
-    <div class="chart" id="songChart" style="--fs:${chartFs}px">${chartHTML(p, s.bpb)}</div>`;
+    <div class="chart" id="songChart" style="--fs:${chartFs}px">${chartHTML(p, s.bpb, s.strums)}</div>`;
   $('#pane-tabs').innerHTML = renderTabs(s.tabs || '');
   $('#pane-strum').innerHTML = (s.strums || []).map((st, i) => `
     <div class="card strum-card">
@@ -1043,6 +1074,7 @@ $('#edSave').onclick = () => {
   const st = parseStrums($('#edStrums').value);
   s.strums = st.length ? st : [{ name: 'Бой', pattern: 'D-DU-UDU' }];
   s.tabs = $('#edTabs').value;
+  s.edited = true;
   if (!songs.includes(s)) songs.push(s);
   saveSongs(); editor.close(); renderSongList();
   if (curSong === s) renderSong(); else openSong(s.id);
@@ -1329,7 +1361,7 @@ function openPlay() {
   P.song = s; P.parsed = parseChart(s.chart, s.bpb);
   P.pausedPos = 0; P.curEv = -2; P.curLine = -2; P.playing = false; P.strumSel = -1;
   $('#pTitle').innerHTML = `${esc(s.title)} <span>· ${esc(s.artist || '')}${s.capo ? ` · капо ${s.capo}` : ''}</span>`;
-  $('#pChart').innerHTML = chartHTML(P.parsed, s.bpb);
+  $('#pChart').innerHTML = chartHTML(P.parsed, s.bpb, s.strums);
   P.segEls = []; $$('#pChart [data-ev]').forEach(el => P.segEls[+el.dataset.ev] = el);
   P.lineEls = []; $$('#pChart [data-li]').forEach(el => P.lineEls[+el.dataset.li] = el);
   $('#pSeek').max = P.parsed.total;
