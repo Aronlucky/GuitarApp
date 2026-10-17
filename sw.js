@@ -1,5 +1,5 @@
 // Офлайн-кэш приложения: сначала сеть для index.html (чтобы приходили обновления), иначе кэш.
-const CACHE = 'guitar-app-v2';
+const CACHE = 'guitar-app-v3';
 const ASSETS = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './icon-maskable-512.png'];
 
 self.addEventListener('install', e => {
