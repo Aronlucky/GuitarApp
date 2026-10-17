@@ -505,6 +505,9 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
       <label class="field">Табы и заметки (моноширинный текст)
         <textarea id="edTabs" spellcheck="false"></textarea>
       </label>
+      <label class="field">Барабаны — табулатура (C — крэш, H — хэт, S — малый, B — бочка, t/T — томы; o — удар, g — тихий)
+        <textarea id="edDrums" spellcheck="false" placeholder="C |x---------------|&#10;H |x-x-x-x-x-x-x-x-|&#10;S |----o-------o---|&#10;B |o-------o-o-----|&#10;  |1e+a2e+a3e+a4e+a|"></textarea>
+      </label>
     </div>
     <div class="ef">
       <div class="row">
@@ -634,6 +637,26 @@ function drumHit(kind, time, vel = 1) {
     og.gain.setValueAtTime(0.5 * vel, time); og.gain.exponentialRampToValueAtTime(0.0001, time + 0.1);
     o.connect(og); og.connect(drumBus); o.start(time); o.stop(time + 0.12);
     n.start(time); n.stop(time + 0.22);
+  } else if (kind === 'c') { // тарелка-крэш
+    f.type = 'highpass'; f.frequency.value = 4500;
+    g.gain.setValueAtTime(0.0001, time); g.gain.exponentialRampToValueAtTime(0.42 * vel, time + 0.003);
+    g.gain.exponentialRampToValueAtTime(0.0001, time + 1.6);
+    n.start(time, Math.random() * 0.3); n.stop(time + 1.65);
+  } else if (kind === 'tb') { // бубен: две быстрые «звенелки»
+    f.type = 'bandpass'; f.frequency.value = 8200; f.Q.value = 1.4;
+    g.gain.setValueAtTime(0.0001, time); g.gain.exponentialRampToValueAtTime(0.5 * vel, time + 0.002);
+    g.gain.exponentialRampToValueAtTime(0.12 * vel, time + 0.025);
+    g.gain.exponentialRampToValueAtTime(0.0001, time + 0.13);
+    n.start(time, Math.random() * 0.5); n.stop(time + 0.15);
+  } else if (kind === 't' || kind === 'T') { // томы: t — высокий, T — напольный
+    const o = c.createOscillator(), og = c.createGain(), hi = kind === 't';
+    o.frequency.setValueAtTime(hi ? 210 : 115, time); o.frequency.exponentialRampToValueAtTime(hi ? 150 : 80, time + 0.2);
+    og.gain.setValueAtTime(0.0001, time); og.gain.exponentialRampToValueAtTime(0.9 * vel, time + 0.003);
+    og.gain.exponentialRampToValueAtTime(0.0001, time + 0.45);
+    o.connect(og); og.connect(drumBus); o.start(time); o.stop(time + 0.5);
+    f.type = 'lowpass'; f.frequency.value = 2500;
+    g.gain.setValueAtTime(0.15 * vel, time); g.gain.exponentialRampToValueAtTime(0.0001, time + 0.05);
+    n.start(time); n.stop(time + 0.06);
   } else { // хай-хэт: h — закрытый, o — открытый
     const open = kind === 'o';
     f.type = 'highpass'; f.frequency.value = 7500;
@@ -650,6 +673,59 @@ const DRUM_STYLES = [
   { name: 'Спокойный (бочка + хэт)', k: 'x-------x-------', s: '----------------', h: 'x-x-x-x-x-x-x-x-' },
   { name: 'Драйв (бочка на каждую долю)', k: 'x---x---x---x---', s: '----x-------x---', h: 'x-x-x-x-x-x-x-x-' }
 ];
+/* Разбор барабанной табулатуры (формат как на сайтах с табами):
+   строки «C |x---|», «H |…|», «S |…|», «B |…|», «t»/«T» — томы, строка счёта «|1e+a2e+a…|»,
+   строка повторов «|=== 8x ===|». Пробел в строке счёта — 32-я доля после предыдущей отметки.
+   Комментарии «(Tambourine on 2 & 4…)» / «(Tambourine … 8th notes…)» включают бубен. */
+function parseDrumTab(text) {
+  const hits = [];
+  let beat = 0, tamb = null, block = [];
+  const VEL = { C: { x: 0.8, X: 1.15 }, H: { x: 0.45, X: 0.7, o: 0.5 }, S: { o: 0.85, O: 1.1, g: 0.22, x: 0.6 },
+    B: { o: 1, O: 1.2 }, t: { o: 0.85, g: 0.4 }, T: { o: 0.9, g: 0.4 } };
+  const KIND = { C: 'c', H: 'h', S: 's', B: 'k', t: 't', T: 'T' };
+  const flush = () => {
+    const lines = block; block = [];
+    const label = lines.find(l => /^\s*\|[\s1-4e+a|]+$/.test(l) && /1/.test(l));
+    if (!label) return;
+    const pipes = [...label].map((ch, i) => ch === '|' ? i : -1).filter(i => i >= 0);
+    const rows = lines.filter(l => /^\s*[A-Za-z]\s*\|/.test(l)).map(l => ({ ins: l.trim()[0], s: l }));
+    const rep = lines.find(l => /=+\s*\d+\s*x\s*=+/.test(l));
+    for (let b = 0; b + 1 < pipes.length; b++) {
+      const a = pipes[b], z = pipes[b + 1], pos = [];
+      let n = 0;
+      for (let c = a + 1; c < z; c++) {
+        if (label[c] && label[c] !== ' ') pos.push(n++); else pos.push(n - 0.5);
+      }
+      const len = n / 4, barHits = [];
+      rows.forEach(r => {
+        const kind = KIND[r.ins]; if (!kind) return;
+        for (let c = a + 1; c < z; c++) {
+          const ch = r.s[c];
+          if (!ch || ch === '-' || ch === ' ' || ch === '|') continue;
+          const vel = (VEL[r.ins] || {})[ch] || 0.7;
+          barHits.push({ at: Math.max(0, pos[c - a - 1]) / 4, kind, vel });
+        }
+      });
+      let times = 1;
+      if (rep && rep[a] === '|') { const m = rep.slice(a, z + 1).match(/(\d+)\s*x/); if (m) times = +m[1]; }
+      for (let k = 0; k < times; k++) {
+        barHits.forEach(h => hits.push({ beat: beat + h.at, kind: h.kind, vel: h.vel }));
+        if (tamb === '24') for (let q = 1; q < len; q += 2) hits.push({ beat: beat + q, kind: 'tb', vel: 0.8 });
+        if (tamb === '8') for (let q = 0; q < len; q += 0.5) hits.push({ beat: beat + q, kind: 'tb', vel: Number.isInteger(q) ? 0.85 : 0.4 });
+        beat += len;
+      }
+    }
+  };
+  String(text || '').split(/\r?\n/).forEach(l => {
+    if (/^\s*\[(verse|bridge|intro)/i.test(l)) { flush(); tamb = null; }
+    const tm = l.match(/tambourine[^)]*?(2\s*&\s*4|8th)/i);
+    if (tm) { flush(); tamb = /8th/i.test(tm[1]) ? '8' : '24'; }
+    if (l.includes('|')) block.push(l); else flush();
+  });
+  flush();
+  hits.sort((x, y) => x.beat - y.beat);
+  return { hits, total: beat };
+}
 function drumTick(k, t, bpb, style) {
   const st = DRUM_STYLES[style] || DRUM_STYLES[0];
   const per = bpb * 4, i = mod(k, per);
@@ -882,7 +958,7 @@ const AM_V = '[Dm] [Dm] [Bb/D] [Bb/D]';
 
 const DEFAULT_SONGS = [
   {
-    id: 'wonderwall', ver: 4, drumStyle: 1, title: 'Wonderwall', artist: 'Oasis', color: '#2563eb',
+    id: 'wonderwall', ver: 5, drumStyle: 1, title: 'Wonderwall', artist: 'Oasis', color: '#2563eb',
     bpm: 87, bpb: 4, capo: 2, key: 'F#m (формы Em)',
     strums: [
       { name: 'Вступление и куплеты (2 такта, шестнадцатые)', pattern: 'D-D-D-DUDUD-D-DU|DUD-D-DU-U-UDUDU' },
@@ -891,21 +967,183 @@ const DEFAULT_SONGS = [
       { name: 'Удары перед припевом', pattern: 'D---D---' },
       { name: 'Конец 1-го припева: C → D (смена на «2a»), на «4+» — открытые струны', pattern: 'D-D-D-DUDUD-DUDU' },
       { name: 'Конец 1-го припева: целый такт A7sus4', pattern: '-UD-D--U-U-UDUDU' },
+      { name: 'Удар и держать', pattern: 'D---------------' },
       { name: 'Для новичков (четверти)', pattern: 'DDDD' }
     ],
     chart: [
       '{section: Вступление}', '{strum: 1}', rep(WW, 4),
       '{section: Куплет 1}', rep(WW, 4),
-      '{section: Куплет 2}', rep(WW, 4),
-      '{section: Предприпев}', '{strum: 2}', rep(WW_PRE, 3), '{strum: 4}', '[Cadd9:2] [Dsus4:2] [A7sus4] [A7sus4]',
+      '{section: Куплет 2 — вступают барабаны}', rep(WW, 4),
+      '{section: Предприпев}', '{strum: 2}', rep(WW_PRE, 3), '{strum: 4}', '[Cadd9:2] [Dsus4:2] [A7sus4]',
       '{section: Припев}', '{strum: 3}', rep(WW_CH, 3),
-      '{strum: 5}', '[Cadd9:1.75] [Dsus4:1.75] [Откр:0.5]', '{strum: 6}', '[A7sus4]',
+      '{strum: 5}', '[Cadd9:1.75] [Dsus4:1.75] [Откр:0.5]',
+      '{comment: такт на 2/4}', '{strum: 6}', '[A7sus4:2]',
+      '{section: Проигрыш}', '{strum: 7}', '[A7sus4]', '{strum: 6}', '[A7sus4]',
       '{section: Куплет 3}', '{strum: 1}', rep(WW, 4),
-      '{section: Предприпев}', '{strum: 2}', rep(WW_PRE, 3), '{strum: 4}', '[Cadd9:2] [Dsus4:2] [A7sus4] [A7sus4]',
+      '{section: Предприпев}', '{strum: 2}', rep(WW_PRE, 3), '{strum: 4}', '[Cadd9:2] [Dsus4:2] [A7sus4]',
       '{section: Припев}', '{strum: 3}', rep(WW_CH, 4),
       '{section: Припев}', rep(WW_CH, 4),
-      '{section: Кода}', rep(WW_CH, 8), '{strum: 4}', '[Em7]'
+      '{section: Припев}', rep(WW_CH, 4),
+      '{section: Кода}', rep(WW_CH, 3), '[Cadd9:2] [Em7:2]', '{comment: такт на 2/4}', '{strum: 7}', '[Em7:2]'
     ].join('\n'),
+    drumTab: `[Intro]
+(0:00)
+[Verse 1]
+("Today is gonna be the day…")
+(0:22)
+  |====== 8x ======|====== 8x ======|
+H |----------------|----------------|
+  |1e+a2e+a3e+a4e+a|1e+a2e+a3e+a4e+a|
+
+[Verse 2]
+("Backbeat the word was on the street…") [0:43]
+C |----------------|x---------------|----------------|----------------|
+H |----------------|--x-x-x-x-x-x-x-|x-x-x-x-x-x-x-x-|x-x-x-x-x-x-x-x-|
+S |------------o-oo|----o--g-g--o--g|----o--g----o--g|----o--g-g--o--g|
+B |----------------|o--o----o-o-----|o-o-----o-o-----|o-o-----o-o-----|
+  |1e+a2e+a3e+a4e+a|1e+a2e+a3e+a4e+a|1e+a2e+a3e+a4e+a|1e+a2e+a3e+a4e+a|
+
+  |====== 2x ======|
+H |x-x-x-x-x-x-x-x-|x-x-x-x-x-x-x-x-|x-x-x-x-x-x----------|
+S |----o--g----o--g|----o--g-g--o--g|-g--o--g-g--go-o---o-|
+B |o-o-----o-o-----|o-o-----o-o-----|o-o-------o------o---|
+  |1e+a2e+a3e+a4e+a|1e+a2e+a3e+a4e+a|1e+a2e+a3e+a 4 e + a |
+
+[Chorus 1]
+(Tambourine on 2 & 4, "And all the roads we have…")
+(1:06)
+C |x---------------|----------------|----------------|---------------------|
+H |--x-x-x-x-x-x-x-|x-x-x-x-x-x-x-x-|x-x-x-x-x-x-x-x-|x-x-x-x-x-x----------|
+S |----o--g----o--g|----o--g-g--o--g|----o--g----o--g|----o--g-g--go-g-o-g-|
+B |o-o-----o-o-----|o-o-----o-o-----|o-o-----o-o-----|o-o-----o-o----------|
+  |1e+a2e+a3e+a4e+a|1e+a2e+a3e+a4e+a|1e+a2e+a3e+a4e+a|1e+a2e+a3e+a 4 e + a |
+
+C |x---------------|x---x---x-------|----------------|----------------------|
+H |--x-x-x-x-x-x-x-|--x---x---x-x-x-|x-x-x-x-x-x-x-x-|x-x--x-x-x-x----------|
+S |----o--g----o-oo|---o---o---g---g|-g--o--g-g----o-|-g--go--g-g--go-g-o-g-|
+B |o-o-----o-o-----|o---o---o-------|o-o-----o-o-----|o-o------o-o----------|
+  |1e+a2e+a3e+a4e+a|1e+a2e+a3e+a4e+a|1e+a2e+a3e+a4e+a|1e+a 2e+a3e+a 4 e + a |
+
+(Tambourine switches to 8th notes, accent on 1/2/3/4)
+("Because maybe…") (1:27)
+
+C |x---------------|----------------|----------------|----------------|
+H |--x-x-x-x-x-x-x-|x-x-x-x-x-x-x-x-|x-x-x-x-x-x-x-x-|x-x-x-x-x-x-x-x-|
+S |----o--g----o--g|----o--g-g--o--g|----o----g--o--g|----o--g-g--og-g|
+B |o-o-----o-o-----|o-o-----o-o-----|o-o-----o-o-----|o-o-----o-o-----|
+  |1e+a2e+a3e+a4e+a|1e+a2e+a3e+a4e+a|1e+a2e+a3e+a4e+a|1e+a2e+a3e+a4e+a|
+
+C |x---------------|----------------|x---------------|--------|
+H |--x-x-x-x-x-x-x-|x-x-x-x-x-x-x-x-|--x-x-x-x-x-x-x-|x-x-x-x-|
+S |----o--g-g--o--g|-g--o--g-g--o--g|----o--g-g--o--g|----o--o|
+B |o-o-----o-o-----|o-o-----o-o-----|o-o-----o-o-----|o-o-----|
+  |1e+a2e+a3e+a4e+a|1e+a2e+a3e+a4e+a|1e+a2e+a3e+a4e+a|1e+a2e+a|
+
+[Bridge/Interlude]
+(1:49)
+C |x---------------|----------------|
+T |----------------|--o--o--o----o--|
+S |----------------|----o--o--o-o--o|
+B |o---------------|----------------|
+  |1e+a2e+a3e+a4e+a|1e+a2e+a3e+a4e+a|
+
+[Verse 3]
+("Today was gonna be the day…") [1:54]
+                   |====== 3x ======|
+C |x---------------|----------------|
+H |--x-x-x-x-x-x-x-|x-x-x-x-x-x-x-x-|
+S |----o--g-g--o--g|----o--g-g--o--g|
+B |o-o-----o-o-----|o-o-----o-o-----|
+  |1e+a2e+a3e+a4e+a|1e+a2e+a3e+a4e+a|
+
+C |x---------------|----------------|----------------|---------------------|
+H |--x-x-x-x-x-x-x-|x-x-x-x-x-x-x-x-|x-x-x-x-x-x-x-x-|x-x-x-x-x-x----------|
+S |----o--g-g--o--g|----o--g----o--g|----o--g-g--o--g|-g--o-go-g--go-g-o-g-|
+B |o-o-----o-o-----|o-o-----o-o-----|o-o-----o-o-----|o-o-----o-o----------|
+  |1e+a2e+a3e+a4e+a|1e+a2e+a3e+a4e+a|1e+a2e+a3e+a4e+a|1e+a2e+a3e+a 4 e + a |
+
+[Chorus 2]
+(Tambourine on 2 & 4, "And all the roads that lead…")
+(2:16)
+C |x---------------|---------------------|
+H |--x-x-x-x-x-x-x-|x-x-x-x-x-x----------|
+S |----o--g----o--g|----o-go-g--go--go-g-|
+B |o-o-----o-o-----|o-o-----o-o----------|
+  |1e+a2e+a3e+a4e+a|1e+a2e+a3e+a 4 e + a |
+
+C |----------------|---------------------|
+H |x-x-x-x-x-x-x-x-|x-x-x-x-x-x----------|
+S |go--o--g----o--g|----ogoo-g--go-o---o-|
+B |o-o-----o-o-----|o-o-----o-o------o---|
+  |1e+a2e+a3e+a4e+a|1e+a2e+a3e+a 4 e + a |
+
+C |x---------------|x---x---x-------|x---------------|---------------------|
+H |--x-x-x-x-x-x-x-|--x---x---x-x-x-|--x-x-x-x-x-x-x-|x-x-x---x-x----------|
+t |----------------|----------------|----------------|------o--------------|
+S |----o--g----o-oo|---o---o---g--o-|o---o-og-g--o-o-|-go-o--g-g--go---o-g-|
+B |o-o-----o-o-----|o---o---o-------|o-o-----o-o-----|o-o-----o-o----------|
+  |1e+a2e+a3e+a4e+a|1e+a2e+a3e+a4e+a|1e+a2e+a3e+a4e+a|1e+a2e+a3e+a 4 e + a |
+
+(Tambourine switches to 8th notes, accent on 1/2/3/4 - continues to the end.)
+("I said maybe…") (2:38)
+C |x---------------|----------------|x---------------|----------------|
+H |--x-x-x-x-x-x-x-|x-x-x-x-x-x-x-x-|--x-x-x-x-x-x-x-|x-x-x-x-x-x-----|
+t |----------------|----------------|----------------|------------og--|
+T |----------------|----------------|----------------|--------------og|
+S |----o--g-g--o--g|----o--g----o--g|----o--g------o-|-g--o--g--og----|
+B |o-o-----o-o-----|o-o-----o-o-----|o-o-----o-o-----|o-o-----o-o-----|
+  |1e+a2e+a3e+a4e+a|1e+a2e+a3e+a4e+a|1e+a2e+a3e+a4e+a|1e+a2e+a3e+a4e+a|
+
+C |x---------------|----------------|----------------|----------------|
+H |--x-x-x-x-x-x-x-|x-x-x-x-x-x-x-x-|x-x-x-x-x-x-x-x-|x-x-x-x---------|
+S |----o--g-g--o---|----o-og-g--o--g|----o--g-g----o-|-g--o--g-ogogogo|
+B |o-o-----o-o-----|o-o-----o-o-----|o-o-----o-o-----|o-o-----o-------|
+  |1e+a2e+a3e+a4e+a|1e+a2e+a3e+a4e+a|1e+a2e+a3e+a4e+a|1e+a2e+a3e+a4e+a|
+
+[Chorus 3]
+("I said maybe…")
+(3:00)
+C |x---------------|----------------|x---------------|---------------------|
+H |--x-x-x-x-x-x-x-|x-x-x-x-x-x-x-x-|--x-x-x-x-x-x-x-|x-x-x-x-x-x----------|
+S |----o--g----o--g|----o--g-g--o--g|----o--g----o--g|----o--g-g--go--go-g-|
+B |o-o-----o-o-----|o-o-----o-o-----|o-o-----o-o-----|o-o-----o-o----------|
+  |1e+a2e+a3e+a4e+a|1e+a2e+a3e+a4e+a|1e+a2e+a3e+a4e+a|1e+a2e+a3e+a 4 e + a |
+
+C |x---------------|----------------|x---------------|---------------------|
+H |--x-x-x-x-x-x-x-|x-x-x-x-x-x-x-x-|--x-x-x-x-x-x-x-|x-x-x-x-x-x----------|
+S |----o----o----o-|-g--o--g-g--o--g|----o--g-g--o--g|----o--g-g--go---g-o-|
+B |o-o-----o-o-----|o-o-----o-o-----|o-o-----o-o-----|o-o-----o-o----------|
+  |1e+a2e+a3e+a4e+a|1e+a2e+a3e+a4e+a|1e+a2e+a3e+a4e+a|1e+a2e+a3e+a 4 e + a |
+
+[Chorus 4]
+("I said maybe…")
+(3:22)
+C |x---------------|----------------|x---------------|---------------------|
+H |--x-x-x-x-x-x-x-|x-x-x-x-x-x-x-x-|--x-x-x-x-x-x-x-|x-x-x-x-x-x----------|
+S |----o--g-g--o--g|-g--o--g-g--o--g|----o--g-g--o--g|-g--o--g-g--go---g---|
+B |o-o-----o-o-----|o-o-----o-o-----|o-o-----o-o-----|o-o-----o-o----------|
+  |1e+a2e+a3e+a4e+a|1e+a2e+a3e+a4e+a|1e+a2e+a3e+a4e+a|1e+a2e+a3e+a 4 e + a |
+
+C |x---------------|----------------|----X-----------|---------------------|
+H |--x-x-x-x-x-x-x-|x-x-x-x-x-x-x-x-|x-x---x-x-x-x-x-|x-x-x-x-x-x----------|
+S |----o--g-g--o--g|----o--g-g--o--g|----o--g-g--o--g|-g--o----g---og-g--g-|
+B |o-o-----o-o-----|o-o-----o-o-----|o-o-----o-o-----|o-o-----o-o----------|
+  |1e+a2e+a3e+a4e+a|1e+a2e+a3e+a4e+a|1e+a2e+a3e+a4e+a|1e+a2e+a3e+a 4 e + a |
+
+[Outro]
+(3:44)
+C |x---------------|----------------|----------------|-------------------|
+H |--x-x-x-x-x-x-x-|x-x-x-x-x-x-x-x-|x-x-x-x-x-x-x-x-|x-x-x-x-x-x-x--x---|
+S |----o--g----o--g|----o--g-g----og|----o--g----o--g|----o-o--g----go---|
+B |o-o-----o-o-----|o-o-----o-o-----|o-o-----o-o-----|o-o-----o-o--------|
+  |1e+a2e+a3e+a4e+a|1e+a2e+a3e+a4e+a|1e+a2e+a3e+a4e+a|1e+a2e+a3e+a4e + a |
+
+  |====== 3x ======|
+C |----------------|------xX|
+H |x-x-x-x-x-x-x-x-|x-------|
+S |----o--g----o--g|--ogog--|
+B |o-o-----o-o-----|o-----oO|
+  |1e+a2e+a3e+a4e+a|1e+a2e+a|`,
     tabs:
 `Каподастр на 2-м ладу. Все лады в табах — от каподастра.
 Главный секрет звучания: безымянный и мизинец всё время стоят на 3-м ладу
@@ -1163,6 +1401,7 @@ function openEditor(song) {
   $('#edChart').value = song.chart || '';
   $('#edStrums').value = strumsToText(song.strums || []);
   $('#edTabs').value = song.tabs || '';
+  $('#edDrums').value = song.drumTab || '';
   $('#edDelete').hidden = isNew;
   $('#edReset').hidden = isNew || !DEFAULT_SONGS.some(d => d.id === song.id);
   editor.showModal();
@@ -1188,6 +1427,7 @@ $('#edSave').onclick = () => {
   const st = parseStrums($('#edStrums').value);
   s.strums = st.length ? st : [{ name: 'Бой', pattern: 'D-DU-UDU' }];
   s.tabs = $('#edTabs').value;
+  s.drumTab = $('#edDrums').value;
   s.edited = true;
   if (!songs.includes(s)) songs.push(s);
   saveSongs(); editor.close(); renderSongList();
@@ -1483,7 +1723,9 @@ function openPlay() {
   $('#pStrumSel').innerHTML = `<option value="-1">По разметке песни</option>` +
     (s.strums || []).map((st, i) => `<option value="${i}">${i + 1}. ${esc(st.name)}</option>`).join('');
   P.drumStyle = -1;
-  $('#pDrumSel').innerHTML = `<option value="-1">По песне (${esc((DRUM_STYLES[s.drumStyle || 0] || DRUM_STYLES[0]).name)})</option>` +
+  P.dtab = s.drumTab ? parseDrumTab(s.drumTab) : null; P.dPtr = 0;
+  const songDrums = P.dtab && P.dtab.hits.length ? 'партия из табулатуры' : (DRUM_STYLES[s.drumStyle || 0] || DRUM_STYLES[0]).name;
+  $('#pDrumSel').innerHTML = `<option value="-1">По песне (${esc(songDrums)})</option>` +
     DRUM_STYLES.map((d, i) => `<option value="${i}">${esc(d.name)}</option>`).join('');
   $('#pRates').innerHTML = RATES.map(r => `<button data-r="${r}">${Math.round(r * 100)}%</button>`).join('');
   setRate(1);
@@ -1538,6 +1780,7 @@ function pPlay() {
     P.audio.playbackRate = P.rate;
     P.audio.play().catch(() => toast('Не удалось воспроизвести файл'));
     P.lastTick = Math.floor(pPos() * 4);
+    drumSeek(pPos());
   } else {
     let start = P.pausedPos;
     if (start >= P.parsed.total) start = 0;
@@ -1545,6 +1788,7 @@ function pPlay() {
     const from = start - ci;
     P.t0 = c.currentTime + 0.12 - from * 60 / bpmEff();
     P.lastTick = Math.ceil(from * 4) - 1;
+    drumSeek(Math.max(0, from));
   }
   P.playing = true;
   clearInterval(P.timer); P.timer = setInterval(pSchedule, 25); pSchedule();
@@ -1572,6 +1816,7 @@ function pSeek(beat) {
     P.t0 = actx.currentTime + 0.05 - beat * 60 / bpmEff();
     P.lastTick = Math.ceil(beat * 4) - 1;
   } else P.pausedPos = beat;
+  drumSeek(beat);
   updateUI(pPos(), true);
 }
 function setRate(r) {
@@ -1590,10 +1835,28 @@ function tickTime(k) {
   }
   return P.t0 + beat * 60 / bpmEff();
 }
+const useDrumTab = () => P.dtab && P.dtab.hits.length && P.drumStyle < 0;
+// начало текущего такта: после такта 2/4 сетка сдвигается — берём точку отсчёта части ({strum}/{section})
+function barOrigin(beat) { const e = P.parsed.events[evIndexAt(beat)]; return e ? mod(e.strumStart, P.song.bpb) : 0; }
+function drumSeek(beat) {
+  if (!P.dtab) return;
+  const h = P.dtab.hits; let lo = 0, hi = h.length;
+  while (lo < hi) { const m = (lo + hi) >> 1; if (h[m].beat < beat - 1e-6) lo = m + 1; else hi = m; }
+  P.dPtr = lo;
+}
 function pSchedule() {
   if (!P.playing) return;
   if (P.audio && P.audio.paused) return;
   const now = actx.currentTime, bpb = P.song.bpb;
+  if (useDrumTab()) {
+    const h = P.dtab.hits;
+    while (P.dPtr < h.length) {
+      const x = h[P.dPtr], t = tickTime(x.beat * 4);
+      if (t > now + 0.12) break;
+      P.dPtr++;
+      if (t >= now - 0.03 && P.drums && x.beat < P.parsed.total + 4) drumHit(x.kind, t, x.vel);
+    }
+  }
   for (let guard = 0; guard < 64; guard++) {
     const k = P.lastTick + 1, t = tickTime(k);
     if (t > now + 0.12) break;
@@ -1602,8 +1865,8 @@ function pSchedule() {
     const beat = k / 4, isBeat = k % 4 === 0;
     if (beat < 0) { if (isBeat && !P.audio) click(t, mod(beat, bpb) === 0, 0.9); continue; }
     if (beat >= P.parsed.total) continue;
-    if (P.click && isBeat) click(t, mod(beat, bpb) === 0, 0.6);
-    if (P.drums) drumTick(k, t, bpb, P.drumStyle >= 0 ? P.drumStyle : (P.song.drumStyle || 0));
+    if (P.click && isBeat) click(t, mod(beat - barOrigin(beat), bpb) === 0, 0.6);
+    if (P.drums && !useDrumTab()) drumTick(k - Math.round(barOrigin(beat) * 4), t, bpb, P.drumStyle >= 0 ? P.drumStyle : (P.song.drumStyle || 0));
     if (P.guitar) {
       const ev = P.parsed.events[evIndexAt(beat)];
       if (!ev || !ev.shape) continue;
@@ -1626,7 +1889,7 @@ function updateUI(pos, force) {
   const idx = evIndexAt(pos);
   const e = ev[idx];
   // счёт долей
-  const inBar = mod(pos, bpb), beatNo = Math.floor(inBar);
+  const inBar = mod(pos - (pos >= 0 ? barOrigin(pos) : 0), bpb), beatNo = Math.floor(inBar);
   $$('#pDots i').forEach((d, i) => d.classList.toggle('on', (P.playing || pos > 0) && i === beatNo));
   $('#pBar').textContent = pos >= 0 && pos < total ? `такт ${Math.floor(pos / bpb) + 1} из ${Math.ceil(total / bpb)}` : '';
   if (pos < 0) {
@@ -1751,6 +2014,7 @@ function setOffset(v) {
   $('#pOffset').value = P.song.offset.toFixed(2);
   saveSongs();
   P.lastTick = Math.floor(pPos() * 4);
+  drumSeek(pPos());
   muteGuitar();
 }
 $('#pOffset').onchange = e => setOffset(parseFloat(e.target.value) || 0);
