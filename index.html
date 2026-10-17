@@ -163,7 +163,7 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 .beat-dots i.on.sec{background:var(--blue);border-color:var(--blue)}
 .field{display:flex;flex-direction:column;gap:6px;font-size:14px;color:var(--muted)}
 .field select,.field input[type=number],.field input[type=text],.field textarea{background:var(--surface2);border:1px solid var(--line);border-radius:10px;padding:10px;color:var(--text)}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
 .toggle{display:flex;align-items:center;gap:10px;font-size:15px}
 .toggle input{width:20px;height:20px;accent-color:var(--accent)}
 .start-btn{font-size:20px;padding:16px}
@@ -229,6 +229,9 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 .sheet{position:absolute;left:0;right:0;bottom:0;z-index:5;background:var(--surface);border-top:1px solid var(--line);
   border-radius:18px 18px 0 0;padding:16px 16px calc(18px + env(safe-area-inset-bottom));max-height:80vh;overflow-y:auto;box-shadow:0 -10px 40px rgba(0,0,0,.4)}
 .sheet .inner{max-width:780px;margin:0 auto;display:grid;gap:14px}
+.sheet{overflow-x:hidden}
+.sheet .inner>*{min-width:0}
+.field select{width:100%;min-width:0}
 .sheet h3{margin:0;font-size:17px}
 .sync-box{display:grid;gap:10px;border:1px solid var(--line);border-radius:12px;padding:12px}
 .offset-row{display:flex;align-items:center;gap:8px}
@@ -419,7 +422,8 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
         <button class="tog" id="pRestart" aria-label="В начало">⏮</button>
         <button class="tog" id="pRate">100%</button>
         <button class="main" id="pPlay" aria-label="Играть">▶</button>
-        <button class="tog on" id="pClick" title="Метроном">🥁</button>
+        <button class="tog on" id="pClick" title="Метроном">⏱</button>
+        <button class="tog on" id="pDrums" title="Барабаны">🥁</button>
         <button class="tog on" id="pGuitar" title="Гитара">🎸</button>
       </div>
     </div>
@@ -436,6 +440,15 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
       <label class="field">Бой / перебор для озвучки
         <select id="pStrumSel"></select>
       </label>
+
+      <div class="grid2">
+        <label class="field">Барабаны 🥁
+          <select id="pDrumSel"></select>
+        </label>
+        <label class="field">Громкость барабанов
+          <input type="range" id="pDrumVol" min="0" max="100" value="70">
+        </label>
+      </div>
 
       <div class="sync-box">
         <b>Играть под запись песни</b>
@@ -526,7 +539,7 @@ function toast(msg) {
 }
 
 /* ================= Аудио ================= */
-let actx = null, master = null, guitarBus = null;
+let actx = null, master = null, guitarBus = null, drumBus = null;
 function ctx() {
   if (!actx) {
     actx = new (window.AudioContext || window.webkitAudioContext)();
@@ -536,6 +549,7 @@ function ctx() {
     master.connect(comp); comp.connect(actx.destination);
     const lp = actx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 4200;
     guitarBus = actx.createGain(); guitarBus.gain.value = 0.55;
+    drumBus = actx.createGain(); drumBus.gain.value = store.get('ga.drumVol', 0.7); drumBus.connect(master);
     guitarBus.connect(lp); lp.connect(master);
   }
   if (actx.state === 'suspended') actx.resume();
@@ -589,6 +603,70 @@ function pluck(str, midi, time, vol, short = false) {
   src.connect(g); g.connect(guitarBus);
   src.start(time); src.stop(time + 2.4);
   voices[str] = { g, end: time + 2.4 };
+}
+/* --- синтез барабанов --- */
+let noiseBuf = null;
+function noise() {
+  if (noiseBuf) return noiseBuf;
+  const c = ctx(), len = c.sampleRate;
+  noiseBuf = c.createBuffer(1, len, c.sampleRate);
+  const d = noiseBuf.getChannelData(0);
+  for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+  return noiseBuf;
+}
+function drumHit(kind, time, vel = 1) {
+  const c = ctx();
+  if (kind === 'k') { // бочка
+    const o = c.createOscillator(), g = c.createGain();
+    o.frequency.setValueAtTime(140, time); o.frequency.exponentialRampToValueAtTime(42, time + 0.13);
+    g.gain.setValueAtTime(0.0001, time); g.gain.exponentialRampToValueAtTime(1.1 * vel, time + 0.003);
+    g.gain.exponentialRampToValueAtTime(0.0001, time + 0.32);
+    o.connect(g); g.connect(drumBus); o.start(time); o.stop(time + 0.35);
+    return;
+  }
+  const n = c.createBufferSource(); n.buffer = noise();
+  const f = c.createBiquadFilter(), g = c.createGain();
+  if (kind === 's') { // малый барабан: шум + тон
+    f.type = 'highpass'; f.frequency.value = 1200;
+    g.gain.setValueAtTime(0.0001, time); g.gain.exponentialRampToValueAtTime(0.75 * vel, time + 0.002);
+    g.gain.exponentialRampToValueAtTime(0.0001, time + 0.2);
+    const o = c.createOscillator(), og = c.createGain(); o.type = 'triangle';
+    o.frequency.setValueAtTime(210, time); o.frequency.exponentialRampToValueAtTime(150, time + 0.08);
+    og.gain.setValueAtTime(0.5 * vel, time); og.gain.exponentialRampToValueAtTime(0.0001, time + 0.1);
+    o.connect(og); og.connect(drumBus); o.start(time); o.stop(time + 0.12);
+    n.start(time); n.stop(time + 0.22);
+  } else { // хай-хэт: h — закрытый, o — открытый
+    const open = kind === 'o';
+    f.type = 'highpass'; f.frequency.value = 7500;
+    g.gain.setValueAtTime(0.0001, time); g.gain.exponentialRampToValueAtTime(0.32 * vel, time + 0.001);
+    g.gain.exponentialRampToValueAtTime(0.0001, time + (open ? 0.28 : 0.045));
+    n.start(time, Math.random() * 0.5); n.stop(time + (open ? 0.3 : 0.06));
+  }
+  n.connect(f); f.connect(g); g.connect(drumBus);
+}
+// стили ударных: строки по 16 шестнадцатых на такт 4/4 (x — удар, > — акцент на хэте, o — открытый хэт)
+const DRUM_STYLES = [
+  { name: 'Рок-бит', k: 'x-------x-x-----', s: '----x-------x---', h: 'x-x-x-x-x-x-x-x-' },
+  { name: 'Шестнадцатые (как в Wonderwall)', k: 'x-----x-x-------', s: '----x-------x---', h: '>xxx>xxx>xxx>xxo' },
+  { name: 'Спокойный (бочка + хэт)', k: 'x-------x-------', s: '----------------', h: 'x-x-x-x-x-x-x-x-' },
+  { name: 'Драйв (бочка на каждую долю)', k: 'x---x---x---x---', s: '----x-------x---', h: 'x-x-x-x-x-x-x-x-' }
+];
+function drumTick(k, t, bpb, style) {
+  const st = DRUM_STYLES[style] || DRUM_STYLES[0];
+  const per = bpb * 4, i = mod(k, per);
+  // для размеров, отличных от 4/4: бочка на 1-ю долю, малый — на середину такта, хэт восьмыми
+  if (bpb !== 4) {
+    if (i === 0) drumHit('k', t);
+    if (bpb > 2 && i === Math.floor(bpb / 2) * 4) drumHit('s', t);
+    if (i % 2 === 0) drumHit('h', t, i % 4 === 0 ? 1 : 0.6);
+    return;
+  }
+  if (st.k[i] === 'x') drumHit('k', t);
+  if (st.s[i] === 'x') drumHit('s', t);
+  const h = st.h[i];
+  if (h === 'x') drumHit('h', t, i % 4 === 0 ? 0.9 : 0.55);
+  else if (h === '>') drumHit('h', t, 1);
+  else if (h === 'o') drumHit('o', t, 0.7);
 }
 function muteGuitar() {
   if (!actx) return;
@@ -805,7 +883,7 @@ const AM_V = '[Dm] [Dm] [Bb/D] [Bb/D]';
 
 const DEFAULT_SONGS = [
   {
-    id: 'wonderwall', ver: 4, title: 'Wonderwall', artist: 'Oasis', color: '#2563eb',
+    id: 'wonderwall', ver: 4, drumStyle: 1, title: 'Wonderwall', artist: 'Oasis', color: '#2563eb',
     bpm: 87, bpb: 4, capo: 2, key: 'F#m (формы Em)',
     strums: [
       { name: 'Вступление и куплеты (2 такта, шестнадцатые)', pattern: 'D-D-D-DUDUD-D-DU|DUD-D-DU-U-UDUDU' },
@@ -939,6 +1017,7 @@ const saveSongs = () => store.set('ga.songs.v1', songs);
 // обновляем встроенные песни до новой версии, если пользователь их не редактировал
 DEFAULT_SONGS.forEach(d => {
   const i = songs.findIndex(s => s.id === d.id);
+  if (i >= 0 && songs[i].drumStyle == null && d.drumStyle != null) songs[i].drumStyle = d.drumStyle;
   if (i >= 0 && (songs[i].ver || 1) < d.ver) {
     const touched = songs[i].edited || parseChart(songs[i].chart, songs[i].bpb).lines.some(l => l.lyric);
     if (!touched) songs[i] = Object.assign(clone(d), { offset: songs[i].offset });
@@ -1385,7 +1464,7 @@ function tunerLoop() {
 const RATES = [0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.25];
 const P = {
   song: null, parsed: null, playing: false, t0: 0, pausedPos: 0, rate: 1, audio: null, audioUrl: null,
-  lastTick: -1e9, click: true, guitar: true, strumSel: -1, timer: 0, raf: 0, curEv: -2, curLine: -2,
+  lastTick: -1e9, click: true, guitar: true, drums: store.get('ga.drums', true), drumStyle: -1, strumSel: -1, timer: 0, raf: 0, curEv: -2, curLine: -2,
   segEls: [], lineEls: [], wake: null, seeking: false
 };
 const bpmEff = () => P.song.bpm * (P.audio ? 1 : P.rate);
@@ -1404,6 +1483,9 @@ function openPlay() {
   $('#pTotal').textContent = fmtTime(P.parsed.total * 60 / s.bpm);
   $('#pStrumSel').innerHTML = `<option value="-1">По разметке песни</option>` +
     (s.strums || []).map((st, i) => `<option value="${i}">${i + 1}. ${esc(st.name)}</option>`).join('');
+  P.drumStyle = -1;
+  $('#pDrumSel').innerHTML = `<option value="-1">По песне (${esc((DRUM_STYLES[s.drumStyle || 0] || DRUM_STYLES[0]).name)})</option>` +
+    DRUM_STYLES.map((d, i) => `<option value="${i}">${esc(d.name)}</option>`).join('');
   $('#pRates').innerHTML = RATES.map(r => `<button data-r="${r}">${Math.round(r * 100)}%</button>`).join('');
   setRate(1);
   $('#pDots').innerHTML = Array.from({ length: s.bpb }, (_, i) => `<i class="${i === 0 ? 'acc' : ''}"></i>`).join('');
@@ -1522,6 +1604,7 @@ function pSchedule() {
     if (beat < 0) { if (isBeat && !P.audio) click(t, mod(beat, bpb) === 0, 0.9); continue; }
     if (beat >= P.parsed.total) continue;
     if (P.click && isBeat) click(t, mod(beat, bpb) === 0, 0.6);
+    if (P.drums) drumTick(k, t, bpb, P.drumStyle >= 0 ? P.drumStyle : (P.song.drumStyle || 0));
     if (P.guitar) {
       const ev = P.parsed.events[evIndexAt(beat)];
       if (!ev || !ev.shape) continue;
@@ -1619,6 +1702,11 @@ function renderKaraoke(li, force) {
 $('#pPlay').onclick = pToggle;
 $('#pRestart').onclick = () => { const was = P.playing; pPause(); P.pausedPos = 0; if (P.audio) P.audio.currentTime = 0; updateUI(pPos(), true); if (was) pPlay(); };
 $('#pClick').onclick = e => { P.click = !P.click; e.currentTarget.classList.toggle('on', P.click); };
+$('#pDrums').classList.toggle('on', P.drums);
+$('#pDrums').onclick = e => { P.drums = !P.drums; store.set('ga.drums', P.drums); e.currentTarget.classList.toggle('on', P.drums); };
+$('#pDrumSel').onchange = e => { P.drumStyle = +e.target.value; };
+$('#pDrumVol').value = Math.round(store.get('ga.drumVol', 0.7) * 100);
+$('#pDrumVol').oninput = e => { const v = e.target.value / 100; store.set('ga.drumVol', v); if (drumBus) drumBus.gain.value = v; };
 $('#pGuitar').onclick = e => { P.guitar = !P.guitar; e.currentTarget.classList.toggle('on', P.guitar); if (!P.guitar) muteGuitar(); };
 $('#pRate').onclick = () => { const i = RATES.indexOf(P.rate); setRate(RATES[(i + 1) % RATES.length]); };
 $('#pRates').addEventListener('click', e => { const b = e.target.closest('[data-r]'); if (b) setRate(+b.dataset.r); });
@@ -1655,6 +1743,7 @@ $('#pFile').onchange = e => {
   $('#pSyncCtl').hidden = false; $('#pCountIn').disabled = true;
   if (P.guitar) $('#pGuitar').click();
   if (P.click) $('#pClick').click();
+  if (P.drums) $('#pDrums').click();
   $('#pOffset').value = offset().toFixed(2);
   toast('Запись загружена. Нажмите ▶, а затем «Начало здесь» на первом аккорде');
 };
