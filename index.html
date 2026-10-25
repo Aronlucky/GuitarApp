@@ -148,6 +148,42 @@ pre.tab{font-family:var(--mono);font-size:13.5px;line-height:1.4;background:var(
 .strum .s.on .g,.strum .s.on .l{color:var(--accent-ink)!important;border-color:var(--accent-ink)}
 .legend{font-size:13px;color:var(--muted);margin-top:4px}
 
+/* chord library */
+.pbar{height:8px;border-radius:99px;background:var(--surface2);margin-top:8px;overflow:hidden}
+.pbar i{display:block;height:100%;background:var(--ok);border-radius:99px;transition:width .3s}
+.lib-cat{font-size:15px;margin:20px 0 10px;color:var(--muted);font-weight:700}
+.lib-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:10px}
+.lib-card{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:8px 6px 8px;text-align:center;color:var(--text)}
+.lib-card:active{background:var(--surface2)}
+.lib-card .n{font-weight:800;font-size:17px;color:var(--chord)}
+.lib-card .sub{font-size:11px;color:var(--muted);line-height:1.25;margin-top:2px}
+.lib-card svg{display:block;margin:0 auto}
+.lib-card.done{border-color:color-mix(in srgb,var(--ok) 60%,var(--line))}
+.ok-badge{position:absolute;top:6px;right:6px;width:20px;height:20px;border-radius:50%;background:var(--ok);color:#fff;font-size:12px;display:grid;place-items:center;font-weight:800}
+button.diag{color:var(--text);cursor:pointer;font:inherit}
+.cd-head{display:flex;flex-direction:column;align-items:flex-start;gap:8px;margin-bottom:12px}
+.cd-diag{display:flex;flex-direction:column;align-items:center;padding:18px 10px 12px}
+.cd-diag svg{max-width:100%;height:auto;color:var(--text)}
+.cd-notes{display:grid;grid-template-columns:repeat(6,1fr);width:min(210px,100%);margin-top:4px;padding:0 4%;text-align:center;font-size:12px;font-weight:700;color:var(--chord)}
+.cd-actions{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.cd-actions .btn{flex:1;min-width:0;padding:11px 8px}
+.tips{margin:0;padding-left:20px;display:grid;gap:6px}
+.tr-list{display:grid;gap:10px}
+.tr-row{display:flex;gap:12px;padding:12px;align-items:flex-start}
+.tr-diag{background:none;border:0;padding:0;color:var(--text);flex:none}
+.tr-body{flex:1;min-width:0}
+.tr-title{font-weight:700}
+.tr-title a{color:var(--chord);text-decoration:none}
+.tr-title .muted{font-weight:400;font-size:13px}
+.tr-tip{font-size:14px;color:var(--muted);margin-top:4px}
+.omc-diags{display:flex;justify-content:center;align-items:center;gap:8px}
+.omc-diags .diag{color:var(--text)}
+.omc-arrow{font-size:24px;color:var(--muted)}
+.omc-nums{display:flex;justify-content:center;gap:36px}
+.omc-nums div{display:flex;flex-direction:column}
+.omc-nums b{font-size:54px;line-height:1;font-variant-numeric:tabular-nums}
+.omc-nums span{color:var(--muted);font-size:13px}
+
 /* metronome */
 .metro{display:grid;gap:16px}
 .bpm-big{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:6px}
@@ -306,6 +342,20 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
     <div class="pane" id="pane-chords"></div>
   </section>
 
+  <!-- ===== Аккорды ===== -->
+  <section class="view" id="view-chords">
+    <h2>Аккорды</h2>
+    <div class="muted">Схемы с пальцами, советы и переходы. Отмечайте выученные — список сохраняется на устройстве.</div>
+    <div class="card" id="libProgress" style="margin-top:14px"></div>
+    <div class="seg-tabs" id="libFilters" style="margin-top:12px">
+      <button data-f="all" class="on">Все</button>
+      <button data-f="todo">Учу</button>
+      <button data-f="learned">Выученные ✓</button>
+    </div>
+    <div id="libList"></div>
+  </section>
+  <section class="view" id="view-chord"><div id="chordView"></div></section>
+
   <!-- ===== Метроном ===== -->
   <section class="view" id="view-metro">
     <div class="metro">
@@ -385,6 +435,9 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
     <button data-nav="songs" class="on">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
       Песни</button>
+    <button data-nav="chords">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 3v18M15 3v18M5 9h14M5 15h14"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/></svg>
+      Аккорды</button>
     <button data-nav="metro">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6l4 18H5L9 3z"/><path d="M12 15l5-9"/><path d="M7 15h10"/></svg>
       Метроном</button>
@@ -403,6 +456,7 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
   </div>
   <div class="stage">
     <div class="stage-top"><span class="stage-sec" id="pSec">—</span><span id="pBar"></span></div>
+    <div class="legend" id="pDrumHint" hidden></div>
     <div class="chord-now">
       <div class="diagbox" id="pDiag"></div>
       <div class="names">
@@ -520,6 +574,20 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
   </form>
 </dialog>
 
+<dialog id="omc">
+  <form method="dialog" class="ed">
+    <div class="eh"><b>⏱ Минута смен: <span id="omcTitle"></span></b><button class="icon-btn" value="close" aria-label="Закрыть">✕</button></div>
+    <div class="eb" style="text-align:center">
+      <div class="muted" style="font-size:14px">Меняйте аккорды туда-обратно 60 секунд и нажимайте кнопку на каждую смену. Качество важнее скорости — каждый аккорд должен прозвучать чисто.</div>
+      <div class="omc-diags" id="omcDiags"></div>
+      <div class="omc-nums"><div><b id="omcTime">60</b><span>секунд</span></div><div><b id="omcCount">0</b><span>смен</span></div></div>
+      <button type="button" class="btn primary start-btn" id="omcTap" disabled>+1 смена</button>
+      <button type="button" class="btn" id="omcStart">▶ Старт</button>
+      <div class="muted" id="omcBest"></div>
+    </div>
+  </form>
+</dialog>
+
 <div class="toast" id="toast" hidden></div>
 
 <script>
@@ -552,7 +620,7 @@ function ctx() {
     master.connect(comp); comp.connect(actx.destination);
     const lp = actx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 4200;
     guitarBus = actx.createGain(); guitarBus.gain.value = 0.55;
-    drumBus = actx.createGain(); drumBus.gain.value = store.get('ga.drumVol', 0.7); drumBus.connect(master);
+    drumBus = actx.createGain(); drumBus.gain.value = store.get('ga.drumVol', 0.85); drumBus.connect(master);
     guitarBus.connect(lp); lp.connect(master);
   }
   if (actx.state === 'suspended') actx.resume();
@@ -621,10 +689,15 @@ function drumHit(kind, time, vel = 1) {
   const c = ctx();
   if (kind === 'k') { // бочка
     const o = c.createOscillator(), g = c.createGain();
-    o.frequency.setValueAtTime(140, time); o.frequency.exponentialRampToValueAtTime(42, time + 0.13);
+    o.frequency.setValueAtTime(180, time); o.frequency.exponentialRampToValueAtTime(55, time + 0.12);
     g.gain.setValueAtTime(0.0001, time); g.gain.exponentialRampToValueAtTime(1.1 * vel, time + 0.003);
     g.gain.exponentialRampToValueAtTime(0.0001, time + 0.32);
     o.connect(g); g.connect(drumBus); o.start(time); o.stop(time + 0.35);
+    // щелчок колотушки — чтобы бочку было слышно и на динамиках ноутбука/телефона
+    const n = c.createBufferSource(), f = c.createBiquadFilter(), ng = c.createGain();
+    n.buffer = noise(); f.type = 'bandpass'; f.frequency.value = 2800; f.Q.value = 0.8;
+    ng.gain.setValueAtTime(0.35 * vel, time); ng.gain.exponentialRampToValueAtTime(0.0001, time + 0.025);
+    n.connect(f); f.connect(ng); ng.connect(drumBus); n.start(time); n.stop(time + 0.03);
     return;
   }
   const n = c.createBufferSource(); n.buffer = noise();
@@ -791,35 +864,50 @@ function shapeOf(name) {
   if (!name) return null;
   const n = name.trim();
   const hit = CHORDS[n] || CHORDS[n.replace(/\s+/g, '')] || CHORDS[n.replace(/[*'’]+$/, '')];
-  return hit ? { f: hit[0], b: hit[1] || 0 } : null;
+  if (!hit) return null;
+  const lib = typeof CHORD_LIB !== 'undefined' ? CHORD_LIB.find(c => sameFrets(c.f, hit[0])) : null;
+  return { f: hit[0], b: hit[1] || 0, fing: lib ? lib.fing : null, lib: lib ? lib.id : null };
 }
 function chordSVG(name, w = 80) {
   const sh = shapeOf(name);
   if (!sh) return `<div class="nodiag">нет схемы</div>`;
+  return diagramSVG(sh, w, { fingers: !!sh.fing });
+}
+// схема аккорда; opts.fingers — номера пальцев в кружках, opts.strings — подписи струн снизу
+function diagramSVG(sh, w = 80, opts = {}) {
   const f = sh.f, pos = f.filter(x => x > 0), max = pos.length ? Math.max(...pos) : 0;
   const base = max > 5 ? Math.min(...pos) : 1;
-  const L = 12, T = 16, SX = 10, FY = 12, frets = 5, W = L + SX * 5 + 10, H = T + FY * frets + 6;
-  let s = `<svg viewBox="0 0 ${W} ${H}" width="${w}" height="${w * H / W}" aria-label="${esc(name)}">`;
+  const fing = opts.fingers && sh.fing;
+  const L = 12, T = 16, SX = 10, FY = 12, frets = 5, W = L + SX * 5 + 10, H = T + FY * frets + (opts.strings ? 14 : 6);
+  const R = fing ? 4.6 : 4;
+  let s = `<svg viewBox="0 0 ${W} ${H}" width="${w}" height="${(w * H / W).toFixed(1)}" role="img">`;
   for (let i = 0; i <= frets; i++) {
     const y = T + i * FY;
     s += `<line x1="${L}" y1="${y}" x2="${L + SX * 5}" y2="${y}" stroke="currentColor" stroke-opacity=".45" stroke-width="${i === 0 && base === 1 ? 3 : 1}"/>`;
   }
   for (let i = 0; i < 6; i++) {
     const x = L + i * SX;
-    s += `<line x1="${x}" y1="${T}" x2="${x}" y2="${T + FY * frets}" stroke="currentColor" stroke-opacity=".45" stroke-width="1"/>`;
+    s += `<line x1="${x}" y1="${T}" x2="${x}" y2="${T + FY * frets}" stroke="currentColor" stroke-opacity=".45" stroke-width="${1 + (5 - i) * 0.12}"/>`;
   }
   if (base > 1) s += `<text x="${L - 4}" y="${T + FY * 0.75}" font-size="8" text-anchor="end" fill="currentColor" opacity=".7">${base}</text>`;
+  const num = (x, y, n) => fing && n ? `<text x="${x}" y="${y + 2.3}" font-size="6.4" font-weight="700" text-anchor="middle" fill="var(--accent-ink)">${n}</text>` : '';
   if (sh.b) {
     const idx = f.map((x, i) => x === sh.b ? i : -1).filter(i => i >= 0);
     const a = idx[0], z = 5, y = T + (sh.b - base + 0.5) * FY;
-    s += `<rect x="${L + a * SX - 4}" y="${y - 4}" width="${(z - a) * SX + 8}" height="8" rx="4" fill="var(--accent)"/>`;
+    s += `<rect x="${L + a * SX - R}" y="${y - R}" width="${(z - a) * SX + 2 * R}" height="${2 * R}" rx="${R}" fill="var(--accent)"/>`;
+    s += num(L + a * SX, y, fing ? fing[a] : 0);
   }
   f.forEach((x, i) => {
     const cx = L + i * SX;
     if (x < 0) s += `<text x="${cx}" y="${T - 5}" font-size="8" text-anchor="middle" fill="currentColor" opacity=".7">×</text>`;
     else if (x === 0) s += `<circle cx="${cx}" cy="${T - 7}" r="2.6" fill="none" stroke="currentColor" stroke-opacity=".8"/>`;
-    else if (!(sh.b && x === sh.b)) s += `<circle cx="${cx}" cy="${T + (x - base + 0.5) * FY}" r="4" fill="var(--accent)"/>`;
+    else if (!(sh.b && x === sh.b)) {
+      const cy = T + (x - base + 0.5) * FY;
+      s += `<circle cx="${cx}" cy="${cy}" r="${R}" fill="var(--accent)"/>` + num(cx, cy, fing ? fing[i] : 0);
+    }
   });
+  if (opts.strings) ['E', 'A', 'D', 'G', 'B', 'E'].forEach((n, i) =>
+    s += `<text x="${L + i * SX}" y="${T + FY * frets + 11}" font-size="6.5" text-anchor="middle" fill="currentColor" opacity=".55">${n}</text>`);
   return s + '</svg>';
 }
 
@@ -1322,7 +1410,7 @@ function renderSong() {
       В разметке песни бой меняется командой {strum: N}.</div>`;
   const uniq = [...new Set(p.events.map(e => e.chord).filter(c => c !== '—'))];
   $('#pane-chords').innerHTML = `${s.capo ? `<div class="hint">Формы аккордов указаны относительно каподастра на ${s.capo}-м ладу.</div>` : ''}
-    <div class="diag-grid">${uniq.map(c => `<div class="diag"><div class="n">${esc(c)}</div>${chordSVG(c, 84)}</div>`).join('')}</div>`;
+    <div class="diag-grid">${uniq.map(c => { const sh = shapeOf(c); return `<${sh && sh.lib ? `button data-chord="${sh.lib}"` : 'div'} class="diag"><div class="n">${esc(c)}</div>${chordSVG(c, 84)}${sh && sh.lib ? '<div class="legend" style="margin:2px 0 0">подробнее ›</div>' : ''}</${sh && sh.lib ? 'button' : 'div'}>`; }).join('')}</div>`;
 }
 function renderTabs(text) {
   // блоки с табулатурой (строки с |---) — моноширинным, остальное — обычным текстом
@@ -1446,21 +1534,280 @@ $('#edReset').onclick = () => {
   curSong = songs[i]; renderSong(); renderSongList(); toast('Восстановлено');
 };
 
+/* ================= Библиотека аккордов ================= */
+// f — лады от 6-й струны к 1-й (-1 — не играть), fing — пальцы (0 — открытая/не играть), b — баррэ
+const CHORD_CATS = [
+  { id: 'basic', name: 'Базовые открытые аккорды' },
+  { id: 'anchor', name: 'С «якорем» на 3-м ладу (Wonderwall и акустика)' },
+  { id: 'f', name: 'Семейство F' }
+];
+const CHORD_LIB = [
+  { id: 'C', name: 'C', full: 'До мажор', cat: 'basic', f: [-1, 3, 2, 0, 1, 0], fing: [0, 3, 2, 0, 1, 0],
+    desc: 'Один из первых аккордов, которые учат. Светлое, «домашнее» звучание, бас — с 5-й струны.',
+    tips: ['Играйте с 5-й струны, 6-ю не задевайте.', '1-й палец на 2-й струне ставьте кончиком и ближе к ладу — иначе заглушится открытая 1-я.', 'Подушечка 3-го пальца не должна касаться 4-й струны: держите пальцы «молоточками».'] },
+  { id: 'D', name: 'D', full: 'Ре мажор', cat: 'basic', f: [-1, -1, 0, 2, 3, 2], fing: [0, 0, 0, 1, 3, 2],
+    desc: 'Звонкий аккорд-«треугольник» на тонких струнах. Бас — открытая 4-я струна.',
+    tips: ['Бейте только по 4 тонким струнам.', 'Пальцы образуют треугольник — запомните его форму, а не отдельные ноты.', 'Следите, чтобы 3-й палец не глушил 1-ю струну.'] },
+  { id: 'Dm', name: 'Dm', full: 'Ре минор', cat: 'basic', f: [-1, -1, 0, 2, 3, 1], fing: [0, 0, 0, 2, 3, 1],
+    desc: 'Мягкий, грустный аккорд. Тоже играется с 4-й струны.',
+    tips: ['1-й палец на 1-м ладу 1-й струны прижимайте у самого лада.', 'Кисть подайте чуть сильнее под гриф — тогда 1-й палец дотянется легко.', 'Не играйте 5-ю и 6-ю струны.'] },
+  { id: 'A', name: 'A', full: 'Ля мажор', cat: 'basic', f: [-1, 0, 2, 2, 2, 0], fing: [0, 0, 1, 2, 3, 0],
+    desc: 'Три пальца в ряд на 2-м ладу. Бас — открытая 5-я струна.',
+    tips: ['Пальцам тесно: ставьте их немного наискосок, 2-й палец чуть позади остальных.', 'Проверьте, что открытая 1-я струна звучит.', 'Есть вариант одним пальцем-баррэ на 2-м ладу — пригодится позже.'] },
+  { id: 'Am', name: 'Am', full: 'Ля минор', cat: 'basic', f: [-1, 0, 2, 2, 1, 0], fing: [0, 0, 2, 3, 1, 0],
+    desc: 'Самый популярный минорный аккорд. Форма — как у E, только на струну ниже.',
+    tips: ['Играйте с 5-й струны.', '1-й палец на 2-й струне 1-го лада — кончиком, чтобы звучала 1-я струна.', 'Эту форму удобно сравнивать с C: два пальца у них общие.'] },
+  { id: 'E', name: 'E', full: 'Ми мажор', cat: 'basic', f: [0, 2, 2, 1, 0, 0], fing: [0, 2, 3, 1, 0, 0],
+    desc: 'Мощный аккорд на всех шести струнах — с самым низким басом на гитаре.',
+    tips: ['Бейте по всем струнам, начиная с 6-й.', 'Пальцы стоят «лесенкой»: 1-й палец на 3-й струне 1-го лада.', 'Уберите 1-й палец — получится Em.'] },
+  { id: 'Em', name: 'Em', full: 'Ми минор', cat: 'basic', f: [0, 2, 2, 0, 0, 0], fing: [0, 2, 3, 0, 0, 0],
+    desc: 'Самый простой аккорд: два пальца и все шесть струн.',
+    tips: ['Можно ставить 1-м и 2-м пальцами — так удобнее переходить в G и Em7.', 'Звучат все струны — бейте смело.', 'Отличный «аккорд-передышка» между сложными сменами.'] },
+  { id: 'G', name: 'G', full: 'Соль мажор', cat: 'basic', f: [3, 2, 0, 0, 0, 3], fing: [2, 1, 0, 0, 0, 3],
+    desc: 'Классическая форма G на всех шести струнах с басом на 6-й струне.',
+    tips: ['Бас — 6-я струна 3-го лада, начинайте удар с неё.', '1-й палец на 5-й струне не должен касаться 4-й.', 'Когда освоитесь, попробуйте «Большой G» — он звучит плотнее.'] },
+
+  { id: 'Em7', name: 'Em7', full: 'Ми минор септ (вариант Wonderwall)', cat: 'anchor', f: [0, 2, 2, 0, 3, 3], fing: [0, 1, 2, 0, 3, 4],
+    desc: 'Em с добавленными нотами ре и соль на 3-м ладу 2-й и 1-й струн. Это первый аккорд Wonderwall.',
+    tips: ['3-й и 4-й пальцы на 3-м ладу 2-й и 1-й струн — «якорь», который не снимается при смене аккордов.', 'Звучат все шесть струн.', 'Классический Em7 (022030) звучит проще — здесь звук «шире» и современнее.'] },
+  { id: 'Gbig', name: 'Big G', full: 'Большой G — соль мажор с «якорем»', cat: 'anchor', f: [3, 2, 0, 0, 3, 3], fing: [2, 1, 0, 0, 3, 4],
+    desc: 'G с двумя нотами соль/ре сверху. Звучит полнее обычного и не требует снимать «якорь» 3-4.',
+    tips: ['3-й и 4-й пальцы — на 3-м ладу 2-й и 1-й струн.', '2-й палец на 6-й струне, 1-й — на 5-й струне 2-го лада.', 'Из этой формы в один шаг получаются Cadd9 и G5.'] },
+  { id: 'G5', name: 'G5', full: 'Рок-G («Rock G», квинтаккорд)', cat: 'anchor', f: [3, -1, 0, 0, 3, 3], fing: [2, 0, 0, 0, 3, 4],
+    desc: 'G без терции: 5-я струна заглушена. Звучит нейтрально и мощно — особенно с перегрузом.',
+    tips: ['5-ю струну глушите подушечкой 2-го пальца, который стоит на 6-й струне.', 'Без терции аккорд не мажорный и не минорный — «рок-звук».', 'Отлично подходит для энергичного боя.'] },
+  { id: 'Cadd9', name: 'Cadd9', full: 'До мажор с ноной', cat: 'anchor', f: [-1, 3, 2, 0, 3, 3], fing: [0, 2, 1, 0, 3, 4],
+    desc: 'Как Большой G, только 1-й и 2-й пальцы сдвинуты на струну к тонким. Воздушный, «акустический» звук.',
+    tips: ['Глушите 6-ю струну — кончиком 2-го пальца или просто не задевайте её.', '3-я струна открытая — проверьте, что 1-й палец её не касается.', 'Якорь 3-4 остаётся тем же, что в G и Em7.'] },
+  { id: 'Dsus4', name: 'Dsus4', full: 'Ре с квартой', cat: 'anchor', f: [-1, -1, 0, 2, 3, 3], fing: [0, 0, 0, 1, 3, 4],
+    desc: 'Вариант D с «подвешенной» квартой — третий аккорд круга Wonderwall.',
+    tips: ['Играйте с 4-й струны.', 'Якорь 3-4 на месте, 1-й палец — на 3-й струне 2-го лада.', 'Если снять 4-й палец и поставить 2-й на 1-ю струну 2-го лада, получится обычный D.'] },
+  { id: 'Dadd11F', name: 'D add11/F♯', full: 'Ре с ундецимой, бас фа-диез', cat: 'anchor', f: [2, -1, 0, 2, 3, 3], fing: [1, 0, 0, 2, 3, 4],
+    desc: 'D-аккорд с басом фа-диез на 6-й струне. Красиво соединяет G и Em7 в нисходящем басу (G → D/F♯ → Em).',
+    tips: ['6-ю струну 2-го лада можно брать 1-м пальцем или большим пальцем из-за грифа.', '5-я струна должна быть заглушена — касанием того же пальца.', 'Якорь 3-4 не снимается.'] },
+  { id: 'A7sus4', name: 'A7sus4', full: 'Ля септ с квартой (вариант Wonderwall)', cat: 'anchor', f: [-1, 0, 2, 0, 3, 3], fing: [0, 0, 1, 0, 3, 4],
+    desc: 'Упрощённый A7sus4 с открытой 3-й струной — именно так он звучит в Wonderwall.',
+    tips: ['Играйте с 5-й струны.', 'Кажется простым, но открытая 3-я струна должна звучать чисто — не задевайте её 1-м пальцем.', 'Якорь 3-4 на месте.'] },
+  { id: 'A7sus4full', name: 'A7sus4', full: 'Ля септ с квартой (полный)', cat: 'anchor', f: [-1, 0, 2, 2, 3, 3], fing: [0, 0, 1, 2, 3, 4],
+    desc: 'Полная форма A7sus4: все четыре пальца на грифе. Звучит плотнее варианта с открытой 3-й струной.',
+    tips: ['Растяжка между 2-м и 3-м пальцами — опустите запястье чуть ниже грифа.', 'Не играйте 6-ю струну.', 'Хорошее упражнение на независимость пальцев.'] },
+
+  { id: 'Fmini', name: 'F', full: 'Мини-F (F на четырёх струнах)', cat: 'f', f: [-1, -1, 3, 2, 1, 1], fing: [0, 0, 3, 2, 1, 1], b: 1,
+    desc: 'Облегчённый F: маленькое баррэ только на двух тонких струнах. Лучшая ступенька к полному F.',
+    tips: ['1-й палец ложится плашмя на 2-ю и 1-ю струны 1-го лада.', 'Немного разверните 1-й палец на ребро — так проще прижать струны.', 'Играйте только 4 тонкие струны.'] },
+  { id: 'Fmaj7', name: 'Fmaj7', full: 'Фа мажор септ (большой)', cat: 'f', f: [-1, -1, 3, 2, 1, 0], fing: [0, 0, 3, 2, 1, 0],
+    desc: 'Мягкий, мечтательный аккорд без баррэ. Часто заменяет F в акустических песнях.',
+    tips: ['Играйте с 4-й струны.', '1-я струна открытая — не задевайте её 1-м пальцем.', 'Из C получается сдвигом двух пальцев.'] },
+  { id: 'FmajC', name: 'Fmaj7/C', full: 'Fmaj7 с басом до', cat: 'f', f: [-1, 3, 3, 2, 1, 0], fing: [0, 3, 4, 2, 1, 0],
+    desc: 'Fmaj7 с низким басом до на 5-й струне — звучит полнее и удобно чередуется с C.',
+    tips: ['3-й палец на 5-й струне, 4-й — на 4-й струне, оба на 3-м ладу.', '6-ю струну не играть.', 'Открытая 1-я струна должна звенеть.'] },
+  { id: 'F69', name: 'F6/9', full: 'Фа мажор с секстой и ноной', cat: 'f', f: [-1, -1, 3, 2, 3, 3], fing: [0, 0, 2, 1, 3, 4],
+    desc: 'Красивый «джазовый» F без баррэ, который использует тот же якорь 3-4, что и Wonderwall-аккорды.',
+    tips: ['Якорь 3-4 на 3-м ладу 2-й и 1-й струн.', '2-й палец — на 4-й струне 3-го лада, 1-й — на 3-й струне 2-го лада.', 'Отлично звучит в последовательностях с Cadd9 и Большим G.'] },
+  { id: 'F', name: 'F', full: 'Фа мажор (полное баррэ)', cat: 'f', f: [1, 3, 3, 2, 1, 1], fing: [1, 3, 4, 2, 1, 1], b: 1,
+    desc: 'Первый «настоящий» баррэ-аккорд. Сложный в начале, но открывает все баррэ-аккорды на грифе.',
+    tips: ['1-й палец кладите чуть на ребро (к краю, ближе к голове грифа) — там он твёрже.', 'Давит не сила пальца, а вес руки: слегка тяните гриф к себе.', 'Начинайте с мини-F, затем добавляйте басовые струны.'] }
+];
+// популярные переходы: [аккорд, аккорд, совет]
+const CHORD_TRANSITIONS = [
+  ['D', 'A', 'Классический первый переход. Поднимайте все пальцы вместе, сохраняя форму кисти, и ставьте их одновременно, а не по одному.'],
+  ['D', 'G', 'Начинайте движение с 3-го пальца — в G он уходит на 1-ю струну 3-го лада. Бас меняется: D — с 4-й струны, G — с 6-й.'],
+  ['D', 'Dm', 'Меняется нота на 1-й струне: вместо 2-го лада (2-й палец) — 1-й лад (1-й палец). Мажор «светлый», минор «грустный» — сравните на слух.'],
+  ['D', 'Em', 'Em ставится двумя пальцами на 5-й и 4-й струнах — на него легко «упасть» из любого положения.'],
+  ['A', 'E', 'В E пальцы встают «лесенкой»: два — на 5-ю и 4-ю струны 2-го лада, 1-й — на 3-ю струну 1-го лада. Следите, чтобы зазвучала 6-я струна.'],
+  ['A', 'Am', 'Отличие — одна нота на 2-й струне: 2-й лад в A, 1-й — в Am.'],
+  ['Am', 'C', 'Самый «ленивый» переход: 1-й и 2-й пальцы остаются на месте, переставляется только 3-й — на 5-ю струну 3-го лада.'],
+  ['Am', 'E', 'Форма одинаковая: перенесите все три пальца на одну струну ближе к басу, сохраняя расстояния между ними.'],
+  ['Am', 'Dm', 'Похожая «треугольная» форма: сдвиньте её на одну струну к тонким, а 3-й палец поднимите на 3-й лад.'],
+  ['Am', 'Em', 'Em — это Am без 1-го пальца, сдвинутый на струну к басу.'],
+  ['Am', 'G', 'Частый переход (Am–G–F, Am–G–C). Думайте о басе: из 5-й струны (Am) в 6-ю (G).'],
+  ['Am', 'Fmini', 'Подготовка к F: сдвиньте форму Am на одну струну к тонким и положите 1-й палец плашмя на две тонкие струны.'],
+  ['E', 'Em', 'Уберите 1-й палец — мажор превращается в минор. Лучший способ услышать разницу.'],
+  ['Em', 'G', 'Если ставить Em 1-м и 2-м пальцами, 1-й палец в переходе вообще не двигается: 2-й уходит на 6-ю струну, 3-й — на 1-ю.'],
+  ['Em', 'C', 'Переставьте пальцы на 5-ю и 4-ю струны (3-й и 2-й лады) и добавьте 1-й палец на 2-ю струну 1-го лада.'],
+  ['Em', 'Em7', 'Добавьте 3-й и 4-й пальцы на 3-й лад 2-й и 1-й струн — и получится Em7 из Wonderwall.'],
+  ['C', 'G', 'Самый частый переход в поп-музыке. Все пальцы перестраиваются одновременно, удар начинайте с баса 6-й струны.'],
+  ['C', 'Fmaj7', '1-й палец остаётся на 2-й струне, 2-й и 3-й сдвигаются на одну струну к тонким. Мягкий и красивый переход.'],
+  ['C', 'Cadd9', 'Вместо 1-го пальца на 2-й струне — якорь 3-4 на 3-м ладу. Аппликатура меняется: 2-й палец на 5-й струне, 1-й — на 4-й.'],
+  ['F', 'C', '3-й палец в обоих аккордах стоит на 5-й струне 3-го лада — оставьте его на месте и двигайте остальные.'],
+  ['G', 'Gbig', 'Переставьте 3-й палец с 1-й струны на 2-ю и добавьте 4-й на 1-ю струну 3-го лада — G станет плотнее.'],
+  ['Gbig', 'Cadd9', 'Один из самых лёгких переходов: якорь 3-4 на месте, 1-й и 2-й пальцы сдвигаются на одну струну к тонким.'],
+  ['Gbig', 'Em7', '1-й палец остаётся на 5-й струне 2-го лада, 2-й переходит с 6-й струны на 4-ю (2-й лад). Якорь не двигается.'],
+  ['Gbig', 'G5', 'Снимите 1-й палец и заглушите 5-ю струну подушечкой 2-го пальца.'],
+  ['Gbig', 'Dadd11F', 'Нисходящий бас G → F♯: 2-й палец с 6-й струны 3-го лада уходит на 2-й лад (или берите его 1-м пальцем), 5-я струна глушится.'],
+  ['G5', 'Cadd9', 'Якорь 3-4 на месте; 2-й палец переходит с 6-й на 5-ю струну 3-го лада, 1-й встаёт на 4-ю струну 2-го лада.'],
+  ['Em7', 'Dsus4', 'Якорь остаётся. Снимите пальцы с басовых струн, 1-й палец — на 3-ю струну 2-го лада; бейте с 4-й струны.'],
+  ['Dsus4', 'A7sus4', '1-й палец переходит с 3-й струны на 4-ю (2-й лад), бас — открытая 5-я. Якорь 3-4 не двигается.'],
+  ['A7sus4', 'Em7', 'Замыкание круга Wonderwall: 1-й палец уходит на 5-ю струну, 2-й — на 4-ю (оба 2-й лад). Якорь на месте.'],
+  ['Cadd9', 'Dsus4', 'Якорь остаётся; 1-й палец переходит на 3-ю струну 2-го лада, 2-й снимается. Бейте с 4-й струны.'],
+  ['Dadd11F', 'Em7', 'Бас идёт фа-диез → ми: пальцы встают на 5-ю и 4-ю струны 2-го лада, 6-я звучит открытой. Якорь на месте.'],
+  ['A7sus4', 'A7sus4full', 'Добавьте 2-й палец на 3-ю струну 2-го лада. Растяжка — держите запястье ниже грифа.'],
+  ['Fmini', 'F', 'Добавьте полное баррэ 1-м пальцем; 3-й палец переезжает на 5-ю струну, 4-й встаёт на 4-ю (оба 3-й лад).'],
+  ['Fmaj7', 'Fmini', 'Положите 1-й палец плашмя на две тонкие струны 1-го лада — 1-я струна тоже зазвучит фа.'],
+  ['Fmaj7', 'FmajC', '3-й палец переезжает на 5-ю струну 3-го лада, 4-й ставится на его прежнее место (4-я струна, 3-й лад).'],
+  ['F69', 'Cadd9', 'Якорь 3-4 остаётся, а 1-й и 2-й пальцы сдвигаются на одну струну к басу.'],
+  ['F69', 'Gbig', 'Якорь на месте; 2-й палец уходит на 6-ю струну 3-го лада, 1-й — на 5-ю струну 2-го лада.']
+];
+const libById = id => CHORD_LIB.find(c => c.id === id);
+const sameFrets = (a, b) => a && b && a.length === b.length && a.every((x, i) => x === b[i]);
+const libByFrets = f => CHORD_LIB.find(c => sameFrets(c.f, f));
+const libShape = c => ({ f: c.f, b: c.b || 0, fing: c.fing });
+let learned = new Set(store.get('ga.learned', []));
+const saveLearned = () => store.set('ga.learned', [...learned]);
+let chordFilter = 'all';
+
+function noteOf(midi) { return NOTE_NAMES[mod(midi, 12)]; }
+function renderChordLib() {
+  const total = CHORD_LIB.length, done = CHORD_LIB.filter(c => learned.has(c.id)).length;
+  $('#libProgress').innerHTML = `
+    <div class="row" style="justify-content:space-between"><b>Выучено ${done} из ${total}</b><span class="muted">${Math.round(done / total * 100)}%</span></div>
+    <div class="pbar"><i style="width:${done / total * 100}%"></i></div>`;
+  $$('#libFilters button').forEach(b => b.classList.toggle('on', b.dataset.f === chordFilter));
+  const vis = c => chordFilter === 'all' || (chordFilter === 'learned') === learned.has(c.id);
+  $('#libList').innerHTML = CHORD_CATS.map(cat => {
+    const items = CHORD_LIB.filter(c => c.cat === cat.id && vis(c));
+    if (!items.length) return '';
+    return `<h3 class="lib-cat">${esc(cat.name)}</h3><div class="lib-grid">${items.map(c => `
+      <button class="lib-card${learned.has(c.id) ? ' done' : ''}" data-chord="${c.id}">
+        ${learned.has(c.id) ? '<span class="ok-badge">✓</span>' : ''}
+        <div class="n">${esc(c.name)}</div>
+        ${diagramSVG(libShape(c), 92, { fingers: true })}
+        <div class="sub">${esc(c.full)}</div>
+      </button>`).join('')}</div>`;
+  }).join('') || `<div class="hint">${chordFilter === 'learned' ? 'Пока ничего не отмечено. Откройте аккорд и нажмите «Я выучил».' : 'Все аккорды выучены — отлично! 🎉'}</div>`;
+}
+$('#libFilters').addEventListener('click', e => { const b = e.target.closest('[data-f]'); if (b) { chordFilter = b.dataset.f; renderChordLib(); } });
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-chord]'); if (!b) return;
+  openChord(b.dataset.chord);
+});
+let curChord = null;
+function openChord(id, push = true) {
+  const c = libById(id); if (!c) return;
+  curChord = c;
+  renderChord();
+  show('chord');
+  if (push) history.pushState({ v: 'chord', id }, '');
+}
+function playChordStrum(f, t, arp = false) {
+  const used = [0, 1, 2, 3, 4, 5].filter(i => f[i] >= 0);
+  used.forEach((s, j) => pluck(s, OPEN[s] + f[s], t + j * (arp ? 0.32 : 0.025), arp ? 0.7 : 0.6));
+}
+function renderChord() {
+  const c = curChord, isL = learned.has(c.id);
+  const notes = c.f.map((x, i) => x < 0 ? '×' : noteOf(OPEN[i] + x));
+  const trans = CHORD_TRANSITIONS.filter(t => t[0] === c.id || t[1] === c.id).map(t => ({ to: libById(t[0] === c.id ? t[1] : t[0]), tip: t[2] }));
+  const omc = store.get('ga.omc', {});
+  const inSongs = songs.filter(s => parseChart(s.chart, s.bpb).events.some(e => e.shape && sameFrets(e.shape.f, c.f)));
+  $('#title').textContent = c.name;
+  $('#chordView').innerHTML = `
+    <div class="cd-head">
+      <div><h2>${esc(c.name)}</h2><div class="muted">${esc(c.full)}</div></div>
+      <span class="chip">${esc((CHORD_CATS.find(x => x.id === c.cat) || {}).name || '')}</span>
+    </div>
+    <div class="card cd-diag">
+      ${diagramSVG(libShape(c), 210, { fingers: true, strings: true })}
+      <div class="cd-notes">${notes.map(n => `<span>${n}</span>`).join('')}</div>
+    </div>
+    <div class="cd-actions">
+      <button class="btn" id="cdStrum">▶ Аккорд</button>
+      <button class="btn" id="cdArp">▶ По струнам</button>
+      <button class="btn ${isL ? 'primary' : ''}" id="cdLearn">${isL ? '✓ Выучен' : 'Я выучил'}</button>
+    </div>
+    <div class="card"><p style="margin:0">${esc(c.desc)}</p></div>
+    <h3 class="lib-cat">Советы</h3>
+    <ul class="tips">${c.tips.map(t => `<li>${esc(t)}</li>`).join('')}</ul>
+    <div class="legend" style="margin:-4px 0 10px">Цифры в кружках — пальцы: 1 — указательный, 2 — средний, 3 — безымянный, 4 — мизинец. ○ — открытая струна, × — не играть.</div>
+    ${trans.length ? `<h3 class="lib-cat">Популярные переходы</h3>
+    <div class="tr-list">${trans.map(t => {
+      const key = [c.id, t.to.id].sort().join('|'), best = omc[key];
+      return `<div class="card tr-row">
+        <button class="tr-diag" data-chord="${t.to.id}">${diagramSVG(libShape(t.to), 64, { fingers: true })}</button>
+        <div class="tr-body">
+          <div class="tr-title">${esc(c.name)} ⇄ <a href="#" data-chord="${t.to.id}">${esc(t.to.name)}</a> <span class="muted">${esc(t.to.full)}</span></div>
+          <div class="tr-tip">${esc(t.tip)}</div>
+          <div class="row" style="margin-top:8px">
+            <button class="pill-btn" data-trplay="${t.to.id}">▶ Послушать</button>
+            <button class="pill-btn" data-omc="${t.to.id}">⏱ Минута смен${best ? ` · рекорд ${best}` : ''}</button>
+          </div>
+        </div>
+      </div>`;
+    }).join('')}</div>` : ''}
+    ${inSongs.length ? `<h3 class="lib-cat">Встречается в песнях</h3><div class="row">${inSongs.map(s => `<button class="pill-btn" data-song="${esc(s.id)}">${esc(s.title)} — ${esc(s.artist || '')}</button>`).join('')}</div>` : ''}
+  `;
+  $('#cdStrum').onclick = () => playChordStrum(c.f, ctx().currentTime + 0.05);
+  $('#cdArp').onclick = () => playChordStrum(c.f, ctx().currentTime + 0.05, true);
+  $('#cdLearn').onclick = () => {
+    if (learned.has(c.id)) learned.delete(c.id); else { learned.add(c.id); toast(`${c.name} — в списке выученных ✓`); }
+    saveLearned(); renderChord(); renderChordLib();
+  };
+}
+$('#chordView').addEventListener('click', e => {
+  const p = e.target.closest('[data-trplay]'), o = e.target.closest('[data-omc]'), s = e.target.closest('[data-song]');
+  if (p) {
+    const to = libById(p.dataset.trplay), t0 = ctx().currentTime + 0.05, gap = 60 / 80 * 2;
+    [curChord, to, curChord, to].forEach((ch, i) => playChordStrum(ch.f, t0 + i * gap));
+  }
+  if (o) openOmc(curChord, libById(o.dataset.omc));
+  if (s) openSong(s.dataset.song);
+  if (e.target.closest('a[data-chord]')) e.preventDefault();
+});
+
+/* --- «Минута смен»: сколько переходов успеете за 60 секунд --- */
+const OMC = { a: null, b: null, n: 0, end: 0, timer: 0, on: false };
+function openOmc(a, b) {
+  OMC.a = a; OMC.b = b; OMC.n = 0; OMC.on = false;
+  const key = [a.id, b.id].sort().join('|'), best = store.get('ga.omc', {})[key];
+  $('#omcTitle').textContent = `${a.name} ⇄ ${b.name}`;
+  $('#omcDiags').innerHTML = [a, b].map(c => `<div class="diag"><div class="n">${esc(c.name)}</div>${diagramSVG(libShape(c), 96, { fingers: true })}</div>`).join('<div class="omc-arrow">⇄</div>');
+  $('#omcBest').textContent = best ? `Рекорд: ${best} смен` : 'Рекорда пока нет';
+  $('#omcTime').textContent = '60';
+  $('#omcCount').textContent = '0';
+  $('#omcTap').disabled = true;
+  $('#omcStart').hidden = false; $('#omcStart').textContent = '▶ Старт';
+  $('#omc').showModal();
+}
+$('#omcStart').onclick = () => {
+  OMC.n = 0; OMC.on = true; OMC.end = performance.now() + 60000;
+  $('#omcCount').textContent = '0'; $('#omcTap').disabled = false; $('#omcStart').hidden = true;
+  click(ctx().currentTime + 0.02, true, 0.8);
+  clearInterval(OMC.timer);
+  OMC.timer = setInterval(() => {
+    const left = Math.max(0, Math.ceil((OMC.end - performance.now()) / 1000));
+    $('#omcTime').textContent = left;
+    if (left <= 0) omcFinish();
+  }, 100);
+};
+$('#omcTap').onclick = () => { if (!OMC.on) return; OMC.n++; $('#omcCount').textContent = OMC.n; };
+function omcFinish() {
+  clearInterval(OMC.timer); OMC.on = false;
+  $('#omcTap').disabled = true;
+  const c = ctx().currentTime; click(c + 0.01, true, 0.9); click(c + 0.2, true, 0.9);
+  const key = [OMC.a.id, OMC.b.id].sort().join('|'), all = store.get('ga.omc', {}), prev = all[key] || 0;
+  if (OMC.n > prev) { all[key] = OMC.n; store.set('ga.omc', all); }
+  $('#omcBest').textContent = OMC.n > prev ? `Новый рекорд: ${OMC.n} смен! 🎉` : `Результат: ${OMC.n} · рекорд ${prev}`;
+  $('#omcStart').hidden = false; $('#omcStart').textContent = '↻ Ещё раз';
+  if (view === 'chord') renderChord();
+}
+$('#omc').addEventListener('close', () => { clearInterval(OMC.timer); OMC.on = false; });
+
 /* ================= Навигация ================= */
 let view = 'songs';
 function show(v) {
   view = v;
   $$('.view').forEach(e => e.classList.toggle('active', e.id === 'view-' + v));
-  $$('.nav button').forEach(b => b.classList.toggle('on', b.dataset.nav === (v === 'song' ? 'songs' : v)));
-  $('#backBtn').hidden = v !== 'song';
+  $$('.nav button').forEach(b => b.classList.toggle('on', b.dataset.nav === (v === 'song' ? 'songs' : v === 'chord' ? 'chords' : v)));
+  $('#backBtn').hidden = v !== 'song' && v !== 'chord';
   $('#editBtn').hidden = v !== 'song';
-  $('#title').textContent = v === 'song' && curSong ? curSong.title : { songs: 'Гитарный помощник', metro: 'Метроном', tuner: 'Тюнер' }[v] || '';
+  $('#title').textContent = v === 'song' && curSong ? curSong.title : v === 'chord' && curChord ? curChord.name : { songs: 'Гитарный помощник', chords: 'Аккорды', metro: 'Метроном', tuner: 'Тюнер' }[v] || '';
+  if (v === 'chords') renderChordLib();
   if (v !== 'tuner') tunerStop();
   window.scrollTo(0, 0);
 }
 $$('.nav button').forEach(b => b.onclick = () => {
   const v = b.dataset.nav;
-  if (v === 'songs' && view === 'song') { history.back(); return; }
+  if ((v === 'songs' && view === 'song') || (v === 'chords' && view === 'chord')) { history.back(); return; }
+  history.replaceState({ v }, '');
   show(v);
 });
 $('#backBtn').onclick = () => history.back();
@@ -1468,7 +1815,11 @@ window.addEventListener('popstate', e => {
   if (!$('#play').hidden) { closePlay(false); return; }
   if (editor.open) editor.close();
   const st = e.state || {};
-  if (st.v === 'song' && st.id) openSong(st.id, false); else show('songs');
+  if ($('#omc').open) $('#omc').close();
+  if (st.v === 'song' && st.id) openSong(st.id, false);
+  else if (st.v === 'chord' && st.id) openChord(st.id, false);
+  else if (['chords', 'metro', 'tuner'].includes(st.v)) show(st.v);
+  else show('songs');
 });
 
 /* ================= Метроном ================= */
@@ -1893,6 +2244,9 @@ function updateUI(pos, force) {
   const inBar = mod(pos - (pos >= 0 ? barOrigin(pos) : 0), bpb), beatNo = Math.floor(inBar);
   $$('#pDots i').forEach((d, i) => d.classList.toggle('on', (P.playing || pos > 0) && i === beatNo));
   $('#pBar').textContent = pos >= 0 && pos < total ? `такт ${Math.floor(pos / bpb) + 1} из ${Math.ceil(total / bpb)}` : '';
+  const firstDrum = useDrumTab() ? P.dtab.hits[0].beat : null;
+  $('#pDrumHint').hidden = !(P.drums && firstDrum != null && pos < firstDrum - 0.01);
+  if (firstDrum != null) $('#pDrumHint').textContent = `🥁 барабаны вступят на ${fmtTime(firstDrum * 60 / s.bpm)} — по оригиналу`;
   if (pos < 0) {
     $('#pChord').innerHTML = `<span class="countin">${Math.ceil(-pos)}</span>`;
     $('#pNext').innerHTML = 'Отсчёт… первый аккорд: <b>' + esc(ev[0] ? ev[0].chord : '—') + '</b>';
@@ -1968,7 +2322,7 @@ $('#pClick').onclick = e => { P.click = !P.click; e.currentTarget.classList.togg
 $('#pDrums').classList.toggle('on', P.drums);
 $('#pDrums').onclick = e => { P.drums = !P.drums; store.set('ga.drums', P.drums); e.currentTarget.classList.toggle('on', P.drums); };
 $('#pDrumSel').onchange = e => { P.drumStyle = +e.target.value; };
-$('#pDrumVol').value = Math.round(store.get('ga.drumVol', 0.7) * 100);
+$('#pDrumVol').value = Math.round(store.get('ga.drumVol', 0.85) * 100);
 $('#pDrumVol').oninput = e => { const v = e.target.value / 100; store.set('ga.drumVol', v); if (drumBus) drumBus.gain.value = v; };
 $('#pGuitar').onclick = e => { P.guitar = !P.guitar; e.currentTarget.classList.toggle('on', P.guitar); if (!P.guitar) muteGuitar(); };
 $('#pRate').onclick = () => { const i = RATES.indexOf(P.rate); setRate(RATES[(i + 1) % RATES.length]); };
